@@ -1,0 +1,24 @@
+var mixitApi = require('./mixitApi');
+var _ = require('underscore');
+
+exports.currentTalks = function () {
+    return mixitApi.talks().then(function (talks) {
+        var now = new Date();
+        return _.filter(talks, function (item) {
+            if (item.end != undefined && new Date(item.end) < now) {
+                return false;
+            }
+
+            if (item.start != undefined && new Date(item.start) > now) {
+                return false;
+            }
+
+            return true;
+        }).map(function (item) {
+            return {
+                title: item.title,
+                room: item.room
+            }
+        });
+    });
+}
