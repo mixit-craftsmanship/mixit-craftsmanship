@@ -1,9 +1,9 @@
 var talksRepository = require('../../libs/talksRepository');
 var mixitApi = require('../../libs/mixitApi');
-var Promise = require('Promise');
+var Promise = require('promise');
 var timekeeper = require('timekeeper');
 
-describe('Sessions controller', function() {
+describe('Talks controller', function() {
     var now = new Date(2014, 3, 29, 9, 25);
 
     var result;

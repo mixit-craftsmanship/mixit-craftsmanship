@@ -9,11 +9,7 @@ exports.currentTalks = function () {
                 return false;
             }
 
-            if (item.start != undefined && new Date(item.start) > now) {
-                return false;
-            }
-
-            return true;
+            return !(item.start != undefined && new Date(item.start) > now);
         }).map(function (item) {
             return {
                 title: item.title,
@@ -21,4 +17,4 @@ exports.currentTalks = function () {
             }
         });
     });
-}
+};
