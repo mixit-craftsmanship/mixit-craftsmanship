@@ -16,11 +16,11 @@ var plumber = require('gulp-plumber');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 
-var templateWrapper = require('./gulp/templateWrapper');
-var templateInjector = require('./gulp/templateInjector');
+var configuration = require('./gulp/configuration');
 var homeBuilder = require('./gulp/homeBuilder');
 var taskAsync = require('./gulp/taskAsync');
-var configuration = require('./gulp/configuration');
+var templateInjector = require('./gulp/templateInjector');
+var templateWrapper = require('./gulp/templateWrapper');
 var testRunner = require('./gulp/testRunner');
 
 var clientConfiguration = configuration.client;
