@@ -131,7 +131,8 @@ gulp.task('build-js', function() {
         .pipe(amdOptimize("app.build", ({
             paths: {
                 "knockout": 'empty:',
-                "jquery": 'empty:'
+                "jquery": 'empty:',
+                "socketIO": 'empty:'
             },
             optimize: "none"
         })))
