@@ -17,7 +17,6 @@ var spawn = require('child_process').spawn;
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 
-
 var templateWrapper = require('./gulp/templateWrapper');
 var templateInjector = require('./gulp/templateInjector');
 var homeBuilder = require('./gulp/homeBuilder');
@@ -33,11 +32,6 @@ homeBuilder.configure({
     templatesFileName: clientConfiguration.getBuildTemplateFileName(),
     outputDirectory: clientConfiguration.getBuildDirectory()
 });
-
-//var gulpBowerFiles = require('gulp-bower-files');
-//gulp.task("bower-files", function(){
-//    gulpBowerFiles().pipe(gulp.dest("./public/libs"));
-//});
 
 gulp.task('dev-html-templates-watch', function () {
     watch({glob: clientConfiguration.getTemplateFilesPattern()})
@@ -175,13 +169,6 @@ gulp.task('build-html', ['build-html-templates'], function() {
         .pipe(minifyHTML())
         .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
 });
-
-//var domSrc = require('gulp-dom-src');
-//gulp.task('build-css-contact', function() {
-//    return domSrc({file:'public/index.html',selector:'link',attribute:'href'})
-//        .pipe(concat('app.full.min.css'))
-//        .pipe(gulp.dest('public/dist/'));
-//});
 
 gulp.task('build-clean', function() {
     return gulp.src(clientConfiguration.getBuildDirectory(), {read: false})
