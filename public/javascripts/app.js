@@ -1,8 +1,8 @@
 require.config({
     baseUrl: 'javascripts',
     paths: {
-        knockout: '/javascripts/knockout-latest.debug',
-        jquery: '/javascripts/jquery/dist/jquery'
+        knockout: '/javascripts/knockout.debug',
+        jquery: '/javascripts/jquery'
     }
 });
 
