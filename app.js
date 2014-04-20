@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var staticFavicon = require('static-favicon');
 var errorHandler = require('errorhandler');
 var morgan = require('morgan');
+var socketIO = require('socket.io');
 
 var app = express();
 
@@ -36,6 +37,7 @@ if ('development' == env) {
     app.use("/javascripts/require.js", staticFile("node_modules/requirejs/require.js"));
     app.use("/javascripts/jquery.js", staticFile("node_modules/jquery/dist/jquery.js"));
     app.use("/javascripts/knockout.debug.js", staticFile("node_modules/knockout/build/output/knockout-latest.debug.js"));
+    app.use("/javascripts/socket.io.js", staticFile("node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"));
 } else {
     app.use(express.static(path.join(__dirname, 'publicBuild')));
 }
@@ -43,6 +45,15 @@ if ('development' == env) {
 app.get('/users', user.list);
 app.get('/api/talks/current', talks.list);
 
-app.listen(app.get('port'), function () {
+var server = http.createServer(app);
+socketIO = socketIO.listen(server);
+server.listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
+});
+
+socketIO.sockets.on('connection', function (socket) {
+    socket.emit('news', { hello: 'world' });
+    socket.on('my other event', function (data) {
+        console.log(data);
+    });
 });

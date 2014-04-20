@@ -20,7 +20,8 @@
     "errorhandler": "^1.0.0",
     "method-override": "^1.0.0",
     "morgan": "^1.0.0",
-    "jquery": "^2.1.0"
+    "jquery": "^2.1.0",
+    "socket.io": "^0.9.16"
   },
   "devDependencies": {
     "karma": "*",
