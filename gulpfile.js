@@ -157,6 +157,11 @@ gulp.task('build-html', ['build-html-templates'], function() {
         .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
 });
 
+gulp.task('build-staticFiles', function() {
+    return gulp.src(clientConfiguration.getStaticFilesPattern())
+        .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
+});
+
 gulp.task('build-clean', function() {
     return gulp.src(clientConfiguration.getBuildDirectory(), {read: false})
         .pipe(clean());
@@ -170,6 +175,8 @@ taskAsync.create('build', function(){
             return taskAsync.start('build-js')
         }).then(function(){
             return taskAsync.start('build-html')
+        }).then(function(){
+            return taskAsync.start('build-staticFiles')
         });
 });
 

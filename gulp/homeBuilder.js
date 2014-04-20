@@ -7,7 +7,7 @@ var configuration = require('./configuration').client;
 
 exports.injectBuildedCss = function(){
     return cheerio(function ($) {
-        $('link:not([attr^=http])').remove();
+        $('link[rel=stylesheet]:not([attr^=http])').remove();
         $('head').append('<link rel="stylesheet" href="'+ configuration.getBuildCssFileName() +'">');
     });
 };
@@ -46,7 +46,7 @@ var addVersionOnLink = function($element, attributName){
 
 exports.addVersionOnFilesIncluded = function(){
     return cheerio(function ($) {
-        $('link').each(function () {
+        $('link[rel=stylesheet]').each(function () {
             addVersionOnLink($(this), 'href');
         });
         $('script').each(function () {

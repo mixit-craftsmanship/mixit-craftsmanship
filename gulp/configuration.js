@@ -14,7 +14,8 @@ var clientConfig = {
     javascriptsDirectory: 'public/javascripts/',
     templatesDirectory: 'public/templates/',
     testsDirectory: 'test/public/',
-    homePage: 'index.html'
+    homePage: 'index.html',
+    staticFileExtensions: ['txt', 'gif', 'png', 'jpg', 'ico']
 };
 
 var serverConfig = {
@@ -73,6 +74,15 @@ exports.client = {
     },
     getRequireMainModule: function(){
         return clientConfig.build.requireMainModule;
+    },
+    getStaticFilesPattern: function(){
+        var patterns = [];
+        var extensions = clientConfig.staticFileExtensions;
+        var prefix = clientConfig.directory + '**/*.';
+        for(var key in extensions){
+            patterns.push(prefix + extensions[key]);
+        }
+        return patterns;
     }
 };
 
