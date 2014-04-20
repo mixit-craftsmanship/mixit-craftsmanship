@@ -10,5 +10,13 @@
     "knockoutjs": "*",
     "jquery": "*",
     "requirejs": "~2.1.11"
-  }
+  },
+   "overrides": {
+        "jquery": {
+            "dist": {
+                "development": "jquery.js",
+                "production": "jquery.min.js"
+            }
+        }
+    }
 }

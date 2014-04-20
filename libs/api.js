@@ -30,7 +30,7 @@ var httpPromised = function(host, url, method){
 
         request.on('error', function(error){
             reject(error);
-        })
+        });
     });
 };
 

@@ -3,5 +3,5 @@ define(['jquery'], function ($) {
         currentTalks: function(){
             return $.get("/api/talks/current");
         }
-    }
+    };
 });
