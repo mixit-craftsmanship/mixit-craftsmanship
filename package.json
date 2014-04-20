@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "test": "node node_modules/gulp/bin/gulp test",
-    "dev": "node node_modules/gulp/bin/gulp dev",
-    "build": "node node_modules/gulp/bin/gulp build",
-    "install": "node node_modules/bower/bin/bower install"
+    "test": "node_modules/.bin/gulp test",
+    "dev": "node_modules/.bin/gulp dev",
+    "build": "node_modules/.bin/gulp build",
+    "install": "node_modules/.bin/bower install"
   },
   "dependencies": {
     "express": "~4.0.0",
