@@ -13,7 +13,6 @@ var minifyHTML = require('gulp-minify-html');
 var mocha = require('gulp-mocha');
 var path = require('path');
 var plumber = require('gulp-plumber');
-var spawn = require('child_process').spawn;
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 
@@ -22,6 +21,7 @@ var templateInjector = require('./gulp/templateInjector');
 var homeBuilder = require('./gulp/homeBuilder');
 var taskAsync = require('./gulp/taskAsync');
 var configuration = require('./gulp/configuration');
+var testRunner = require('./gulp/testRunner');
 
 var clientConfiguration = configuration.client;
 var serverConfiguration = configuration.server;
@@ -53,7 +53,7 @@ gulp.task('dev-js-server-test-watch', function () {
 });
 
 gulp.task('dev-js-client-test-watch', function () {
-    spawn('node', ['node_modules/karma/bin/karma', 'start'], { stdio: 'inherit' });
+    testRunner.runClient(true);
 });
 
 gulp.task('check-js-watch', function() {
@@ -95,16 +95,12 @@ gulp.task('test-server-cover', function () {
         }));
 });
 
-var runMocha = function () {
-    return spawn('node', ['node_modules/mocha/bin/_mocha', serverConfiguration.getTestDirectory(), '--recursive'], { stdio: 'inherit' });
-};
-
 gulp.task('test-server', function () {
-    return runMocha();
+    return testRunner.runServer(serverConfiguration.getTestDirectory());
 });
 
 gulp.task('test-client', function() {
-    return spawn('node', ['node_modules/karma/bin/karma', 'start', '--singleRun'], { stdio: 'inherit' });
+    return testRunner.runClient();
 });
 
 gulp.task('test', ['test-client', 'test-server']);
