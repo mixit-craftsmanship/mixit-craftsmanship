@@ -9,6 +9,7 @@ debug/
 .coverrun
 coverage.html
 public/build/
+publicBuild/
 
 #################
 ## Intellij
@@ -182,3 +183,4 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+*.log

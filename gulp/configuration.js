@@ -3,7 +3,7 @@
 var clientConfig = {
     directory: 'public/',
     build: {
-        directory: 'public/build/',
+        directory: 'publicBuild/',
         javascriptFileName: 'app.min.js',
         cssFileName: 'app.min.css',
         templateFileName: 'templates.html'
