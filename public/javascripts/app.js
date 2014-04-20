@@ -6,6 +6,6 @@ require.config({
     }
 });
 
-require(["viewModels/home", "knockout"], function(vm, ko) {
-    ko.applyBindings(vm.create());
+require(["main"], function(main) {
+    main();
 });

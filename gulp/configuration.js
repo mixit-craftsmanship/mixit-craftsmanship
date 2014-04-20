@@ -4,9 +4,11 @@ var clientConfig = {
     directory: 'public/',
     build: {
         directory: 'publicBuild/',
-        javascriptFileName: 'app.min.js',
+        javascriptFileName: 'app.build.min.js',
         cssFileName: 'app.min.css',
-        templateFileName: 'templates.html'
+        templateFileName: 'templates.html',
+        requireJsUrl: 'http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js',
+        requireMainModule: 'app.build.min'
     },
     cssDirectory: 'public/stylesheets/',
     javascriptsDirectory: 'public/javascripts/',
@@ -65,6 +67,12 @@ exports.client = {
     },
     getBuildDirectory: function(){
         return clientConfig.build.directory;
+    },
+    getRequireJsUrl: function(){
+        return clientConfig.build.requireJsUrl;
+    },
+    getRequireMainModule: function(){
+        return clientConfig.build.requireMainModule;
     }
 };
 

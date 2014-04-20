@@ -3,7 +3,6 @@ var clean = require('gulp-clean');
 var concat = require("gulp-concat");
 var cover = require('gulp-coverage');
 var csslint = require('gulp-csslint');
-var fs = require('fs');
 var gulp = require('gulp');
 var htmlhint = require("gulp-htmlhint");
 var jshint = require('gulp-jshint');
@@ -11,7 +10,6 @@ var less = require('gulp-less');
 var minifyCSS = require('gulp-minify-css');
 var minifyHTML = require('gulp-minify-html');
 var mocha = require('gulp-mocha');
-var path = require('path');
 var plumber = require('gulp-plumber');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
@@ -25,13 +23,6 @@ var testRunner = require('./gulp/testRunner');
 
 var clientConfiguration = configuration.client;
 var serverConfiguration = configuration.server;
-
-homeBuilder.configure({
-    cssFileName: clientConfiguration.getBuildCssFileName(),
-    javascriptFileName: clientConfiguration.getBuildJavascriptFileName(),
-    templatesFileName: clientConfiguration.getBuildTemplateFileName(),
-    outputDirectory: clientConfiguration.getBuildDirectory()
-});
 
 gulp.task('dev-html-templates-watch', function () {
     watch({glob: clientConfiguration.getTemplateFilesPattern()})
@@ -137,7 +128,7 @@ gulp.task('build-css', function() {
 
 gulp.task('build-js', function() {
     return gulp.src(clientConfiguration.getJavascriptFilesPattern())
-        .pipe(amdOptimize("app", ({
+        .pipe(amdOptimize("app.build", ({
             paths: {
                 "knockout": 'empty:',
                 "jquery": 'empty:'
