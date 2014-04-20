@@ -4,11 +4,11 @@ var clientConfig = {
     directory: 'public/',
     build: {
         directory: 'publicBuild/',
-        javascriptFileName: 'app.build.min.js',
+        javascriptFileName: 'application.build.min.js',
         cssFileName: 'app.min.css',
         templateFileName: 'templates.html',
         requireJsUrl: 'http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js',
-        requireMainModule: 'app.build.min'
+        requireMainModule: 'application.build.min'
     },
     cssDirectory: 'public/stylesheets/',
     javascriptsDirectory: 'public/javascripts/',
