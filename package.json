@@ -6,7 +6,8 @@
     "start": "node app.js",
     "test": "node node_modules/gulp/bin/gulp test",
     "dev": "node node_modules/gulp/bin/gulp dev",
-    "build": "node node_modules/gulp/bin/gulp build"
+    "build": "node node_modules/gulp/bin/gulp build",
+    "install": "node node_modules/bower/bin/bower install"
   },
   "dependencies": {
     "express": "3.5.1",
