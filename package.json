@@ -11,7 +11,8 @@
     "less-middleware": "~0.1.15",
     "hjs": "*",
     "promise": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "knockout": "^3.1.0"
   },
   "devDependencies": {
     "karma": "*",

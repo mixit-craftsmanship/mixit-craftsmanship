@@ -1,50 +1,75 @@
-var assert = require("assert");
 var should = require('should');
 var api = require('../../libs/api');
 var nock = require('nock');
 
-describe('Api module', function() {
-    before(function(){
+describe('Given I am a user of Api module', function () {
+    before(function () {
         nock.disableNetConnect();
     });
 
-    it('When get api should return json', function (done) {
-        var result = { title: "Joe" };
-        nock('http://www.mix-it.fr').get('/api/talks').reply(200, result);
+    var mockApiGet = function () {
+        return nock('http://www.mix-it.fr').get('/api/talks');
+    };
 
-        api.get("www.mix-it.fr", "/api/talks").then(function(response){
-            response.title.should.equal(result.title);
-            done();
-        }).catch(done);
+    var result;
+
+    var callGetApi = function () {
+        result = api.get("www.mix-it.fr", "/api/talks");
+    };
+
+    describe("When I call GET on api", function () {
+        var expected = { title: "Joe" };
+        before(function() {
+            mockApiGet().reply(200, expected);
+            callGetApi();
+        });
+        it('should return json', function (done) {
+            result.then(function (response) {
+                response.title.should.equal(expected.title);
+                done();
+            }).catch(done);
+        })
     });
 
-    it('When get url without json should raise error', function (done) {
-        nock('http://www.mix-it.fr').get('/api/talks').reply(200, "html");
-
-        api.get("www.mix-it.fr", "/api/talks").then(function() {
-            done(false);
-        }).catch(function(error){
-            done();
+    describe("When I call GET on url not returning JSON", function() {
+        before(function(){
+            mockApiGet().reply(200, "html");
+            callGetApi();
+        });
+        it('should raise error', function (done) {
+            result.then(function () {
+                done(false);
+            }).catch(function () {
+                done();
+            });
         });
     });
 
-    it('When get unknown url should raise error', function (done) {
-        nock('http://www.mix-it.fr').get('/api/talks').reply(400, "");
-
-        api.get("www.mix-it.fr", "/api/talks").then(function() {
-            done(false);
-        }).catch(function(error){
-            done();
+    describe('When I call GET on an unknown url', function() {
+        before(function(){
+            mockApiGet().reply(400, "");
+            callGetApi();
+        });
+        it('should raise error', function (done) {
+            result.then(function () {
+                done(false);
+            }).catch(function () {
+                done();
+            });
         });
     });
 
-    it('When get url with error should raise error', function (done) {
-        nock('http://www.mix-it.fr').get('/api/talks').reply(500, "");
-
-        api.get("www.mix-it.fr", "/api/talks").then(function() {
-            done(false);
-        }).catch(function(error){
-            done();
+    describe('When I call GET url returning error (500)', function() {
+        before(function(){
+            mockApiGet().reply(500, "");
+            api.get("www.mix-it.fr", "/api/talks");
+        });
+        it('should raise error', function (done) {
+            result.then(function () {
+                done(false);
+            }).catch(function () {
+                done();
+            });
         });
     });
 });
