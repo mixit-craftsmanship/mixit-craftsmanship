@@ -33,8 +33,8 @@ if ('development' == env) {
     app.use(errorHandler());
 
     app.use(express.static(path.join(__dirname, 'public')));
-    app.use("/javascripts/require.js", staticFile("bower_components/requirejs/require.js"));
-    app.use("/javascripts/jquery.js", staticFile("bower_components/jquery/dist/jquery.js"));
+    app.use("/javascripts/require.js", staticFile("node_modules/requirejs/require.js"));
+    app.use("/javascripts/jquery.js", staticFile("node_modules/jquery/dist/jquery.js"));
     app.use("/javascripts/knockout.debug.js", staticFile("node_modules/knockout/build/output/knockout-latest.debug.js"));
 } else {
     app.use(express.static(path.join(__dirname, 'publicBuild')));
