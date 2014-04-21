@@ -10,6 +10,8 @@ var errorHandler = require('errorhandler');
 var morgan = require('morgan');
 var socketIO = require('socket.io');
 
+var configuration = require('./configuration');
+
 var app = express();
 
 // all environments
@@ -34,10 +36,11 @@ if ('development' == env) {
     app.use(errorHandler());
 
     app.use(express.static(path.join(__dirname, 'public')));
-    app.use("/javascripts/require.js", staticFile("node_modules/requirejs/require.js"));
-    app.use("/javascripts/jquery.js", staticFile("node_modules/jquery/dist/jquery.js"));
-    app.use("/javascripts/knockout.debug.js", staticFile("node_modules/knockout/build/output/knockout-latest.debug.js"));
-    app.use("/javascripts/socket.io.js", staticFile("node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"));
+
+    var externalLibs = configuration.externalLibs;
+    for(var name in externalLibs){
+        app.use('/javascripts/' + name + '.js', staticFile(externalLibs[name]));
+    }
 } else {
     app.use(express.static(path.join(__dirname, 'publicBuild')));
 }
