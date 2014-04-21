@@ -128,7 +128,7 @@ gulp.task('build-css', function() {
 
 gulp.task('build-js', function() {
     return gulp.src(clientConfiguration.getJavascriptFilesPattern())
-        .pipe(amdOptimize("application.build", ({
+        .pipe(amdOptimize(clientConfiguration.getRequireMainModule(), ({
             paths: {
                 "knockout": 'empty:',
                 "jquery": 'empty:',

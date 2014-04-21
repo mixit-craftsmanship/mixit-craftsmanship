@@ -7,9 +7,9 @@ var clientConfig = {
         javascriptFileName: 'application.build.min.js',
         cssFileName: 'app.min.css',
         templateFileName: 'templates.html',
-        requireJsUrl: 'http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js',
-        requireMainModule: 'application.build.min'
+        requireJsUrl: 'http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js'
     },
+    requireMainModule: 'application.build',
     cssDirectory: 'public/stylesheets/',
     javascriptsDirectory: 'public/javascripts/',
     templatesDirectory: 'public/templates/',
@@ -73,7 +73,7 @@ exports.client = {
         return clientConfig.build.requireJsUrl;
     },
     getRequireMainModule: function(){
-        return clientConfig.build.requireMainModule;
+        return clientConfig.requireMainModule;
     },
     getStaticFilesPattern: function(){
         var patterns = [];

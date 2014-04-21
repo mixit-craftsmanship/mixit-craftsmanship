@@ -15,9 +15,9 @@ exports.injectBuildedCss = function(){
 exports.injectBuildedJs = function(){
     return cheerio(function ($) {
         $('script:not([attr^=http])').remove();
-        var moduleName = configuration.getRequireMainModule();
         var requireUrl = configuration.getRequireJsUrl();
-        $('body').append('<script data-main="' + moduleName + '" src="' + requireUrl + '"></script>');
+        var javascriptUrl = configuration.getBuildJavascriptFileName();
+        $('body').append('<script src="' + requireUrl + '"></script><script src="' + javascriptUrl + '"></script>');
     });
 };
 
