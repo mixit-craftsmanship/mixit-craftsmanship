@@ -127,15 +127,18 @@ gulp.task('build-css', function() {
 });
 
 gulp.task('build-js', function() {
+    var requireJsConfiguration = {
+        optimize: "none"
+    };
+
+    var externalLibNames = clientConfiguration.getExternalLibNames();
+    requireJsConfiguration.paths = {};
+    for(var key in externalLibNames){
+        requireJsConfiguration.paths[externalLibNames[key]] = 'empty:';
+    }
+
     return gulp.src(clientConfiguration.getJavascriptFilesPattern())
-        .pipe(amdOptimize(clientConfiguration.getRequireMainModule(), ({
-            paths: {
-                "knockout": 'empty:',
-                "jquery": 'empty:',
-                "socketIO": 'empty:'
-            },
-            optimize: "none"
-        })))
+        .pipe(amdOptimize(clientConfiguration.getRequireMainModule(), requireJsConfiguration))
         .pipe(concat(clientConfiguration.getBuildJavascriptFileName()))
         .pipe(uglify())
         .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
