@@ -1,6 +1,6 @@
 'use strict';
 
-var Promise = require('Promise');
+var Promise = require('promise');
 var gulp = require('gulp');
 
 var startTask = function(taskName){
