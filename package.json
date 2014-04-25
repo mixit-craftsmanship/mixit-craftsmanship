@@ -7,7 +7,7 @@
     "test": "node_modules/.bin/gulp test",
     "dev": "node_modules/.bin/gulp dev",
     "build": "node_modules/.bin/gulp build",
-    "jenkins": "node node_modules/mocha/bin/_mocha test/libs --recursive -R mocha-jenkins-reporter > tests-report.xml",
+    "jenkins": "node node_modules/mocha/bin/_mocha test/libs --recursive -R mocha-jenkins-reporter",
     "TeamCity": "node node_modules/mocha/bin/_mocha test/libs --recursive -R mocha-teamcity-reporter"
   },
   "dependencies": {
