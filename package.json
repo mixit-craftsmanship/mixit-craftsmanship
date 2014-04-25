@@ -30,6 +30,7 @@
     "karma": "*",
     "karma-mocha": "^0.1.3",
     "karma-chrome-launcher": "^0.1.3",
+    "karma-junit-reporter": "*",
     "mocha": "^1.18.2",
     "mocha-jenkins-reporter": ">=0.0.1",
     "mocha-teamcity-reporter": ">=0.0.1",

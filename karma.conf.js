@@ -23,7 +23,11 @@ var karmaConfiguration = {
         'public/javascripts/app.js'
     ],
     autoWatch: true,
-    browsers: ['PhantomJS']
+    browsers: ['PhantomJS'],
+    reporters: ['progress', 'junit'],
+    junitReporter: {
+        outputFile: 'testsKarma-report.xml'
+    }
 };
 
 includeExternalLibs(karmaConfiguration);

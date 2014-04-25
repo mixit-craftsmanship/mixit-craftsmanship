@@ -13,5 +13,5 @@ exports.runClient = function(watch){
 };
 
 exports.runServer = function(testDirectory){
-    return spawn('node', ['node_modules/mocha/bin/_mocha', testDirectory, '--recursive'], { stdio: 'inherit' });
+    return spawn('node', ['node_modules/mocha/bin/_mocha', testDirectory, '--recursive', '-R', 'mocha-jenkins-reporter'], { stdio: 'inherit' });
 };
