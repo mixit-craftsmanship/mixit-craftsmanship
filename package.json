@@ -7,7 +7,7 @@
     "test": "node_modules/.bin/gulp test",
     "dev": "node_modules/.bin/gulp dev",
     "build": "node_modules/.bin/gulp build",
-    "jenkins": "node node_modules/mocha/bin/_mocha test/libs --recursive -R xunit > tests-report.xml",
+    "jenkins": "node node_modules/mocha/bin/_mocha test/libs --recursive -R mocha-jenkins-reporter > tests-report.xml",
     "TeamCity": "node node_modules/mocha/bin/_mocha test/libs --recursive -R mocha-teamcity-reporter"
   },
   "dependencies": {
@@ -31,6 +31,7 @@
     "karma-mocha": "^0.1.3",
     "karma-chrome-launcher": "^0.1.3",
     "mocha": "^1.18.2",
+    "mocha-jenkins-reporter": ">=0.0.1",
     "mocha-teamcity-reporter": ">=0.0.1",
     "should": "^3.3.0",
     "nock": "^0.27.3",
