@@ -9,6 +9,7 @@ var staticFavicon = require('static-favicon');
 var errorHandler = require('errorhandler');
 var morgan = require('morgan');
 var socketIO = require('socket.io');
+var compression = require('compression');
 
 var configuration = require('./configuration');
 
@@ -16,6 +17,8 @@ var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
+
+app.use(compression());
 app.use(staticFavicon());
 app.use(morgan('dev'));
 app.use(bodyParser());
@@ -31,6 +34,9 @@ var staticFile = function(path){
     };
 };
 
+app.get('/users', user.list);
+app.get('/api/talks/current', talks.list);
+
 var env = process.env.NODE_ENV || 'development';
 if ('development' == env) {
     app.use(errorHandler());
@@ -45,8 +51,6 @@ if ('development' == env) {
     app.use(express.static(path.join(__dirname, 'publicBuild')));
 }
 
-app.get('/users', user.list);
-app.get('/api/talks/current', talks.list);
 
 var server = http.createServer(app);
 socketIO = socketIO.listen(server);
