@@ -49,7 +49,7 @@ describe('Given a global configuration', function () {
         result.should.have.length(4);
         result.should.containEql({ url: '/javascripts/knockout.js', file: 'node_modules/knockout/build/output/knockout-latest.debug.js' });
         result.should.containEql({ url: '/javascripts/jquery.js', file: 'bower_components/jquery/dist/jquery.js' });
-        result.should.containEql({ url: '/stylesheet/bootstrap.css', file: 'bower_components/bootstrap/dist/css/bootstrap.css' });
+        result.should.containEql({ url: '/stylesheets/bootstrap.css', file: 'bower_components/bootstrap/dist/css/bootstrap.css' });
         result.should.containEql({ url: '/fonts', directory: 'bower_components/bootstrap/dist/fonts' });
     });
 
