@@ -29,7 +29,7 @@ var configuration = {
             dist: 'http://ajax.aspnetcdn.com/ajax/bootstrap/3.1.1/css/bootstrap.min.css'
         },
         resources: {
-            url: 'fonts',
+            url: '/fonts',
             path: 'bower_components/bootstrap/dist/fonts'
         }
     }

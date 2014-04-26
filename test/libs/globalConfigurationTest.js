@@ -22,7 +22,7 @@ describe('Given a global configuration', function () {
                 dist: 'http://ajax.aspnetcdn.com/ajax/bootstrap/3.1.1/css/bootstrap.min.css'
             },
             resources: {
-                url: 'fonts',
+                url: '/fonts',
                 path: 'bower_components/bootstrap/dist/fonts'
             }
         }
@@ -48,9 +48,9 @@ describe('Given a global configuration', function () {
         var result = globalConfiguration.client.getProxyUrlsInDevelopment();
 
         result.should.have.length(4);
-        result.should.containEql({ url: 'javascripts/knockout.js', file: 'node_modules/knockout/build/output/knockout-latest.debug.js' });
-        result.should.containEql({ url: 'javascripts/jquery.js', file: 'bower_components/jquery/dist/jquery.js' });
-        result.should.containEql({ url: 'stylesheet/bootstrap.css', file: 'bower_components/bootstrap/dist/css/bootstrap.css' });
-        result.should.containEql({ url: 'fonts', directory: 'bower_components/bootstrap/dist/fonts' });
+        result.should.containEql({ url: '/javascripts/knockout.js', file: 'node_modules/knockout/build/output/knockout-latest.debug.js' });
+        result.should.containEql({ url: '/javascripts/jquery.js', file: 'bower_components/jquery/dist/jquery.js' });
+        result.should.containEql({ url: '/stylesheet/bootstrap.css', file: 'bower_components/bootstrap/dist/css/bootstrap.css' });
+        result.should.containEql({ url: '/fonts', directory: 'bower_components/bootstrap/dist/fonts' });
     });
 });

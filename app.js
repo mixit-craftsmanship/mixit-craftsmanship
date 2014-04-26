@@ -43,10 +43,14 @@ if ('development' == env) {
 
     app.use(express.static(path.join(__dirname, 'public')));
 
-    for(var item in globalConfiguration.getProxyUrlsInDevelopment()){
+    var staticItems = globalConfiguration.client.getProxyUrlsInDevelopment();
+    for(var key in staticItems){
+        var item = staticItems[key];
         if(item.file !== undefined){
-            app.use(item.url, staticFile(url.file));
+            console.log(item.url +" "+ item.file);
+            app.use(item.url, staticFile(item.file));
         } else {
+            console.log(item.url +" "+ item.directory);
             app.use(item.url, express.static(item.directory));
         }
     }

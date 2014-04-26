@@ -34,11 +34,11 @@ exports.client = {
         for(var name in configuration) {
             var libs = configuration[name];
             if(libs.javascript !== undefined) {
-                result.push({ url: 'javascripts/' + name + '.js', file: libs.javascript.local });
+                result.push({ url: '/javascripts/' + name + '.js', file: libs.javascript.local });
             }
 
             if(libs.stylesheet !== undefined) {
-                result.push({ url: 'stylesheet/' + name + '.css', file: libs.stylesheet.local });
+                result.push({ url: '/stylesheet/' + name + '.css', file: libs.stylesheet.local });
             }
 
             if(libs.resources !== undefined) {
