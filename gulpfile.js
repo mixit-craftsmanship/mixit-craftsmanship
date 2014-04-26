@@ -39,7 +39,7 @@ gulp.task('dev-css-less-watch', function () {
         .pipe(gulp.dest(clientConfiguration.getCssDirectory()));
 });
 
-gulp.task('dev-js-server-test-watch', function () {
+gulp.task('dev-js-server-test-watch', ['test-server'], function () {
     gulp.watch(serverConfiguration.getAllJavascriptFilesPattern(), ['test-server']);
 });
 
