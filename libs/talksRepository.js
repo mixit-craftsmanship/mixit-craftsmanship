@@ -5,16 +5,16 @@ exports.currentTalks = function () {
     return mixitApi.talks().then(function (talks) {
         var now = new Date();
         return _.filter(talks, function (item) {
-            if (item.end != undefined && new Date(item.end) < now) {
+            if (item.end !== undefined && new Date(item.end) < now) {
                 return false;
             }
 
-            return !(item.start != undefined && new Date(item.start) > now);
+            return !(item.start !== undefined && new Date(item.start) > now);
         }).map(function (item) {
             return {
                 title: item.title,
                 room: item.room
-            }
+            };
         });
     });
 };

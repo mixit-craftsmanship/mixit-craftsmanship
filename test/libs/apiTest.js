@@ -28,7 +28,7 @@ describe('Given I am a user of Api module', function () {
                 response.title.should.equal(expected.title);
                 done();
             }).catch(done);
-        })
+        });
     });
 
     describe("When I call GET on url not returning JSON", function() {

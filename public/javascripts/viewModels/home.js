@@ -7,12 +7,12 @@ define(['knockout', 'libs/api'], function (ko, api) {
 
         api.currentTalks().done(function(result){
             self.talks(result);
-        })
+        });
     };
 
     return {
         create: function(){
             return new viewmodel();
         }
-    }
+    };
 });
