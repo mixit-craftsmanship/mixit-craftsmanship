@@ -1,14 +1,15 @@
-var configuration = require('./configuration');
+var globalConfigurationClient = require('./libs/globalConfiguration').client;
 
 var includeExternalLibs = function(config){
     var urlPrefix = '/base/public/javascripts/';
     var pathPrefix = '/base/';
 
     config.proxies = {};
-    var externalLibs = configuration.externalLibs;
-    for(var name in externalLibs){
-        config.proxies[urlPrefix + name + '.js'] = pathPrefix + externalLibs[name];
-        config.files.push({pattern: externalLibs[name], included: false});
+    var externalJavascripts = globalConfigurationClient.getExternalJavascriptsWithLocalPath();
+    for(var key in externalJavascripts){
+        var item = externalJavascripts[key];
+        config.proxies[urlPrefix + item.name + '.js'] = pathPrefix + item.path;
+        config.files.push({pattern: item.path, included: false});
     }
 };
 

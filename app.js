@@ -11,7 +11,7 @@ var morgan = require('morgan');
 var socketIO = require('socket.io');
 var compression = require('compression');
 
-var configuration = require('./configuration');
+var globalConfiguration = require('./libs/globalConfiguration');
 
 var app = express();
 
@@ -43,9 +43,12 @@ if ('development' == env) {
 
     app.use(express.static(path.join(__dirname, 'public')));
 
-    var externalLibs = configuration.externalLibs;
-    for(var name in externalLibs){
-        app.use('/javascripts/' + name + '.js', staticFile(externalLibs[name]));
+    for(var item in globalConfiguration.getProxyUrlsInDevelopment()){
+        if(item.file !== undefined){
+            app.use(item.url, staticFile(url.file));
+        } else {
+            app.use(item.url, express.static(item.directory));
+        }
     }
 } else {
     app.use(express.static(path.join(__dirname, 'publicBuild')));

@@ -1,5 +1,5 @@
 'use strict';
-var globalConfiguration = require('../configuration');
+var globalConfiguration = require('../libs/globalConfiguration');
 
 var clientConfig = {
     directory: 'public/',
@@ -86,13 +86,7 @@ exports.client = {
         return patterns;
     },
     getExternalLibNames: function(){
-        var names = [];
-        var externalLibs = globalConfiguration.externalLibs;
-        for(var name in externalLibs){
-            names.push(name);
-        }
-        console.log(names);
-        return names;
+        return globalConfiguration.client.getExternalJavascriptNames();
     }
 };
 
