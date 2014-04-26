@@ -1,11 +1,10 @@
 var talksRepository = require('../libs/talksRepository');
+var apiServer = require('../libs/apiServer');
 
 exports.list = function (req, res) {
-    talksRepository.currentTalks().then(function (talks) {
-        res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-        res.header("Pragma", "no-cache");
-        res.header("Expires", 0);
+    apiServer.disableCache(res);
 
+    talksRepository.currentTalks().then(function (talks) {
         res.send(talks);
     }).catch(function(error){
         res.send(500, error);
