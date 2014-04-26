@@ -13,6 +13,7 @@ debug/
 coverage.html
 public/build/
 publicBuild/
+test*report.xml
 
 #################
 ## Intellij

@@ -114,6 +114,8 @@ gulp.task('test-client', function() {
 
 gulp.task('test', ['test-client', 'test-server']);
 
+gulp.task('jenkins', ['build', 'test-client', 'test-server-with-report']);
+
 gulp.task('check-js', function() {
     return gulp.src(configuration.getAllJavascriptFilesWithoutTestsPattern())
         .pipe(jshint())
