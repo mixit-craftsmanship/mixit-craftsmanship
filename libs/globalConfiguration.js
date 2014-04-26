@@ -47,5 +47,22 @@ exports.client = {
         }
 
         return result;
+    },
+    getCdnStylesheets: function(){
+        var result = [];
+        for(var name in configuration) {
+            var libs = configuration[name];
+            if(libs.stylesheet !== undefined) {
+                result.push(libs.stylesheet.dist);
+            }
+        }
+
+        return result;
+    },
+    getCdnJavascripts: function(){
+        var names = getExternalJavascriptNames();
+        return _.map(names, function(name){
+            return configuration[name].javascript.dist;
+        });
     }
 };

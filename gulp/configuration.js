@@ -87,6 +87,12 @@ exports.client = {
     },
     getExternalLibNames: function(){
         return globalConfiguration.client.getExternalJavascriptNames();
+    },
+    getCdnStylesheets: function(){
+        return globalConfiguration.client.getCdnStylesheets();
+    },
+    getCdnJavascripts: function(){
+        return globalConfiguration.client.getCdnJavascripts();
     }
 };
 

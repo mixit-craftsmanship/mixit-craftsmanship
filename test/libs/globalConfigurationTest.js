@@ -53,4 +53,19 @@ describe('Given a global configuration', function () {
         result.should.containEql({ url: '/stylesheet/bootstrap.css', file: 'bower_components/bootstrap/dist/css/bootstrap.css' });
         result.should.containEql({ url: '/fonts', directory: 'bower_components/bootstrap/dist/fonts' });
     });
+
+    it('When getCdnStylesheets Then return all cdns of stylesheet libs', function () {
+        var result = globalConfiguration.client.getCdnStylesheets();
+
+        result.should.have.length(1);
+        result.should.containEql('http://ajax.aspnetcdn.com/ajax/bootstrap/3.1.1/css/bootstrap.min.css');
+    });
+
+    it('When getCdnJavascripts Then return all cdns of javascript libs', function () {
+        var result = globalConfiguration.client.getCdnJavascripts();
+
+        result.should.have.length(2);
+        result.should.containEql('http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js');
+        result.should.containEql('http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js');
+    });
 });

@@ -157,6 +157,8 @@ gulp.task('build-html-templates', function () {
 
 gulp.task('build-html', ['build-html-templates'], function() {
     return gulp.src(clientConfiguration.getHomePath())
+        .pipe(homeBuilder.injectExternalCss())
+//        .pipe(homeBuilder.injectExternalJs())
         .pipe(homeBuilder.injectBuildedCss())
         .pipe(homeBuilder.injectBuildedJs())
         .pipe(homeBuilder.injectBuildedTemplates())

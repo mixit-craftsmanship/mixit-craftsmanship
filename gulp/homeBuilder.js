@@ -5,16 +5,34 @@ var fs = require('fs');
 var crypto = require('crypto');
 var configuration = require('./configuration').client;
 
+exports.injectExternalCss = function(){
+    return cheerio(function ($) {
+        var cdns = configuration.getCdnStylesheets();
+        for(var key in cdns){
+            $('head').append('<link rel="stylesheet" href="'+ cdns[key] +'">');
+        }
+    });
+};
+
 exports.injectBuildedCss = function(){
     return cheerio(function ($) {
-        $('link[rel=stylesheet]:not([attr^=http])').remove();
+        $('link[rel=stylesheet]:not([href^=http])').remove();
         $('head').append('<link rel="stylesheet" href="'+ configuration.getBuildCssFileName() +'">');
+    });
+};
+
+exports.injectExternalJs = function(){
+    return cheerio(function ($) {
+        var cdns = configuration.getCdnJavascripts();
+        for(var key in cdns){
+            $('body').append('<script src="' + cdns[key] + '"></script>');
+        }
     });
 };
 
 exports.injectBuildedJs = function(){
     return cheerio(function ($) {
-        $('script:not([attr^=http])').remove();
+        $('script:not([src^=http])').remove();
         var requireUrl = configuration.getRequireJsUrl();
         var javascriptUrl = configuration.getBuildJavascriptFileName();
         $('body').append('<script src="' + requireUrl + '"></script><script src="' + javascriptUrl + '"></script>');
