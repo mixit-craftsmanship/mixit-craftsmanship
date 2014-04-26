@@ -90,6 +90,10 @@ gulp.task('test-server', function () {
     return testRunner.runServer(serverConfiguration.getTestDirectory());
 });
 
+gulp.task('test-server-with-report', function () {
+    return testRunner.runServer(serverConfiguration.getTestDirectory(), true);
+});
+
 gulp.task('test-client', function() {
     return testRunner.runClient();
 });
