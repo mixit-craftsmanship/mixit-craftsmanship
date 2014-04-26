@@ -1,5 +1,5 @@
 var should = require('should');
-var api = require('../../libs/api');
+var api = require('../../libs/apiClient');
 var nock = require('nock');
 
 describe('Given I am a user of Api module', function () {

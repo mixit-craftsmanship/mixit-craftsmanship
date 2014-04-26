@@ -47,10 +47,8 @@ if ('development' == env) {
     for(var key in staticItems){
         var item = staticItems[key];
         if(item.file !== undefined){
-            console.log(item.url +" "+ item.file);
             app.use(item.url, staticFile(item.file));
         } else {
-            console.log(item.url +" "+ item.directory);
             app.use(item.url, express.static(item.directory));
         }
     }

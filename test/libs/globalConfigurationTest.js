@@ -1,5 +1,4 @@
 var should = require('should');
-var api = require('../../libs/api');
 var globalConfiguration = require('../../libs/globalConfiguration');
 
 describe('Given a global configuration', function () {

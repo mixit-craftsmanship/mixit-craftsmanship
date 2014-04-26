@@ -1,4 +1,4 @@
-var api = require('./api');
+var api = require('./apiClient');
 
 var get = function(path){
     return api.get("www.mix-it.fr", path);
