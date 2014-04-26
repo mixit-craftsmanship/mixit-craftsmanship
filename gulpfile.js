@@ -28,8 +28,7 @@ gulp.task('dev-html-templates-watch', function () {
     watch({glob: clientConfiguration.getTemplateFilesPattern()})
         .pipe(plumber())
         .pipe(templateWrapper.wrap())
-        .pipe(templateInjector.inject(clientConfiguration.getHomePath()))
-        .pipe(gulp.dest(clientConfiguration.getDirectory()));
+        .pipe(templateInjector.inject(clientConfiguration.getHomePath()));
 });
 
 gulp.task('dev-css-less-watch', function () {
@@ -72,7 +71,7 @@ gulp.task('check-css-watch', function() {
 gulp.task('check-watch', ['check-js-watch', 'check-html-watch', 'check-css-watch']);
 gulp.task('test-watch', ['dev-js-server-test-watch', 'dev-js-client-test-watch']);
 
-gulp.task('dev', ['dev-css-less-watch', 'test-watch', 'check-watch']);
+gulp.task('dev', ['dev-css-less-watch', 'test-watch', 'check-watch', 'dev-html-templates-watch']);
 
 gulp.task('test-server-cover', function () {
     return gulp.src(serverConfiguration.getTestFilesPattern(), { read: false })
