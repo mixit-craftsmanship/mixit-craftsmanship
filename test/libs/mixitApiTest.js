@@ -15,4 +15,17 @@ describe('Mix-IT Api module', function() {
             done();
         }).catch(done);
     });
+
+    it('When get talks should return talks list of cache', function (done) {
+        var result = [{"id":540}];
+        nock('http://www.mix-it.fr').get('/api/talks').reply(200, result);
+
+        mixitApi.talks().then(function(){
+            nock('http://www.mix-it.fr').get('/api/talks').reply(200, []);
+            return mixitApi.talks();
+        }).then(function(result){
+            result.should.have.length(1);
+            done();
+        }).catch(done);
+    });
 });
