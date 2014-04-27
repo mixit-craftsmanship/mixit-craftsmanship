@@ -18,7 +18,7 @@ define(['viewModels/main', 'jquery'], function(main, jquery) {
 
             var currentPage = vm.currentPage();
             currentPage.should.be.ok;
-            currentPage.templateName.should.equal("currentTalksTemplate");
+            currentPage.templateName.should.equal("homeTemplate");
         });
     });
 });
