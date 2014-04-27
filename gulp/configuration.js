@@ -15,6 +15,7 @@ var clientConfig = {
     javascriptsDirectory: 'public/javascripts/',
     templatesDirectory: 'public/templates/',
     testsDirectory: 'test/public/',
+    layout: 'layout.html',
     homePage: 'index.html',
     staticFileExtensions: ['txt', 'gif', 'png', 'jpg', 'ico']
 };
@@ -40,11 +41,20 @@ exports.client = {
     getTemplateFilesPattern: function(){
         return clientConfig.templatesDirectory + htmlPattern;
     },
+    getLayoutPath: function(){
+        return clientConfig.directory + clientConfig.layout;
+    },
     getHomePath: function(){
         return clientConfig.directory + clientConfig.homePage;
     },
+    getHomeFileName: function(){
+        return clientConfig.homePage;
+    },
+    getBuildedHomePath: function(){
+        return clientConfig.build.directory + clientConfig.homePage;
+    },
     getHtmlFilesPattern: function(){
-        return [ this.getHomePath(), this.getTemplateFilesPattern() ];
+        return [ this.getLayoutPath(), this.getTemplateFilesPattern() ];
     },
     getDirectory: function(){
         return clientConfig.directory;

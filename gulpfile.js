@@ -11,6 +11,7 @@ var minifyCSS = require('gulp-minify-css');
 var minifyHTML = require('gulp-minify-html');
 var mocha = require('gulp-mocha');
 var plumber = require('gulp-plumber');
+var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 
@@ -24,7 +25,21 @@ var testRunner = require('./gulp/testRunner');
 var clientConfiguration = configuration.client;
 var serverConfiguration = configuration.server;
 
-gulp.task('dev-html-templates-watch', function () {
+gulp.task('dev-html-create-layout', function () {
+    return gulp.src(clientConfiguration.getLayoutPath())
+        .pipe(rename(clientConfiguration.getHomeFileName()))
+        .pipe(gulp.dest(clientConfiguration.getDirectory()));
+});
+
+gulp.task('dev-html-layout', ['dev-html-create-layout'], function () {
+    return gulp.src(clientConfiguration.getTemplateFilesPattern())
+        .pipe(templateWrapper.wrap())
+        .pipe(templateInjector.inject(clientConfiguration.getHomePath()));
+});
+
+gulp.task('dev-html-templates-watch', ['dev-html-layout'], function () {
+    gulp.watch(clientConfiguration.getLayoutPath(), ['dev-html-layout']);
+
     watch({glob: clientConfiguration.getTemplateFilesPattern()})
         .pipe(plumber())
         .pipe(templateWrapper.wrap())
@@ -155,7 +170,7 @@ gulp.task('build-html-templates', function () {
 });
 
 gulp.task('build-html', ['build-html-templates'], function() {
-    return gulp.src(clientConfiguration.getHomePath())
+    return gulp.src(clientConfiguration.getLayoutPath())
         .pipe(homeBuilder.injectExternalCss())
 //        .pipe(homeBuilder.injectExternalJs())
         .pipe(homeBuilder.injectBuildedCss())
@@ -163,7 +178,7 @@ gulp.task('build-html', ['build-html-templates'], function() {
         .pipe(homeBuilder.injectBuildedTemplates())
         .pipe(homeBuilder.addVersionOnFilesIncluded())
         .pipe(minifyHTML())
-        .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
+        .pipe(gulp.dest(clientConfiguration.getBuildedHomePath()));
 });
 
 gulp.task('build-staticFiles', function() {
