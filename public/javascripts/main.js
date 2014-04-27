@@ -1,5 +1,9 @@
-define(['viewModels/main', 'knockout', 'libs/socketIO'], function (vm, ko) {
+define(['viewModels/main', 'knockout', 'libs/navigation'], function (vm, ko, navigation) {
     return function(){
-        ko.applyBindings(vm.create());
+        var mainViewModel = vm.create();
+        navigation.initialize(function(viewModel) {
+            mainViewModel.currentPage(viewModel);
+        });
+        ko.applyBindings(mainViewModel);
     };
 });

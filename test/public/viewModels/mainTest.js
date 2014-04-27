@@ -1,4 +1,9 @@
 define(['viewModels/main', 'jquery'], function(main, jquery) {
+    var oldJqueryGet = jquery.get;
+    after(function () {
+        jquery.get = oldJqueryGet;
+    });
+
     jquery.get = function(){
         return {
             done: function(done){

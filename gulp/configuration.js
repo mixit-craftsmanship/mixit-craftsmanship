@@ -125,4 +125,4 @@ exports.getAllJavascriptFilesPattern = function(){
             clientConfig.testsDirectory + jsPattern,
             'app.js'
     ];
-}
+};

@@ -23,6 +23,12 @@ var configuration = {
             dist: 'http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js'
         }
     },
+    sammy: {
+        javascript: {
+            local: 'bower_components/sammy/lib/sammy.js',
+            dist: 'http://cdnjs.cloudflare.com/ajax/libs/sammy.js/0.7.4/sammy.min.js'
+        }
+    },
     bootstrap: {
         stylesheet: {
             local: 'bower_components/bootstrap/dist/css/bootstrap.css',

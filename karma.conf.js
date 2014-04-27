@@ -1,16 +1,21 @@
 var globalConfigurationClient = require('./libs/globalConfiguration').client;
 
-var includeExternalLibs = function(config){
-    var urlPrefix = '/base/public/javascripts/';
-    var pathPrefix = '/base/';
+var urlPrefix = '/base/public/javascripts/';
+var pathPrefix = '/base/';
 
+var pushJavascriptLibsInConfig = function(config, lib){
+    config.proxies[urlPrefix + lib.name + '.js'] = pathPrefix + lib.path;
+    config.files.push({pattern: lib.path, included: false});
+}
+
+var includeExternalLibs = function(config){
     config.proxies = {};
     var externalJavascripts = globalConfigurationClient.getExternalJavascriptsWithLocalPath();
     for(var key in externalJavascripts){
-        var item = externalJavascripts[key];
-        config.proxies[urlPrefix + item.name + '.js'] = pathPrefix + item.path;
-        config.files.push({pattern: item.path, included: false});
+        pushJavascriptLibsInConfig(config, externalJavascripts[key]);
     }
+
+    pushJavascriptLibsInConfig(config, { name: 'sinon', path: 'bower_components/sinon/lib/sinon.js' });
 };
 
 var karmaConfiguration = {
