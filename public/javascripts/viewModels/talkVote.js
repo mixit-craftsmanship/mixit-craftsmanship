@@ -6,8 +6,10 @@ define(['knockout'], function (ko) {
         self.talkId = talkId;
         self.talkTitle = talkTitle;
 
+        self.happyLevel = ko.observable(0);
+
         self.vote = function(){
-            console.log("+1");
+            self.happyLevel(self.happyLevel() + 1);
         };
     };
 
