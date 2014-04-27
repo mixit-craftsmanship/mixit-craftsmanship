@@ -62,7 +62,7 @@ gulp.task('dev-js-client-test-watch', function () {
 });
 
 gulp.task('check-js-watch', function() {
-    watch({glob: configuration.getAllJavascriptFilesPattern()})
+    watch({glob: configuration.getAllJavascriptFilesWithoutTestsPattern()})
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
@@ -115,7 +115,7 @@ gulp.task('test-client', function() {
 gulp.task('test', ['test-client', 'test-server']);
 
 gulp.task('check-js', function() {
-    return gulp.src(configuration.getAllJavascriptFilesPattern())
+    return gulp.src(configuration.getAllJavascriptFilesWithoutTestsPattern())
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });

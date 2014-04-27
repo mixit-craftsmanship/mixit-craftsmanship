@@ -129,10 +129,18 @@ exports.server = {
 
 exports.getAllJavascriptFilesPattern = function(){
     return [
-            serverConfig.javascriptsDirectory + jsPattern,
-            serverConfig.testsDirectory + jsPattern,
-            clientConfig.javascriptsDirectory + jsPattern,
-            clientConfig.testsDirectory + jsPattern,
-            'app.js'
+        serverConfig.javascriptsDirectory + jsPattern,
+        serverConfig.testsDirectory + jsPattern,
+        clientConfig.javascriptsDirectory + jsPattern,
+        clientConfig.testsDirectory + jsPattern,
+        'app.js'
+    ];
+};
+
+exports.getAllJavascriptFilesWithoutTestsPattern = function(){
+    return [
+        serverConfig.javascriptsDirectory + jsPattern,
+        clientConfig.javascriptsDirectory + jsPattern,
+        'app.js'
     ];
 };
