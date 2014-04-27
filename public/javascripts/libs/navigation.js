@@ -1,18 +1,21 @@
-define(['sammy', 'viewModels/home', 'viewModels/about'], function (sammy, homeViewModel, aboutViewModel) {
+define(['sammy', 'viewModels/home', 'viewModels/about', 'viewModels/talkVote'], function (sammy, homeViewModel, aboutViewModel, talkVoteViewModel) {
     var homeUrl = '#/';
     var aboutUrl = '#/about';
+    var talkVoteUrl = '#/talkVote/';
 
-    var setCurrentPage = function(){};
-    var navigation;
-
-    var navigationFactory = function(){
+    var routerFactory = function(setCurrentPage, navigation){
         return sammy(function() {
             this.get(homeUrl, function() {
-                setCurrentPage(homeViewModel.create());
+                setCurrentPage(homeViewModel.create(navigation));
             });
 
             this.get(aboutUrl, function() {
                 setCurrentPage(aboutViewModel.create());
+            });
+
+            this.get(talkVoteUrl + ":talkId/:talkTitle", function() {
+                var params = this.params;
+                setCurrentPage(talkVoteViewModel.create(params.talkId, params.talkTitle));
             });
         });
     };
@@ -21,22 +24,33 @@ define(['sammy', 'viewModels/home', 'viewModels/about'], function (sammy, homeVi
         window.location.hash = url;
     };
 
-    return {
-        initialize: function(setCurrentPageFunction) {
-            setCurrentPage = setCurrentPageFunction;
+    var navigation = function(){
+        var self = this;
 
-            if(navigation !== undefined){
-                navigation.unload();
+        var router;
+
+        self.initialize = function(setCurrentPage) {
+            if(router !== undefined){
+                router.unload();
             }
 
-            navigation = navigationFactory();
-            navigation.run(homeUrl);
-        },
-        displayHomePage: function(){
+            router = routerFactory(setCurrentPage, self);
+            router.run(homeUrl);
+        };
+
+        self.displayHomePage = function(){
             changeCurrentUrl(homeUrl);
-        },
-        displayAboutPage: function(){
+        };
+
+        self.displayAboutPage = function(){
             changeCurrentUrl(aboutUrl);
-        }
+        };
+
+        self.displayTalkVotePage = function(talkId, talkTitle){
+            var titleEncoded = encodeURIComponent(talkTitle);
+            changeCurrentUrl(talkVoteUrl + talkId + "/" + titleEncoded);
+        };
     };
+
+    return new navigation();
 });

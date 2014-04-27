@@ -1,10 +1,12 @@
-define(['libs/navigation', 'viewModels/home', 'viewModels/about'], function(navigation, homeViewModel, aboutViewModel) {
+define(['libs/navigation', 'viewModels/home', 'viewModels/about', 'viewModels/talkVote'], function(navigation, homeViewModel, aboutViewModel, talkVoteViewModel) {
     describe('Navigation', function () {
         var oldHomeViewModelCreate = homeViewModel.create;
         var oldAboutViewModelCreate = aboutViewModel.create;
+        var oldTalkVoteViewModelCreate = talkVoteViewModel.create;
         after(function () {
             homeViewModel.create = oldHomeViewModelCreate;
             aboutViewModel.create = oldAboutViewModelCreate;
+            talkVoteViewModel.create = oldTalkVoteViewModelCreate;
         });
 
         before(function(){
@@ -13,6 +15,9 @@ define(['libs/navigation', 'viewModels/home', 'viewModels/about'], function(navi
             };
             aboutViewModel.create = function(){
                 return "about";
+            };
+            talkVoteViewModel.create = function(){
+                return "talkVote";
             };
         });
 
@@ -73,6 +78,18 @@ define(['libs/navigation', 'viewModels/home', 'viewModels/about'], function(navi
                 window.location.hash.should.equal("#/");
             });
 
+            it('when display home page Then create homeViewModel with good parameters', function () {
+                window.location.hash = "#/about";
+                var navigationUsed;
+                homeViewModel.create = function(n){
+                    navigationUsed = n;
+                };
+
+                navigation.displayHomePage();
+
+                navigationUsed.should.equal(navigation);
+            });
+
             it('when display about page Then current page is aboutViewModel and url is #/about', function () {
                 window.location.hash = "#/";
 
@@ -81,6 +98,34 @@ define(['libs/navigation', 'viewModels/home', 'viewModels/about'], function(navi
                 currentPage.should.be.ok;
                 currentPage.should.equal("about");
                 window.location.hash.should.equal("#/about");
+            });
+
+            it('when displayTalkVotePage with id 5 and title essai Then current page is talkVoteViewModel and url is #/talkVote/5/essai', function () {
+                navigation.displayTalkVotePage(5, 'essai');
+
+                currentPage.should.be.ok;
+                currentPage.should.equal("talkVote");
+                window.location.hash.should.equal("#/talkVote/5/essai");
+            });
+
+            it('when displayTalkVotePage with a title with special char Then escape in url', function () {
+                navigation.displayTalkVotePage(5, 'essai essai % ff');
+
+                window.location.hash.should.equal("#/talkVote/5/essai%20essai%20%25%20ff");
+            });
+
+            it('when displayTalkVotePage Then create talkVoteViewModel with good parameters', function () {
+                var titleUsed;
+                var idUsed;
+                talkVoteViewModel.create = function(id, title){
+                    titleUsed = title;
+                    idUsed = id;
+                };
+
+                navigation.displayTalkVotePage(5, 'essai');
+
+                idUsed.should.equal('5');
+                titleUsed.should.equal('essai');
             });
         });
     });
