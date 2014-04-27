@@ -178,7 +178,8 @@ gulp.task('build-html', ['build-html-templates'], function() {
         .pipe(homeBuilder.injectBuildedTemplates())
         .pipe(homeBuilder.addVersionOnFilesIncluded())
         .pipe(minifyHTML())
-        .pipe(gulp.dest(clientConfiguration.getBuildedHomePath()));
+        .pipe(rename(clientConfiguration.getHomeFileName()))
+        .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
 });
 
 gulp.task('build-staticFiles', function() {
