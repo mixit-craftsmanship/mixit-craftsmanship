@@ -17,14 +17,12 @@ describe('Talks controller', function() {
         timekeeper.freeze(now);
     });
 
-
     it('When get current talks should return current talks list', function (done) {
         talksRepository.currentTalks().then(function(talks){
             talks.should.have.length(1);
             done();
         }).catch(done);
     });
-
 
     it('Given talks without start and talk is not ended When get current talks Then return this talk', function (done) {
         delete result[0].start;
@@ -74,4 +72,19 @@ describe('Talks controller', function() {
         }).catch(done);
     });
 
+    it('Given good talks When get current talks Then return talks with id, title and room', function (done) {
+        delete result[0].end;
+        delete result[0].start;
+
+        talksRepository.currentTalks().then(function(talks){
+            talks.should.have.length(1);
+            var talk = talks[0];
+
+            talk.id.should.equal(540);
+            talk.title.should.equal("Biotech breaks free!");
+            talk.room.should.equal("Grand Amphi");
+
+            done();
+        }).catch(done);
+    });
 });

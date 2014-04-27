@@ -12,6 +12,7 @@ exports.currentTalks = function () {
             return !(item.start !== undefined && new Date(item.start) > now);
         }).map(function (item) {
             return {
+                id: item.id,
                 title: item.title,
                 room: item.room
             };
