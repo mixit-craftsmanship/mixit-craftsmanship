@@ -24,7 +24,7 @@ define(['libs/socketIO', 'socketIO'], function(socketIOWrapper, socketIO) {
         };
 
         beforeEach(function(){
-            socketIOWrapper.disconnect();
+            socketIOWrapper.dispose();
         });
 
         it('when connect Then connect socketIO', function () {
@@ -54,12 +54,19 @@ define(['libs/socketIO', 'socketIO'], function(socketIOWrapper, socketIO) {
         });
 
         it('Given already call connect but not connected when connect Then reconnect socketIO', function () {
+            var connection = {
+                socket: {
+                    open: true
+                },
+                disconnect: function() {}
+            };
             socketIO.connect = function(){
-                return connectionNotConnected;
+                return connection;
             };
             socketIOWrapper.connect();
             var called = false;
-            socketIO.connect = function(){
+            connection.socket.open = false;
+            connection.socket.connect = function(){
                 called = true;
             };
 
@@ -69,10 +76,6 @@ define(['libs/socketIO', 'socketIO'], function(socketIOWrapper, socketIO) {
         });
 
         it('Given not connection then isConnected is false', function () {
-            socketIO.connect = function(){
-            };
-            socketIOWrapper.connect();
-
             socketIOWrapper.isConnected().should.be.false;
         });
 

@@ -15,6 +15,11 @@ define(['socketIO'], function (socketIO) {
                 return;
             }
 
+            if(connection){
+                connection.socket.connect();
+                return;
+            }
+
             connection = socketIO.connect();
         },
         disconnect: function(){
@@ -23,7 +28,6 @@ define(['socketIO'], function (socketIO) {
             }
 
             connection.disconnect();
-            connection = undefined;
         },
         send: function(msgName, data){
             if(!isConnected()){
@@ -34,6 +38,9 @@ define(['socketIO'], function (socketIO) {
         },
         isConnected: function(){
             return isConnected();
+        },
+        dispose: function(){
+            connection = undefined;
         }
     };
 });
