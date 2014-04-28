@@ -1,24 +1,9 @@
-define(['viewModels/main', 'jquery'], function(main, jquery) {
-    var oldJqueryGet = jquery.get;
-    after(function () {
-        jquery.get = oldJqueryGet;
-    });
-
-    jquery.get = function(){
-        return {
-            done: function(done){
-                done([]);
-            }
-        };
-    };
-
+define(['viewModels/main'], function(main) {
     describe('Main ViewModels', function () {
-        it('when starting Then CurrentPage should be Home', function () {
+        it('when starting Then CurrentPage should be empty', function () {
             var vm = main.create();
 
-            var currentPage = vm.currentPage();
-            currentPage.should.be.ok;
-            currentPage.templateName.should.equal("homeTemplate");
+            (vm.currentPage() == undefined).should.be.true;
         });
     });
 });

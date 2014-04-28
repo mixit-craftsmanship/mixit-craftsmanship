@@ -1,9 +1,8 @@
-define(['knockout', 'viewModels/home'], function (ko, homeVm) {
+define(['knockout'], function (ko) {
     var viewmodel = function(){
         var self = this;
 
-        self.currentPage = ko.observable(homeVm.create());
-        self.waiting = ko.observable(true);
+        self.currentPage = ko.observable();
     };
 
     return {
