@@ -114,8 +114,6 @@ gulp.task('test-client', function() {
 
 gulp.task('test', ['test-client', 'test-server']);
 
-gulp.task('jenkins', ['build', 'test-client', 'test-server-with-report']);
-
 gulp.task('check-js', function() {
     return gulp.src(configuration.getAllJavascriptFilesWithoutTestsPattern())
         .pipe(jshint())
@@ -208,3 +206,12 @@ taskAsync.create('build', function(){
 });
 
 gulp.task('default', ['dev']);
+
+taskAsync.create('jenkins', function(){
+    return taskAsync.start('test-client')
+        .then(function(){
+            return taskAsync.start('test-server-with-report')
+        }).then(function(){
+            return taskAsync.start('build')
+        });
+});
