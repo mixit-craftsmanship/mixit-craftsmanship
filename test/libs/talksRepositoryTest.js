@@ -4,7 +4,7 @@ var promise = require('promise');
 var timekeeper = require('timekeeper');
 
 describe('Talks repository', function() {
-    var now = new Date("2014-03-29T09:25:00.000+02:00");
+    var now = new Date("2014-04-29T09:25:00.000+02:00");
 
     var result;
     beforeEach(function(){
