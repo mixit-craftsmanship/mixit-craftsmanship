@@ -1,5 +1,6 @@
 var should = require('should');
 var globalConfiguration = require('../../libs/globalConfiguration');
+var configuration = require('../../configuration');
 
 describe('Given a global configuration', function () {
     globalConfiguration.initialize({
@@ -83,5 +84,12 @@ describe('Given a global configuration', function () {
         var result = globalConfiguration.client.getPublicDirectoryInProduction();
 
         result.should.equal('./publicBuild/');
+    });
+
+    it('When getApplicationVersion Then return application version', function () {
+        var result = globalConfiguration.client.getApplicationVersion();
+
+        result.should.equal(configuration.version);
+        (result.length >= 5).should.be.true;
     });
 });

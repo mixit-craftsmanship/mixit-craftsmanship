@@ -73,5 +73,8 @@ exports.client = {
     },
     getPublicDirectoryInProduction: function(){
         return directoriesConfiguration.public.dist;
+    },
+    getApplicationVersion: function(){
+        return configuration.version;
     }
 };

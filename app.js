@@ -10,6 +10,7 @@ var compression = require('compression');
 var staticFilesRoute = require('./routes/staticFiles');
 var talksRoute = require('./routes/talks');
 var talkVotesRoute = require('./routes/talkVotes');
+var applicationVersionRoute = require('./routes/applicationVersion');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use(methodOverride());
 var env = process.env.NODE_ENV || 'development';
 
 talksRoute.register(app);
+applicationVersionRoute.register(app);
 staticFilesRoute.register(app, 'development' == env);
 
 var server = http.createServer(app);

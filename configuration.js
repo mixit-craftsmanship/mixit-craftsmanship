@@ -50,3 +50,4 @@ var directoriesConfiguration = {
 
 exports.libsConfiguration = libsConfiguration;
 exports.directoriesConfiguration = directoriesConfiguration;
+exports.version = "0.0.2";
