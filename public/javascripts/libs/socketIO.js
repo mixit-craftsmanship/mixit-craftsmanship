@@ -66,6 +66,9 @@ define(['socketIO', 'jquery', 'libs/timer'], function (socketIO, $, timerFactory
 
             connection.emit(msgName, data);
         },
+        on: function(msgName, callBack){
+            connection.on(msgName, callBack);
+        },
         isConnected: function(){
             return isConnected();
         },

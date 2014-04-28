@@ -281,20 +281,26 @@ define(['libs/socketIO', 'socketIO', 'libs/timer'], function(socketIOWrapper, so
             called.should.be.true;
         });
 
-        it('When accept connection Then stop timer', function () {
+        it('When call on with msg Then call on on socket', function () {
             var called = false;
-            timerStop = function() {
-                called = true;
+            var msgNameUsed;
+            var socket = {
+                on: function(msgName, callBack){
+                    msgNameUsed = msgName;
+                    callBack();
+                }
             };
             socketIO.connect = function(){
-                return connectionConnected;
+                return socket;
             };
-
             socketIOWrapper.connect();
 
-            timerCallback();
+            socketIOWrapper.on("essai", function(){
+                called = true;
+            });
 
             called.should.be.true;
+            msgNameUsed.should.equal("essai");
         });
     });
 });
