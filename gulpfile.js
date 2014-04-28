@@ -207,7 +207,7 @@ taskAsync.create('build', function(){
 
 gulp.task('default', ['dev']);
 
-gulp.task('jenkins', ['build'], function(){
+gulp.task('jenkins', function(){
     gulp.start('test-client');
     gulp.start('test-server-with-report');
 });
