@@ -11,6 +11,7 @@ var staticFilesRoute = require('./routes/staticFiles');
 var talksRoute = require('./routes/talks');
 var talkVotesRoute = require('./routes/talkVotes');
 var applicationVersionRoute = require('./routes/applicationVersion');
+var votesStore = require('./libs/votesStore');
 
 var app = express();
 
@@ -36,3 +37,7 @@ server.listen(app.get('port'), function(){
 });
 
 talkVotesRoute.register(socketIO.sockets);
+
+if(process.env.MONGO){
+    votesStore.configuration(process.env.MONGO);
+}
