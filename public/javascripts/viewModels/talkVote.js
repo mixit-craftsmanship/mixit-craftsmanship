@@ -1,4 +1,4 @@
-define(['knockout', 'libs/timer'], function (ko, timerFactory) {
+define(['knockout', 'libs/timer', 'libs/voteSender'], function (ko, timerFactory, voteSender) {
     var viewmodel = function(talkId, talkTitle){
         var self = this;
 
@@ -6,6 +6,7 @@ define(['knockout', 'libs/timer'], function (ko, timerFactory) {
         self.talkId = talkId;
         self.talkTitle = talkTitle;
 
+        self.hasError = ko.observable(false);
         self.happyLevel = ko.observable(0);
 
         var voteNb = 0;
@@ -24,13 +25,21 @@ define(['knockout', 'libs/timer'], function (ko, timerFactory) {
         var timer = timerFactory.create(500, updateHappyLevel);
 
         self.vote = function(){
+            if(!voteSender.isEnabled()){
+                self.hasError(true);
+                return;
+            }
+
             if(voteNb <= 0) {
                 timer.restart();
                 self.happyLevel(1);
             }
 
             voteNb++;
+            voteSender.send(talkId);
         };
+
+        voteSender.enable();
     };
 
     return {

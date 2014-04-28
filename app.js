@@ -62,8 +62,7 @@ server.listen(app.get('port'), function(){
 });
 
 socketIO.sockets.on('connection', function (socket) {
-    socket.emit('news', { hello: 'world' });
-    socket.on('my other event', function (data) {
+    socket.on('vote', function (data) {
         console.log(data);
     });
 });
