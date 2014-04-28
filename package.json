@@ -8,7 +8,8 @@
     "dev": "node_modules/.bin/gulp dev",
     "build": "node_modules/.bin/gulp build",
     "install": "bower install",
-    "jenkins": "node_modules/.bin/gulp jenkins"
+    "jenkins": "node_modules/.bin/gulp jenkins",
+    "casper": "node_modules/casperjs/bin/casperjs test test/casperTest.js"
   },
   "dependencies": {
     "express": "~4.0.0",
@@ -60,6 +61,7 @@
     "gulp-clean": "^0.2.4",
     "event-stream": "^3.1.2",
     "cheerio": "^0.15.0",
-    "gulp-rename": "^1.2.0"
+    "gulp-rename": "^1.2.0",
+    "casperjs": "^1.1.0-beta3"
   }
 }
