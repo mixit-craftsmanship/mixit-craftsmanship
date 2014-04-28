@@ -1,7 +1,7 @@
 var votesRepository = require('../libs/votesRepository');
 
 var pushVote = function(talkId, votesNb){
-    if(talkId == undefined || votesNb == undefined){
+    if(talkId === undefined || votesNb === undefined){
         throw "Invalid talk";
     }
 

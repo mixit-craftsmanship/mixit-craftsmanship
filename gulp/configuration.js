@@ -21,8 +21,8 @@ var clientConfig = {
 };
 
 var serverConfig = {
-    javascriptsDirectory: 'libs/',
-    testsDirectory: 'test/libs/',
+    javascriptsDirectory: ['libs/', 'routes/'],
+    testsDirectory: 'test/server/',
     cover: {
         tempDirectory: 'debug',
         output: 'coverage.html'
@@ -108,7 +108,13 @@ exports.client = {
 
 exports.server = {
     getAllJavascriptFilesPattern: function(){
-        return [serverConfig.javascriptsDirectory + jsPattern, serverConfig.testsDirectory + jsPattern];
+        var result = [serverConfig.testsDirectory + jsPattern];
+
+        for(var key in serverConfig.javascriptsDirectory){
+            result.push(serverConfig.javascriptsDirectory[key] + jsPattern);
+        }
+
+        return result;
     },
     getTestFilesPattern: function(){
         return serverConfig.testsDirectory + jsPattern;
@@ -117,7 +123,13 @@ exports.server = {
         return serverConfig.testsDirectory;
     },
     getJavascriptFilesPattern: function(){
-        return [serverConfig.javascriptsDirectory + jsPattern];
+        var result = [];
+
+        for(var key in serverConfig.javascriptsDirectory){
+            result.push(serverConfig.javascriptsDirectory[key] + jsPattern);
+        }
+
+        return result;
     },
     getCoverTempDirectory: function(){
         return serverConfig.cover.tempDirectory;
@@ -128,19 +140,29 @@ exports.server = {
 };
 
 exports.getAllJavascriptFilesPattern = function(){
-    return [
-        serverConfig.javascriptsDirectory + jsPattern,
+    var result = [
         serverConfig.testsDirectory + jsPattern,
         clientConfig.javascriptsDirectory + jsPattern,
         clientConfig.testsDirectory + jsPattern,
         'app.js'
     ];
+
+    for(var key in serverConfig.javascriptsDirectory){
+        result.push(serverConfig.javascriptsDirectory[key] + jsPattern);
+    }
+
+    return result;
 };
 
 exports.getAllJavascriptFilesWithoutTestsPattern = function(){
-    return [
-        serverConfig.javascriptsDirectory + jsPattern,
+    var result = [
         clientConfig.javascriptsDirectory + jsPattern,
         'app.js'
     ];
+
+    for(var key in serverConfig.javascriptsDirectory){
+        result.push(serverConfig.javascriptsDirectory[key] + jsPattern);
+    }
+
+    return result;
 };

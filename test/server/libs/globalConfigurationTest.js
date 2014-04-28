@@ -1,6 +1,6 @@
 var should = require('should');
-var globalConfiguration = require('../../libs/globalConfiguration');
-var configuration = require('../../configuration');
+var globalConfiguration = require('../../../libs/globalConfiguration');
+var configuration = require('../../../configuration');
 
 describe('Given a global configuration', function () {
     globalConfiguration.initialize({

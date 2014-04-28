@@ -1,4 +1,4 @@
-var apiServer = require('../../libs/apiServer');
+var apiServer = require('../../../libs/apiServer');
 
 describe('ApiServer', function() {
     it('When disableCache Then add http headers', function () {

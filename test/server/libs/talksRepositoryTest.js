@@ -1,5 +1,5 @@
-var talksRepository = require('../../libs/talksRepository');
-var mixitApi = require('../../libs/mixitApi');
+var talksRepository = require('../../../libs/talksRepository');
+var mixitApi = require('../../../libs/mixitApi');
 var promise = require('promise');
 var timekeeper = require('timekeeper');
 

@@ -1,6 +1,6 @@
-var votesRepository = require('../../libs/votesRepository');
-var talksRepository = require('../../libs/talksRepository');
-var votesStore = require('../../libs/votesStore');
+var votesRepository = require('../../../libs/votesRepository');
+var talksRepository = require('../../../libs/talksRepository');
+var votesStore = require('../../../libs/votesStore');
 var promise = require('promise');
 var timekeeper = require('timekeeper');
 

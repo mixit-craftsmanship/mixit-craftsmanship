@@ -1,4 +1,4 @@
-var cacheFactory = require('../../libs/cacheFactory');
+var cacheFactory = require('../../../libs/cacheFactory');
 var promise = require('promise');
 
 describe('Cache module', function () {

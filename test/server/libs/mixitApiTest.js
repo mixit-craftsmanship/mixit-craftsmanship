@@ -1,4 +1,4 @@
-var mixitApi = require('../../libs/mixitApi');
+var mixitApi = require('../../../libs/mixitApi');
 var nock = require('nock');
 
 describe('Mix-IT Api module', function() {
