@@ -2,7 +2,7 @@ define(['viewModels/main', 'knockout', 'libs/navigation', 'libs/userVoice', 'lib
     return function(){
         var mainViewModel = vm.create();
         navigation.initialize(function(viewModel) {
-            mainViewModel.currentPage(viewModel);
+            mainViewModel.changePage(viewModel);
         });
         ko.applyBindings(mainViewModel);
     };
