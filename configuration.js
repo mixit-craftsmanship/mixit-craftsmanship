@@ -1,4 +1,4 @@
-var configuration = {
+var libsConfiguration = {
     knockout: {
         javascript: {
             local: 'node_modules/knockout/build/output/knockout-latest.debug.js',
@@ -41,4 +41,12 @@ var configuration = {
     }
 };
 
-exports.configuration = configuration;
+var directoriesConfiguration = {
+    public: {
+        dev: './public/',
+        dist: './publicBuild/'
+    }
+};
+
+exports.libsConfiguration = libsConfiguration;
+exports.directoriesConfiguration = directoriesConfiguration;

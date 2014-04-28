@@ -15,7 +15,7 @@ var staticFile = function(path){
 var configDev = function(app){
     app.use(errorHandler());
 
-    app.use(express.static('public'));
+    app.use(express.static(globalConfiguration.client.getPublicDirectoryInDevelopment()));
 
     var staticItems = globalConfiguration.client.getProxyUrlsInDevelopment();
     for(var key in staticItems){
@@ -29,7 +29,7 @@ var configDev = function(app){
 };
 
 var configProd = function(app){
-    app.use(express.static('publicBuild'));
+    app.use(express.static(globalConfiguration.client.getPublicDirectoryInProduction()));
 };
 
 exports.register = function(app, isDevelopment){

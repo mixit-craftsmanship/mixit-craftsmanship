@@ -2,9 +2,9 @@
 var globalConfiguration = require('../libs/globalConfiguration');
 
 var clientConfig = {
-    directory: 'public/',
+    directory: globalConfiguration.client.getPublicDirectoryInDevelopment(),
     build: {
-        directory: 'publicBuild/',
+        directory: globalConfiguration.client.getPublicDirectoryInProduction(),
         javascriptFileName: 'application.build.min.js',
         cssFileName: 'app.min.css',
         templateFileName: 'templates.html',

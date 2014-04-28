@@ -25,6 +25,11 @@ describe('Given a global configuration', function () {
                 path: 'bower_components/bootstrap/dist/fonts'
             }
         }
+    }, {
+        public: {
+            dev: './public/',
+            dist: './publicBuild/'
+        }
     });
 
     it('When getExternalJavascriptsWithLocalPath Then return all external javascripts with name as key and path as value', function () {
@@ -66,5 +71,17 @@ describe('Given a global configuration', function () {
         result.should.have.length(2);
         result.should.containEql('http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js');
         result.should.containEql('http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js');
+    });
+
+    it('When getPublicDirectoryInDevelopment Then return public directory', function () {
+        var result = globalConfiguration.client.getPublicDirectoryInDevelopment();
+
+        result.should.equal('./public/');
+    });
+
+    it('When getPublicDirectoryInProduction Then return build directory', function () {
+        var result = globalConfiguration.client.getPublicDirectoryInProduction();
+
+        result.should.equal('./publicBuild/');
     });
 });

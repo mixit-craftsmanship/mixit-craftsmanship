@@ -1,15 +1,18 @@
 var _ = require('underscore');
 
-var configuration = require('../configuration').configuration;
+var configuration = require('../configuration');
+var libsConfiguration = configuration.libsConfiguration;
+var directoriesConfiguration = configuration.directoriesConfiguration;
 
-exports.initialize = function(config) {
-    configuration = config;
+exports.initialize = function(libs, directories) {
+    libsConfiguration = libs;
+    directoriesConfiguration = directories;
 };
 
 var getExternalJavascriptNames = function(){
     var result = [];
-    for(var name in configuration) {
-        var libs = configuration[name];
+    for(var name in libsConfiguration) {
+        var libs = libsConfiguration[name];
         if(libs.javascript !== undefined) {
             result.push(name);
         }
@@ -25,14 +28,14 @@ exports.client = {
     getExternalJavascriptsWithLocalPath: function(){
         var names = getExternalJavascriptNames();
         return _.map(names, function(name){
-            var path = configuration[name].javascript.local;
+            var path = libsConfiguration[name].javascript.local;
             return { name: name, path: path };
         });
     },
     getProxyUrlsInDevelopment: function(){
         var result = [];
-        for(var name in configuration) {
-            var libs = configuration[name];
+        for(var name in libsConfiguration) {
+            var libs = libsConfiguration[name];
             if(libs.javascript !== undefined) {
                 result.push({ url: '/javascripts/' + name + '.js', file: libs.javascript.local });
             }
@@ -50,8 +53,8 @@ exports.client = {
     },
     getCdnStylesheets: function(){
         var result = [];
-        for(var name in configuration) {
-            var libs = configuration[name];
+        for(var name in libsConfiguration) {
+            var libs = libsConfiguration[name];
             if(libs.stylesheet !== undefined) {
                 result.push(libs.stylesheet.dist);
             }
@@ -62,7 +65,13 @@ exports.client = {
     getCdnJavascripts: function(){
         var names = getExternalJavascriptNames();
         return _.map(names, function(name){
-            return configuration[name].javascript.dist;
+            return libsConfiguration[name].javascript.dist;
         });
+    },
+    getPublicDirectoryInDevelopment: function(){
+        return directoriesConfiguration.public.dev;
+    },
+    getPublicDirectoryInProduction: function(){
+        return directoriesConfiguration.public.dist;
     }
 };
