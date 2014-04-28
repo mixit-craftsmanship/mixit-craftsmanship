@@ -5,12 +5,14 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery'], funct
         var oldVoteSenderEnable = voteSender.enable;
         var oldVoteSenderDisable = voteSender.disable;
         var oldVoteSenderIsEnabled = voteSender.isEnabled;
+        var oldVoteSenderOnTalkEnded = voteSender.onTalkEnded;
         after(function(){
             timer.create = oldTimerCreate;
             voteSender.send = oldVoteSenderSend;
             voteSender.enable = oldVoteSenderEnable;
             voteSender.disable = oldVoteSenderDisable;
             voteSender.isEnabled = oldVoteSenderIsEnabled;
+            voteSender.onTalkEnded = oldVoteSenderOnTalkEnded;
         });
 
         var calledNb = 0;
@@ -34,6 +36,7 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery'], funct
             voteSender.isEnabled = function() { return true; };
             voteSender.enable = function() { return (new $.Deferred()).promise(); };
             voteSender.disable = function() {};
+            voteSender.onTalkEnded = function() {};
         });
 
         it('When create Then template name should be talkVoteTemplate', function () {
@@ -333,6 +336,21 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery'], funct
 
             vm.connected().should.be.false;
             vm.hasError().should.be.true;
+        });
+
+        it('When create Then talkEnded is false', function () {
+            var vm = talkVote.create(5, 'hello');
+
+            vm.talkEnded().should.be.false;
+        });
+
+        it('When TalkEnded is raised Then talkEnded is true', function () {
+            voteSender.onTalkEnded = function(callback){
+                callback();
+            };
+            var vm = talkVote.create(5, 'hello');
+
+            vm.talkEnded().should.be.true;
         });
     });
 });

@@ -8,6 +8,7 @@ define(['knockout', 'libs/timer', 'libs/voteSender'], function (ko, timerFactory
 
         self.hasError = ko.observable(false);
         self.connected = ko.observable(false);
+        self.talkEnded = ko.observable(false);
         self.happyLevel = ko.observable(0);
 
         var voteNb = 0;
@@ -44,6 +45,10 @@ define(['knockout', 'libs/timer', 'libs/voteSender'], function (ko, timerFactory
             self.connected(true);
         }).fail(function(){
             self.hasError(true);
+        });
+
+        voteSender.onTalkEnded(function(){
+            self.talkEnded(true);
         });
 
         self.dispose = function(){
