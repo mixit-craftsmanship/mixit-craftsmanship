@@ -1,5 +1,4 @@
 var express = require('express');
-var talks = require('./routes/talks');
 var http = require('http');
 var path = require('path');
 var methodOverride = require('method-override');
@@ -11,6 +10,8 @@ var socketIO = require('socket.io');
 var compression = require('compression');
 
 var globalConfiguration = require('./libs/globalConfiguration');
+var talksRoute = require('./routes/talks');
+var talkVotesRoute = require('./routes/talkVotes');
 
 var app = express();
 
@@ -33,7 +34,7 @@ var staticFile = function(path){
     };
 };
 
-app.get('/api/talks/current', talks.list);
+talksRoute.register(app);
 
 var env = process.env.NODE_ENV || 'development';
 if ('development' == env) {
@@ -61,8 +62,4 @@ server.listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
 });
 
-socketIO.sockets.on('connection', function (socket) {
-    socket.on('vote', function (data) {
-        console.log(data);
-    });
-});
+talkVotesRoute.register(socketIO.sockets);
