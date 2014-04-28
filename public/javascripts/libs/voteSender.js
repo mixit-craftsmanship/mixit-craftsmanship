@@ -39,6 +39,9 @@ define(['libs/timer', 'libs/socketIO'], function (timerFactory, socketIO) {
             }
 
             getTimer().start();
+        },
+        onTalkEnded: function(callBack){
+            socketIO.on('InvalidTalk', callBack);
         }
     };
 });

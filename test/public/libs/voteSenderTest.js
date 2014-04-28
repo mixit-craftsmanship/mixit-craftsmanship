@@ -5,12 +5,14 @@ define(['libs/voteSender', 'libs/socketIO', 'libs/timer'], function(voteSender, 
         var oldDisconnect = socketIO.disconnect;
         var oldSend = socketIO.send;
         var oldIsConnected = socketIO.isConnected;
+        var oldOn = socketIO.on;
         after(function(){
             timerFactory.create = oldTimerCreate;
             socketIO.connect = oldConnect;
             socketIO.disconnect = oldDisconnect;
             socketIO.send = oldSend;
             socketIO.isConnected = oldIsConnected;
+            socketIO.on = oldOn;
         });
 
         var timerStopped = false;
@@ -34,6 +36,7 @@ define(['libs/voteSender', 'libs/socketIO', 'libs/timer'], function(voteSender, 
             socketIO.disconnect = function(){};
             socketIO.send = function(){};
             socketIO.isConnected = function(){ return true; };
+            socketIO.on = function(){ };
             timerStopped = false;
         });
 
@@ -176,6 +179,22 @@ define(['libs/voteSender', 'libs/socketIO', 'libs/timer'], function(voteSender, 
             var result = voteSender.enable();
 
             result.should.eql({ name: 'A' });
+        });
+
+        it('when onTalkEnded Then subscripte to InvalidTalk msg on socket', function () {
+            var msgNameUsed;
+            socketIO.on = function(msgName, callBack){
+                msgNameUsed = msgName;
+                callBack();
+            };
+
+            var called = false;
+            voteSender.onTalkEnded(function(){
+                called = true;
+            });
+
+            called.should.be.true;
+            msgNameUsed.should.equal('InvalidTalk');
         });
     });
 });
