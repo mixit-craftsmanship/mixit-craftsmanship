@@ -19,18 +19,16 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender'], function(talkVo
         };
         var timerCallback;
         var timerDelay;
-        before(function(){
+        beforeEach(function(){
+            calledNb = 0;
             timer.create = function(delay, callback){
                 timerCallback = callback;
                 timerDelay = delay;
                 return {
-                    restart: restart
+                    restart: restart,
+                    stop: function(){}
                 };
             };
-        });
-
-        beforeEach(function(){
-            calledNb = 0;
 
             voteSender.send = function() {};
             voteSender.isEnabled = function() { return true; };
@@ -272,6 +270,35 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender'], function(talkVo
             var vm = talkVote.create(5, 'hello');
 
             vm.hasError().should.be.false;
+        });
+
+        it('When dispose Then stop timer', function () {
+            var called = false;
+            timer.create = function(){
+                return {
+                    restart: function(){},
+                    stop: function(){
+                        called = true;
+                    }
+                };
+            };
+            var vm = talkVote.create(5, 'hello');
+
+            vm.dispose();
+
+            called.should.be.true;
+        });
+
+        it('When dispose Then disable voteSender', function () {
+            var called = false;
+            voteSender.disable = function(){
+                called = true;
+            };
+            var vm = talkVote.create(5, 'hello');
+
+            vm.dispose();
+
+            called.should.be.true;
         });
     });
 });

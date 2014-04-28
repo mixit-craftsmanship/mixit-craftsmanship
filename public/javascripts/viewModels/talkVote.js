@@ -40,6 +40,11 @@ define(['knockout', 'libs/timer', 'libs/voteSender'], function (ko, timerFactory
         };
 
         voteSender.enable();
+
+        self.dispose = function(){
+            timer.stop();
+            voteSender.disable();
+        };
     };
 
     return {
