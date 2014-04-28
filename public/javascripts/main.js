@@ -1,4 +1,4 @@
-define(['viewModels/main', 'knockout', 'libs/navigation'], function (vm, ko, navigation) {
+define(['viewModels/main', 'knockout', 'libs/navigation', 'libs/userVoice'], function (vm, ko, navigation) {
     return function(){
         var mainViewModel = vm.create();
         navigation.initialize(function(viewModel) {
