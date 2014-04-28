@@ -33,5 +33,5 @@ Environnement de dev nécessaire pour développer
 Pour développer sur cette application, le seul pré-requis est Node.js.
 Ensuite, les dépendances côté serveur sont récupérées via NPM (définie dans package.json, à installer avec "npm install"). Les dépendances côté client sont gérées via Bower (bower.json + "bower install", intérêt de doublonner avec NPM ?).
 
-Pour ceux souhaitant utiliser un IDE, l'intégration IntelliJ est proposée. Il est nécessaire d'installer les plugins suivants : Node.js et Karma.
+Pour ceux souhaitant utiliser un IDE, l'intégration IntelliJ est proposée : Il est nécessaire d'installer les plugins suivants : Node.js et Karma.
 
