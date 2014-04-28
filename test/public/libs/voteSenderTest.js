@@ -167,5 +167,15 @@ define(['libs/voteSender', 'libs/socketIO', 'libs/timer'], function(voteSender, 
 
             called.should.be.false;
         });
+
+        it('when enable Then return socketIO connection promise', function () {
+            socketIO.connect = function(){
+                return { name: 'A' };
+            };
+
+            var result = voteSender.enable();
+
+            result.should.eql({ name: 'A' });
+        });
     });
 });

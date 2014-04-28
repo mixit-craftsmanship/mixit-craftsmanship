@@ -1,4 +1,6 @@
-define(['socketIO'], function (socketIO) {
+define(['socketIO', 'jquery', 'libs/timer'], function (socketIO, $, timerFactory) {
+    var connectionCheckedNbMax = 50;
+
     var connection;
 
     var isConnected = function(){
@@ -9,6 +11,32 @@ define(['socketIO'], function (socketIO) {
         return connection.socket.open;
     };
 
+    var createCheckConnectionPromise = function(){
+        var deferred = new $.Deferred();
+
+        var checkConnectionNb = 0;
+        var checkConnection = function(){
+            if(isConnected()){
+                checkConnectionTimer.stop();
+                deferred.resolve(true);
+                return;
+            }
+
+            if(checkConnectionNb > connectionCheckedNbMax){
+                checkConnectionTimer.stop();
+                deferred.reject('Impossible to connect');
+                return;
+            }
+
+            checkConnectionNb++;
+        };
+
+        var checkConnectionTimer = timerFactory.create(100, checkConnection);
+        checkConnectionTimer.start();
+
+        return deferred.promise();
+    };
+
     return {
         connect: function(){
             if(isConnected()){
@@ -17,10 +45,12 @@ define(['socketIO'], function (socketIO) {
 
             if(connection){
                 connection.socket.connect();
-                return;
+            }
+            else {
+                connection = socketIO.connect();
             }
 
-            connection = socketIO.connect();
+            return createCheckConnectionPromise();
         },
         disconnect: function(){
             if(!isConnected()){

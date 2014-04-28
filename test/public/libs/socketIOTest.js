@@ -1,12 +1,15 @@
-define(['libs/socketIO', 'socketIO'], function(socketIOWrapper, socketIO) {
+define(['libs/socketIO', 'socketIO', 'libs/timer'], function(socketIOWrapper, socketIO, timer) {
     describe('SocketIO module', function () {
         var oldConnect = socketIO.connect;
+        var oldTimerCreate = timer.create;
         after(function(){
             socketIO.connect = oldConnect;
+            timer.create = oldTimerCreate;
         });
 
         before(function(){
             socketIO.connect = function(){};
+            timer.create = function(){};
         });
 
         var connectionConnected = {
@@ -23,7 +26,19 @@ define(['libs/socketIO', 'socketIO'], function(socketIOWrapper, socketIO) {
             disconnect: function() {}
         };
 
+        var timerStart = function() { };
+        var timerStop = function() { };
+        var timerCallback;
+        var timerDelay;
         beforeEach(function(){
+            timer.create = function(delay, callback){
+                timerCallback = callback;
+                timerDelay = delay;
+                return {
+                    start: function(){ timerStart(); },
+                    stop: function(){ timerStop(); }
+                };
+            };
             socketIOWrapper.dispose();
         });
 
@@ -166,6 +181,120 @@ define(['libs/socketIO', 'socketIO'], function(socketIOWrapper, socketIO) {
 
             msgNameSended.should.equal("essai");
             dataSended.should.eql({ data: 5 });
+        });
+
+        it('When connect Then return promise', function () {
+            var result = socketIOWrapper.connect();
+
+            result.done.should.be.ok;
+            result.fail.should.be.ok;
+        });
+
+        it('When connect Then start timer to check connection', function () {
+            var called = false;
+            timerStart = function(){
+                called = true;
+            };
+
+            socketIOWrapper.connect();
+
+            timerDelay.should.equal(100);
+            timerCallback.should.be.ok;
+            called.should.be.true;
+        });
+
+        it('When connect Then not raise resolve if socket is not connected', function () {
+            socketIO.connect = function(){
+                return connectionNotConnected;
+            };
+
+            var called = false;
+            socketIOWrapper.connect().done(function(){
+                called = true;
+            });
+
+            called.should.be.false;
+            timerCallback();
+            called.should.be.false;
+            timerCallback();
+            called.should.be.false;
+        });
+
+        it('When connect Then raise resolve if socket is connected', function () {
+            var socket = {
+                socket: {
+                    open: false
+                }
+            };
+            socketIO.connect = function(){
+                return socket;
+            };
+
+            var called = false;
+            socketIOWrapper.connect().done(function(){
+                called = true;
+            });
+
+            called.should.be.false;
+            timerCallback();
+            called.should.be.false;
+
+            socket.socket.open = true;
+            timerCallback();
+            called.should.be.true;
+        });
+
+        it('When connect Then raise reject if socket is not connected after try 50 times', function () {
+            socketIO.connect = function(){
+                return connectionNotConnected;
+            };
+
+            var called = false;
+            socketIOWrapper.connect().fail(function(){
+                called = true;
+            });
+
+            for(var i = 0; i <= 50; i++){
+                timerCallback();
+                called.should.be.false;
+            }
+
+            timerCallback();
+            called.should.be.true;
+        });
+
+        it('When reject connection Then stop timer', function () {
+            var called = false;
+            timerStop = function() {
+                called = true;
+            };
+            socketIO.connect = function(){
+                return connectionNotConnected;
+            };
+
+            socketIOWrapper.connect();
+
+            for(var i = 0; i <= 51; i++){
+                timerCallback();
+            }
+
+            called.should.be.true;
+        });
+
+        it('When accept connection Then stop timer', function () {
+            var called = false;
+            timerStop = function() {
+                called = true;
+            };
+            socketIO.connect = function(){
+                return connectionConnected;
+            };
+
+            socketIOWrapper.connect();
+
+            timerCallback();
+
+            called.should.be.true;
         });
     });
 });

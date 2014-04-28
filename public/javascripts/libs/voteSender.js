@@ -24,7 +24,7 @@ define(['libs/timer', 'libs/socketIO'], function (timerFactory, socketIO) {
             return socketIO.isConnected();
         },
         enable: function(){
-            socketIO.connect();
+            return socketIO.connect();
         },
         disable: function(){
             socketIO.disconnect();

@@ -1,4 +1,4 @@
-define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender'], function(talkVote, timer, voteSender) {
+define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery'], function(talkVote, timer, voteSender, $) {
     describe('TalkVote ViewModels', function () {
         var oldTimerCreate = timer.create;
         var oldVoteSenderSend = voteSender.send;
@@ -32,7 +32,7 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender'], function(talkVo
 
             voteSender.send = function() {};
             voteSender.isEnabled = function() { return true; };
-            voteSender.enable = function() {};
+            voteSender.enable = function() { return (new $.Deferred()).promise(); };
             voteSender.disable = function() {};
         });
 
@@ -208,6 +208,7 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender'], function(talkVo
             var called = false;
             voteSender.enable = function() {
                 called = true;
+                return (new $.Deferred()).promise();
             };
 
             var vm = talkVote.create(5, 'hello');
@@ -299,6 +300,39 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender'], function(talkVo
             vm.dispose();
 
             called.should.be.true;
+        });
+
+        it('When create Then connected is false', function () {
+            var vm = talkVote.create(5, 'hello');
+
+            vm.connected().should.be.false;
+        });
+
+        it('When voteSender enabled Then connected is true', function () {
+            voteSender.enable = function() {
+                var deferred = new $.Deferred();
+
+                deferred.resolve();
+
+                return deferred.promise();
+            };
+            var vm = talkVote.create(5, 'hello');
+
+            vm.connected().should.be.true;
+        });
+
+        it('When voteSender raise error on enable Then connected is false and hasError is true', function () {
+            voteSender.enable = function() {
+                var deferred = new $.Deferred();
+
+                deferred.reject('error');
+
+                return deferred.promise();
+            };
+            var vm = talkVote.create(5, 'hello');
+
+            vm.connected().should.be.false;
+            vm.hasError().should.be.true;
         });
     });
 });
