@@ -1,8 +1,16 @@
-define(['viewModels/talkVote', 'libs/timer'], function(talkVote, timer) {
+define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender'], function(talkVote, timer, voteSender) {
     describe('TalkVote ViewModels', function () {
         var oldTimerCreate = timer.create;
+        var oldVoteSenderSend = voteSender.send;
+        var oldVoteSenderEnable = voteSender.enable;
+        var oldVoteSenderDisable = voteSender.disable;
+        var oldVoteSenderIsEnabled = voteSender.isEnabled;
         after(function(){
             timer.create = oldTimerCreate;
+            voteSender.send = oldVoteSenderSend;
+            voteSender.enable = oldVoteSenderEnable;
+            voteSender.disable = oldVoteSenderDisable;
+            voteSender.isEnabled = oldVoteSenderIsEnabled;
         });
 
         var calledNb = 0;
@@ -18,11 +26,16 @@ define(['viewModels/talkVote', 'libs/timer'], function(talkVote, timer) {
                 return {
                     restart: restart
                 };
-            }
+            };
         });
 
         beforeEach(function(){
             calledNb = 0;
+
+            voteSender.send = function() {};
+            voteSender.isEnabled = function() { return true; };
+            voteSender.enable = function() {};
+            voteSender.disable = function() {};
         });
 
         it('When create Then template name should be talkVoteTemplate', function () {
@@ -191,6 +204,74 @@ define(['viewModels/talkVote', 'libs/timer'], function(talkVote, timer) {
 
             timerCallback();
             vm.happyLevel().should.equal(1);
+        });
+
+        it('When create Then enable voteSender', function () {
+            var called = false;
+            voteSender.enable = function() {
+                called = true;
+            };
+
+            var vm = talkVote.create(5, 'hello');
+
+            called.should.be.true;
+        });
+
+        it('When vote Then send vote', function () {
+            var talkIdSended;
+            voteSender.send = function(talkId) {
+                talkIdSended = talkId;
+            };
+
+            var vm = talkVote.create(5, 'hello');
+
+            vm.vote();
+
+            talkIdSended.should.equal(5);
+        });
+
+        it('When votes Then send vote each votes', function () {
+            var calledNb = 0;
+            voteSender.send = function() {
+                calledNb++;
+            };
+
+            var vm = talkVote.create(5, 'hello');
+
+            vm.vote();
+            vm.vote();
+
+            calledNb.should.equal(2);
+        });
+
+        it('Given voteSender not connected When vote Then hasError is true and not vote', function () {
+            var called = false;
+            voteSender.send = function() {
+                called = true;
+            };
+            voteSender.isEnabled = function() { return false; };
+
+            var vm = talkVote.create(5, 'hello');
+
+            vm.vote();
+
+            vm.hasError().should.be.true;
+            called.should.be.false;
+            vm.happyLevel().should.equal(0);
+        });
+
+        it('Given voteSender connected When vote Then hasError is false', function () {
+            var vm = talkVote.create(5, 'hello');
+
+            vm.vote();
+
+            vm.hasError().should.be.false;
+        });
+
+        it('When create Then hasError is false', function () {
+            var vm = talkVote.create(5, 'hello');
+
+            vm.hasError().should.be.false;
         });
     });
 });
