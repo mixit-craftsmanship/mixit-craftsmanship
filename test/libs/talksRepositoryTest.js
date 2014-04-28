@@ -1,17 +1,17 @@
 var talksRepository = require('../../libs/talksRepository');
 var mixitApi = require('../../libs/mixitApi');
-var Promise = require('promise');
+var promise = require('promise');
 var timekeeper = require('timekeeper');
 
-describe('Talks controller', function() {
-    var now = new Date(2014, 3, 29, 9, 25);
+describe('Talks repository', function() {
+    var now = new Date("2014-03-29T09:25:00.000+02:00");
 
     var result;
     beforeEach(function(){
         result = [{"id":540,"title":"Biotech breaks free!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829,830,808,827],"speakers":[1066],"format":"Keynote","level":"Beginner",
             "start":"2014-04-29T09:15:00.000+02:00","end":"2014-04-29T09:40:00.000+02:00","room":"Grand Amphi"}];
         mixitApi.talks = function() {
-            return Promise.resolve(result);
+            return promise.resolve(result);
         };
 
         timekeeper.freeze(now);
