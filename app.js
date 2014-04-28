@@ -1,5 +1,4 @@
 var express = require('express');
-var user = require('./routes/user');
 var talks = require('./routes/talks');
 var http = require('http');
 var path = require('path');
@@ -34,7 +33,6 @@ var staticFile = function(path){
     };
 };
 
-app.get('/users', user.list);
 app.get('/api/talks/current', talks.list);
 
 var env = process.env.NODE_ENV || 'development';
