@@ -8,6 +8,10 @@ define(['knockout', 'libs/api'], function (ko, api) {
         self.select = function(){
             navigation.displayTalkVotePage(id, title);
         };
+
+        self.viewDetails = function(){
+            navigation.displayTalkDetail(id, title);
+        };
     };
 
     var viewmodel = function(navigation){

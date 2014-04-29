@@ -10,3 +10,9 @@ exports.talks = function(){
         return get("/api/talks");
     });
 };
+
+exports.talk = function (talkId) {
+    return cache.getOrExecute("talk" + talkId, function() {
+        return get("/api/talks/" + talkId + "?details=true")
+    })
+};

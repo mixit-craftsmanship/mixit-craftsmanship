@@ -2,10 +2,9 @@ var mixitApi = require('./mixitApi');
 var _ = require('underscore');
 
 exports.getTalk = function (talkId) {
-    return mixitApi.talks().then(function (talks) {
-        var talk = _.findWhere(talks, { id: talkId });
+    return mixitApi.talk(talkId).then(function (talk) {
         if(talk === undefined){
-            throw 'Talk id ' + talkId + ' is invalid';
+            throw 'Talk id ' + talkId + ' not found';
         }
 
         var start = talk.start && new Date(talk.start);
@@ -13,10 +12,17 @@ exports.getTalk = function (talkId) {
         return {
             id: talk.id,
             title: talk.title,
-            description: talk.description,
+            summary: talk.summary,
             room: talk.room,
             start: start,
-            end: end
+            end: end,
+            speakers: _.map(talk.speakers, function(item) {
+                return {
+                    firstname: item.firstname,
+                    lastname: item.lastname,
+                    image: item.urlimage
+                };
+            })
         };
     });
 };
