@@ -1,15 +1,6 @@
 var mongoClient = require('mongodb').MongoClient;
+var configuration = require('./globalConfiguration').mongo;
 var promise = require('promise');
-
-var configuration = {
-    collection: 'talkVole',
-    uri: 'mongodb://localhost/mixit',
-    enabled: false
-};
-
-exports.configuration = function(config){
-    configuration = config;
-};
 
 var insertInCollection = function(collection, item){
     return new promise(function(resolve){
@@ -27,15 +18,15 @@ var hasItems = function(items){
     return false;
 };
 
-var connectAndInsert = function(items){
+var connectAndInsert = function(collectionName, items){
     if(!hasItems(items)) {
         return;
     }
 
-    mongoClient.connect(configuration.uri, function(err, db) {
+    mongoClient.connect(configuration.getUri(), function(err, db) {
         if(err) throw err;
 
-        var collection = db.collection(configuration.collection);
+        var collection = db.collection(collectionName);
 
         var promises = [];
         for(var key in items){
@@ -50,10 +41,14 @@ var connectAndInsert = function(items){
     });
 };
 
-exports.insertItems = function(items){
-    if(!configuration.enabled){
+exports.insertItems = function(collectionName, items){
+    if(!configuration.isEnabled()){
         return;
     }
 
-    connectAndInsert(items);
+    if(!collectionName){
+        throw 'Collection name cannot empty';
+    }
+
+    connectAndInsert(collectionName, items);
 };

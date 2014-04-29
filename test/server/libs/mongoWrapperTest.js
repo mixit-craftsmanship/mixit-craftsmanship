@@ -1,41 +1,38 @@
 var mongoWrapper = require('../../../libs/mongoWrapper');
 var mongoClient = require('mongodb').MongoClient;
+var configuration = require('../../../libs/globalConfiguration').mongo;
 
 describe('Mongo wrapper', function() {
     var oldMongoClient = mongoClient.connect;
+    var oldConfigurationIsEnabled = configuration.isEnabled;
+    var oldConfigurationGetUri = configuration.getUri;
     after(function () {
         mongoClient.connect = oldMongoClient;
+        configuration.isEnabled = oldConfigurationIsEnabled;
+        configuration.getUri = oldConfigurationGetUri;
     });
 
     var called = false;
-    before(function(){
+    beforeEach(function() {
+        configuration.isEnabled = function() { return true; };
+        configuration.getUri = function() { return 'mongodb://localhost/mixit'; };
+
+        called = false;
         mongoClient.connect = function(){
             called = true;
         };
     });
 
-    var configuration;
-    beforeEach(function() {
-        configuration = {
-            collection: 'talkVole',
-            uri: 'mongodb://localhost/mixit',
-            enabled: true
-        };
-
-        called = false;
-        mongoWrapper.configuration(configuration);
-    });
-
     it('When insert without items Then not insert in database', function () {
-        mongoWrapper.insertItems([]);
+        mongoWrapper.insertItems('collectionA', []);
 
         called.should.be.false;
     });
 
     it('Given disable in configuration When insert Then not insert in database', function () {
-        configuration.enabled = false;
+        configuration.isEnabled = function() { return false; };
 
-        mongoWrapper.insertItems([5, 6]);
+        mongoWrapper.insertItems('collectionA', [5, 6]);
 
         called.should.be.false;
     });
@@ -46,9 +43,9 @@ describe('Mongo wrapper', function() {
             uriUsed = uri;
         };
 
-        mongoWrapper.insertItems([5, 6]);
+        mongoWrapper.insertItems('collectionA', [5, 6]);
 
-        uriUsed.should.equal(configuration.uri);
+        uriUsed.should.equal(configuration.getUri());
     });
 
     it('When connect Then open good collection', function () {
@@ -61,9 +58,9 @@ describe('Mongo wrapper', function() {
             })
         };
 
-        mongoWrapper.insertItems([5, 6]);
+        mongoWrapper.insertItems('collectionA', [5, 6]);
 
-        collectionUsed.should.equal(configuration.collection);
+        collectionUsed.should.equal('collectionA');
     });
 
     it('When insert array Then insert in collection each items', function () {
@@ -80,7 +77,7 @@ describe('Mongo wrapper', function() {
             })
         };
 
-        mongoWrapper.insertItems([5, 6]);
+        mongoWrapper.insertItems('collectionA', [5, 6]);
 
         itemsAdded.should.containEql(5);
         itemsAdded.should.containEql(6);
@@ -100,7 +97,7 @@ describe('Mongo wrapper', function() {
             })
         };
 
-        mongoWrapper.insertItems({ item1: "hello", item2: "hello2" });
+        mongoWrapper.insertItems('collectionA', { item1: "hello", item2: "hello2" });
 
         itemsAdded.should.containEql("hello");
         itemsAdded.should.containEql("hello2");
@@ -127,8 +124,14 @@ describe('Mongo wrapper', function() {
             })
         };
 
-        mongoWrapper.insertItems({ item1: "hello", item2: "hello2" });
+        mongoWrapper.insertItems('collectionA', { item1: "hello", item2: "hello2" });
 
         addedItemsNb.should.equal(2);
+    });
+
+    it('When insert without collection name Then raise exception', function () {
+        (function() {
+            mongoWrapper.insertItems('collectionA', [5,6]);
+        }).should.throw;
     });
 });
