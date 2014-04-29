@@ -13,9 +13,9 @@ define(['sammy', 'viewModels/home', 'viewModels/about', 'viewModels/talkVote'], 
                 setCurrentPage(aboutViewModel.create());
             });
 
-            this.get(talkVoteUrl + ":talkId", function() {
+            this.get(talkVoteUrl + ":talkId/:talkTitle", function() {
                 var params = this.params;
-                setCurrentPage(talkVoteViewModel.create(params.talkId));
+                setCurrentPage(talkVoteViewModel.create(params.talkId, params.talkTitle));
             });
         });
     };
@@ -47,7 +47,8 @@ define(['sammy', 'viewModels/home', 'viewModels/about', 'viewModels/talkVote'], 
         };
 
         self.displayTalkVotePage = function(talkId, talkTitle){
-            changeCurrentUrl(talkVoteUrl + talkId);
+            var titleEncoded = encodeURIComponent(talkTitle);
+            changeCurrentUrl(talkVoteUrl + talkId + "/" + titleEncoded);
         };
     };
 

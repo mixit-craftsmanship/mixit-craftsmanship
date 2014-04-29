@@ -46,8 +46,8 @@ define(['viewModels/home', 'libs/api'], function(home, api) {
             var vm = home.create();
 
             currentTalksCallBack([
-                {id: 2, title:'Talk A', room:'Room A', description:'Description A'},
-                {id: 3, title:'Talk B', room:'Room B', description:'Description B'}
+                {id: 2, title:'Talk A', room:'Room A'},
+                {id: 3, title:'Talk B', room:'Room B'}
             ]);
 
             vm.talks().length.should.equal(2);
@@ -55,24 +55,21 @@ define(['viewModels/home', 'libs/api'], function(home, api) {
             var talk = vm.talks()[0];
             talk.id.should.equal(2);
             talk.title.should.equal('Talk A');
-            talk.description.should.equal('Description A');
 
             talk = vm.talks()[1];
             talk.id.should.equal(3);
             talk.title.should.equal('Talk B');
-            talk.description.should.equal('Description B');
         });
 
         it('When call select on a talk Then display talkVote page', function () {
             var navigation = {
-                displayTalkVotePage: function(id, title, description){
+                displayTalkVotePage: function(id, title){
                     id.should.equal(3);
                     title.should.equal('Talk A');
-                    description.should.equal('Description A');
                 }
             };
             var vm = home.create(navigation);
-            currentTalksCallBack([{id: 3, title:'Talk A', room:'Room A', description: "Description A"}]);
+            currentTalksCallBack([{id: 3, title:'Talk A', room:'Room A'}]);
 
             vm.talks().length.should.equal(1);
             var talk = vm.talks()[0];

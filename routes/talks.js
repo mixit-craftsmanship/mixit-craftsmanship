@@ -12,14 +12,12 @@ var list = function (req, res) {
 };
 
 var get = function (req, res) {
-    apiServer.disableCache(res);
-
     talksRepository.getTalk(req.params('id')).then(function (talk) {
         res.send(talk);
     }).catch(function(error){
         res.send(500, error);
     });
-}
+};
 
 exports.register = function(app){
     app.get('/api/talks/current', list);
