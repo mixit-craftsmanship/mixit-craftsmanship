@@ -7,10 +7,12 @@
     <p>UserVoice vous permet de soumettre une idée rapidement depuis n'importe quelle page de l'application Mix-IT Now (icône idée).
         N'hésitez pas à vous rendre sur le <a href="http://mixit-craftsmanship.uservoice.com">site UserVoice dédié à l'application</a> pour voter pour les idées que vous préférez !
         Les artisans de l'atelier tenteront de satisfaire au mieux leurs utilisateurs !</p>
+    <h2>Venez nous voir au premier étage à droite, et profitez du fablab avec l'atelier "des Bits aux atomes" aussi.</h2>
     <p class="text-right">Application version <span data-bind="text: applicationVersion"></span></p>
 </div></script>
 <script type="text/template" id="homeTemplate"><div class="row">
-    <h1 class="col-lg-12 text-center">Votez en continue les sessions !</h1>
+    <p class="col-lg-12 text-center"><a href="/#/about"><strong>J'ai rien compris à l'atelier...</strong></a></p>
+    <h1 class="col-lg-12 text-center">Votez en continu les sessions !</h1>
     <p class="col-lg-12 text-center" data-bind="ifnot: waiting">Pour cela, indiquez où vous vous trouvez :</p>
     <div class="col-lg-12 text-center" data-bind="if: waiting">
         <p>Chargement en cours des conférences...</p>
@@ -32,7 +34,7 @@
         <br />
         <br />
         <p>A <b>chaque moment</b> qu'une chose vous plaît, <b>cliquez</b> sur "+1". Plus vous êtes heureux, plus vous devez cliquer.</p>
-        <p>Une courbe pour chaque session indiquera l'évolution des votes au cours du temps. Aidez le speaker a être dans le top vote.</p>
+        <p>Une courbe pour chaque session indiquera l'évolution des votes au cours du temps. Aidez le speaker à être dans le top vote.</p>
     </div>
 
     <div class="col-lg-12 text-center" data-bind="ifnot: connected">
