@@ -1,4 +1,4 @@
-var mongoClient = require('mongodb').MongoClient;
+var mongoWrapper = require('./mongoWrapper');
 var promise = require('promise');
 var timerFactory = require('./timer');
 
@@ -6,51 +6,13 @@ var storeTimer;
 var votes = {};
 
 var configuration = {
-    collection: 'talkVole',
-    uri: 'mongodb://localhost/mixit',
-    delay: 10000
-};
-
-var insertInCollection = function(collection, item){
-    return new promise(function(resolve, reject){
-        collection.insert(item, function(){
-            resolve(item.key);
-        });
-    });
-};
-
-var pushToMongo = function(votesToSaved){
-    var hasItems;
-
-    for(var key in votesToSaved){
-        hasItems = true;
-        break;
-    }
-
-    if(!hasItems) {
-        return;
-    }
-
-    mongoClient.connect(configuration.uri, function(err, db) {
-        if(err) throw err;
-
-        var collection = db.collection(configuration.collection);
-
-        var promises = [];
-        for(var key in votesToSaved){
-            promises.push(insertInCollection(collection, votesToSaved[key]));
-        }
-
-        promise.all(promises).then(function(){
-            db.close();
-        });
-    });
+    collection: 'talkVole'
 };
 
 var store = function(){
     var oldVotes = votes;
     votes = {};
-    pushToMongo(oldVotes);
+    mongoWrapper.insertItems(configuration.collection, oldVotes);
 };
 
 var generateItem = function(talkId){
@@ -78,9 +40,11 @@ exports.save = function(talkId, votesNb){
     votes[key].nb += votesNb;
 };
 
-exports.configuration = function(uri){
-    configuration.uri = uri;
+exports.configuration = function(storeDelay){
+    if(storeTimer != undefined){
+        storeTimer.stop();
+    }
 
-    storeTimer = timerFactory.create(configuration.delay, store);
+    storeTimer = timerFactory.create(storeDelay, store);
     storeTimer.start();
 };

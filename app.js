@@ -12,6 +12,7 @@ var talksRoute = require('./routes/talks');
 var talkVotesRoute = require('./routes/talkVotes');
 var applicationVersionRoute = require('./routes/applicationVersion');
 var votesStore = require('./libs/votesStore');
+var configuration = require('./configuration');
 
 var app = express();
 
@@ -39,5 +40,8 @@ server.listen(app.get('port'), function(){
 talkVotesRoute.register(socketIO.sockets);
 
 if(process.env.MONGO_MIXIT){
-    votesStore.configuration(process.env.MONGO_MIXIT);
+    console.log('initialize mongodb');
+
+    configuration.mongoConfiguration.uri = process.env.MONGO_MIXIT;
+    votesStore.configuration(1000);
 }
