@@ -1,18 +1,15 @@
 var mongoWrapper = require('./mongoWrapper');
 var promise = require('promise');
 var timerFactory = require('./timer');
+var mongoConfiguration = require('./globalConfiguration').mongo;
 
 var storeTimer;
 var votes = {};
 
-var configuration = {
-    collection: 'talkVole'
-};
-
 var store = function(){
     var oldVotes = votes;
     votes = {};
-    mongoWrapper.insertItems(configuration.collection, oldVotes);
+    mongoWrapper.insertItems(mongoConfiguration.getTalkVotesCollectionName(), oldVotes);
 };
 
 var generateItem = function(talkId){

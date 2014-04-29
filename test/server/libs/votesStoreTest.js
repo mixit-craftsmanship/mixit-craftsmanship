@@ -1,13 +1,17 @@
 var votesStore = require('../../../libs/votesStore');
 var mongoWrapper = require('../../../libs/mongoWrapper');
 var timer = require('../../../libs/timer');
+var mongoConfiguration = require('../../../libs/globalConfiguration').mongo;
 var timekeeper = require('timekeeper');
 
 describe('Votes store module', function() {
     var oldMongoWrapperInsertItems = mongoWrapper.insertItems;
     var oldTimerCreate = timer.create;
+    var oldConfigurationGetCollectioName = mongoConfiguration.getTalkVotesCollectionName;
     after(function () {
         timer.create = oldTimerCreate;
+        mongoWrapper.insertItems = oldMongoWrapperInsertItems;
+        mongoConfiguration.getTalkVotesCollectionName = oldConfigurationGetCollectioName;
     });
 
     var now = new Date("2014-04-29T09:25:00.000+02:00");
@@ -108,6 +112,9 @@ describe('Votes store module', function() {
     });
 
     it('When store Then store in talkVole collection', function () {
+        mongoConfiguration.getTalkVotesCollectionName = function(){
+            return 'talkVote';
+        };
         votesStore.configuration(1000);
         var collectionNameUsed;
         mongoWrapper.insertItems = function (collectionName, items) {
@@ -117,7 +124,7 @@ describe('Votes store module', function() {
         votesStore.save(5, 2);
         endTimer();
 
-        collectionNameUsed.should.equal('talkVole');
+        collectionNameUsed.should.equal('talkVote');
     });
 
     it('When store Then store by interval of 5s', function () {
