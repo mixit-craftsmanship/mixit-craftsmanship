@@ -1,5 +1,13 @@
 require.config({
-    baseUrl: 'javascripts'
+    baseUrl: 'javascripts',
+    shim: {
+        sammy: {
+            deps: ['jquery']
+        },
+        bootstrap: {
+            deps: ['jquery']
+        }
+    }
 });
 
 require(["main"], function(main) {

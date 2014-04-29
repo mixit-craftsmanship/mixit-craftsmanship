@@ -30,6 +30,10 @@ var libsConfiguration = {
         }
     },
     bootstrap: {
+        javascript: {
+            local: 'bower_components/bootstrap/dist/js/bootstrap.js',
+            dist: 'http://ajax.aspnetcdn.com/ajax/bootstrap/3.1.1/bootstrap.min.js'
+        },
         stylesheet: {
             local: 'bower_components/bootstrap/dist/css/bootstrap.css',
             dist: 'http://ajax.aspnetcdn.com/ajax/bootstrap/3.1.1/css/bootstrap.min.css'
