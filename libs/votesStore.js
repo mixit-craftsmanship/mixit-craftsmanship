@@ -38,7 +38,7 @@ exports.save = function(talkId, votesNb){
 };
 
 exports.configuration = function(storeDelay){
-    if(storeTimer != undefined){
+    if(storeTimer !== undefined){
         storeTimer.stop();
     }
 

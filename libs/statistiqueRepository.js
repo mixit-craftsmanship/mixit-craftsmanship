@@ -12,7 +12,7 @@ var cloneAndReformatPeriod = function(item){
 };
 
 exports.getStatistiqueByTalksAndMinutes = function(){
-    return mongoWrapper.getAllItemsOfCollection(mongoConfiguration.getTalkVotesCollectionName()).then(function(result){
+    return mongoWrapper.getVoteStatistiques(mongoConfiguration.getTalkVotesCollectionName()).then(function(result){
         var itemsWithoutSeconds = _.map(result, cloneAndReformatPeriod);
         var itemsGroupByTalkIdAndDate = _.groupBy(itemsWithoutSeconds, function(item){
             return item.talkId + '-' + item.day + '-' + item.hour + '-' + item.minute;

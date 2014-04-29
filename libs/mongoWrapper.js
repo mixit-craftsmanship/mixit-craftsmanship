@@ -18,14 +18,20 @@ var hasItems = function (items) {
     return false;
 };
 
-var connectAndInsert = function (collectionName, items) {
-    if (!hasItems(items)) {
+var connect = function(callback){
+    mongoClient.connect(configuration.getUri(), function(err, db){
+        if(err) throw err;
+
+        callback(db);
+    });
+};
+
+var connectAndInsert = function(collectionName, items){
+    if(!hasItems(items)) {
         return;
     }
 
-    mongoClient.connect(configuration.getUri(), function (err, db) {
-        if (err) throw err;
-
+    connect(function(db) {
         var collection = db.collection(collectionName);
 
         var promises = [];
@@ -53,10 +59,8 @@ exports.insertItems = function (collectionName, items) {
     connectAndInsert(collectionName, items);
 };
 
-exports.queryStats = function (collectionName) {
-    mongoClient.connect(configuration.getUri(), function (err, db) {
-        if (err) throw err;
-
+exports.getVoteStatistiques = function (collectionName) {
+    connect(function (db) {
         var collection = db.collection(collectionName);
 
         return collection.aggregate([
@@ -70,9 +74,7 @@ exports.queryStats = function (collectionName) {
                         "$subtract": [
                             "$minute",
                             {"$mod": [
-
-                                "$minute"
-                                ,
+                                "$minute",
                                 20
                             ]}
                         ]

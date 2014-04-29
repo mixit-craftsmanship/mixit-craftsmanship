@@ -4,10 +4,9 @@ var mongoConfiguration = require('../../../libs/globalConfiguration').mongo;
 var promise = require('promise');
 
 describe('Statistique repository', function() {
-    var oldGetAllItemsOfCollection = mongoWrapper.getAllItemsOfCollection;
-    var oldConfigurationGetCollectionName = mongoConfiguration.getTalkVotesCollectionName;
+    var oldGetVoteStatistiques = mongoWrapper.getVoteStatistiques;
     after(function () {
-        mongoWrapper.getAllItemsOfCollection = oldGetAllItemsOfCollection;
+        mongoWrapper.getVoteStatistiques = oldGetVoteStatistiques;
         mongoConfiguration.getTalkVotesCollectionName = oldConfigurationGetCollectionName;
     });
 
