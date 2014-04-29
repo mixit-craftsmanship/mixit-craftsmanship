@@ -40,3 +40,20 @@ exports.currentTalks = function () {
         });
     });
 };
+
+exports.nextTalks = function () {
+    return mixitApi.talks().then(function (talks) {
+        var now = new Date();
+        return _.chain(talks).filter(function (item) {
+            return item.start !== undefined && new Date(item.start) > now;
+        }).sortBy(function (item) {
+            return new Date(item.start).getTime();
+        }).map(function (item) {
+            return {
+                id: item.id,
+                title: item.title,
+                room: item.room
+            };
+        }).value();
+    });
+};

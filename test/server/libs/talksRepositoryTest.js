@@ -2,6 +2,7 @@ var talksRepository = require('../../../libs/talksRepository');
 var mixitApi = require('../../../libs/mixitApi');
 var promise = require('promise');
 var timekeeper = require('timekeeper');
+var _ = require('underscore');
 
 describe('Talks repository', function() {
     var oldMixitApiTalks = mixitApi.talks;
@@ -11,10 +12,20 @@ describe('Talks repository', function() {
 
     var now = new Date("2014-04-29T09:25:00.000+02:00");
 
+    var talksContainsTalkWithId = function(talks, id) {
+        _.filter(talks, function(talk) {
+            return talk.id == id;
+        }).should.have.length(1);
+    };
+
     var result;
     beforeEach(function(){
         result = [{"id":540,"title":"Biotech breaks free!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829,830,808,827],"speakers":[1066],"format":"Keynote","level":"Beginner",
-            "start":"2014-04-29T09:15:00.000+02:00","end":"2014-04-29T09:40:00.000+02:00","room":"Grand Amphi"}];
+            "start":"2014-04-29T09:15:00.000+02:00","end":"2014-04-29T09:40:00.000+02:00","room":"Grand Amphi"},
+                 {"id":440,"title":"Back to the future!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
+            "start":"2014-04-29T14:30:00.000+02:00","end":"2014-04-29T14:40:00.000+02:00","room":"Grand Amphi"},
+                 {"id":441,"title":"I've seen the future, it's in my browser!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
+            "start":"2014-04-29T13:30:00.000+02:00","end":"2014-04-29T13:40:00.000+02:00","room":"Petit Amphi"}];
         mixitApi.talks = function() {
             return promise.resolve(result);
         };
@@ -151,6 +162,23 @@ describe('Talks repository', function() {
             talksRepository.getTalk(540).then(function (talk) {
                 (talk.start === undefined).should.be.true;
                 (talk.end === undefined).should.be.true;
+                done();
+            }).catch(done);
+        });
+    });
+    describe('When get next talks', function() {
+        it('returns coming talks', function (done) {
+            talksRepository.nextTalks().then(function (talks) {
+                talks.should.have.length(2);
+                talksContainsTalkWithId(talks, 440);
+                talksContainsTalkWithId(talks, 441);
+                done();
+            }).catch(done);
+        });
+        it('order coming talks properly', function (done) {
+            talksRepository.nextTalks().then(function (talks) {
+                talks[0].id.should.be.exactly(441);
+                talks[1].id.should.be.exactly(440);
                 done();
             }).catch(done);
         });

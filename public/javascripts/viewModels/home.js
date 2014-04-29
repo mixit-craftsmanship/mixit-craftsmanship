@@ -16,6 +16,7 @@ define(['knockout', 'libs/api'], function (ko, api) {
         self.templateName = "homeTemplate";
 
         self.talks = ko.observableArray();
+        self.nextTalks = ko.observableArray();
         self.waiting = ko.observable(true);
 
         api.currentTalks().done(function(result){
@@ -25,6 +26,13 @@ define(['knockout', 'libs/api'], function (ko, api) {
             self.talks(talkViewModels);
 
             self.waiting(false);
+        });
+
+        api.nextTalks().done(function(result){
+            var nextTalkViewModels = ko.utils.arrayMap(result, function(item){
+                return new talkViewModel(item.id, item.title, navigation);
+            });
+            self.nextTalks(nextTalkViewModels);
         });
     };
 
