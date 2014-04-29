@@ -45,7 +45,9 @@ exports.nextTalks = function () {
     return mixitApi.talks().then(function (talks) {
         var now = new Date();
         return _.chain(talks).filter(function (item) {
-            return item.start !== undefined && new Date(item.start) > now;
+            var itemStart = new Date(item.start);
+            var nowPlusOneHour = new Date(now).setMinutes(now.getMinutes() + 60);
+            return item.start !== undefined && itemStart > now && itemStart < nowPlusOneHour;
         }).sortBy(function (item) {
             return new Date(item.start).getTime();
         }).map(function (item) {
