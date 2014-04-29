@@ -13,6 +13,7 @@ exports.getTalk = function (talkId) {
         return {
             id: talk.id,
             title: talk.title,
+            description: talk.description,
             room: talk.room,
             start: start,
             end: end
@@ -33,6 +34,7 @@ exports.currentTalks = function () {
             return {
                 id: item.id,
                 title: item.title,
+                description: item.description,
                 room: item.room
             };
         });
