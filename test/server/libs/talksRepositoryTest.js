@@ -22,10 +22,12 @@ describe('Talks repository', function() {
     beforeEach(function(){
         result = [{"id":540,"title":"Biotech breaks free!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829,830,808,827],"speakers":[1066],"format":"Keynote","level":"Beginner",
             "start":"2014-04-29T09:15:00.000+02:00","end":"2014-04-29T09:40:00.000+02:00","room":"Grand Amphi"},
+                {"id":440,"title":"Back to the future!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
+            "start":"2014-04-29T16:30:00.000+02:00","end":"2014-04-29T16:40:00.000+02:00","room":"Grand Amphi"},
                  {"id":440,"title":"Back to the future!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
-            "start":"2014-04-29T14:30:00.000+02:00","end":"2014-04-29T14:40:00.000+02:00","room":"Grand Amphi"},
+            "start":"2014-04-29T10:00:00.000+02:00","end":"2014-04-29T10:10:00.000+02:00","room":"Grand Amphi"},
                  {"id":441,"title":"I've seen the future, it's in my browser!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
-            "start":"2014-04-29T13:30:00.000+02:00","end":"2014-04-29T13:40:00.000+02:00","room":"Petit Amphi"}];
+            "start":"2014-04-29T09:30:00.000+02:00","end":"2014-04-29T09:40:00.000+02:00","room":"Petit Amphi"}];
         mixitApi.talks = function() {
             return promise.resolve(result);
         };
@@ -166,8 +168,9 @@ describe('Talks repository', function() {
             }).catch(done);
         });
     });
+
     describe('When get next talks', function() {
-        it('returns coming talks', function (done) {
+        it('returns coming talks within 1 hour', function (done) {
             talksRepository.nextTalks().then(function (talks) {
                 talks.should.have.length(2);
                 talksContainsTalkWithId(talks, 440);
@@ -175,6 +178,7 @@ describe('Talks repository', function() {
                 done();
             }).catch(done);
         });
+
         it('order coming talks properly', function (done) {
             talksRepository.nextTalks().then(function (talks) {
                 talks[0].id.should.be.exactly(441);
