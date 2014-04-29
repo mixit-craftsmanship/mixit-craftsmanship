@@ -25,7 +25,9 @@ exports.currentTalks = function () {
     return mixitApi.talks().then(function (talks) {
         var now = new Date();
         return _.filter(talks, function (item) {
-            if (item.end !== undefined && new Date(item.end) < now) {
+            var itemEndPlusTenMin = new Date(item.end);
+            itemEndPlusTenMin.setMinutes(itemEndPlusTenMin.getMinutes() + 10);
+            if (item.end !== undefined && itemEndPlusTenMin < now) {
                 return false;
             }
 
