@@ -1,10 +1,16 @@
 define(['knockout', 'libs/timer', 'libs/voteSender'], function (ko, timerFactory, voteSender) {
-    var viewmodel = function(talkId, talkTitle){
+    var viewmodel = function(talkId){
         var self = this;
+
+        console.log("coucou");
+        // api.getTalk(talkId).done(function(result){
+        //     console.log("end");
+        //     self.talkTitle = result.talkTitle;
+        //     self.talkDescription = result.talkDescription;
+        // });
 
         self.templateName = "talkVoteTemplate";
         self.talkId = talkId;
-        self.talkTitle = talkTitle;
 
         self.hasError = ko.observable(false);
         self.connected = ko.observable(false);
