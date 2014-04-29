@@ -13,9 +13,10 @@ C'est une application basée sur :
 Structuration de l'application
 ------------------------------
 |- libs contient les modules Node.js côté serveurs
-|- public contient les modules RequireJS côté client
+|- public/javascripts contient les modules RequireJS côté client
 | |- libs contient les modules d'accès à l'API serveur
 | '- viewModels contient les modules représentant les View Models utilisés par Knockout
+|- public/templates contient les templates des vues
 |- routes contient les controlleurs (MVC) utilisés par Express
 |- views contient les vues (MVC) utilisées par Express
 |- test contient les tests unitaires

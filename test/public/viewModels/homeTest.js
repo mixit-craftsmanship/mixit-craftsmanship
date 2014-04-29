@@ -1,16 +1,26 @@
 define(['viewModels/home', 'libs/api'], function(home, api) {
     describe('Home ViewModels', function () {
         var oldApiCurrentTalks = api.currentTalks;
+        var oldApiNextTalks = api.nextTalks;
         after(function(){
             api.currentTalks = oldApiCurrentTalks;
+            api.nextTalks = oldApiNextTalks;
         });
 
         var currentTalksCallBack;
+        var nextTalksCallBack;
         before(function(){
             api.currentTalks = function(){
                 return {
                     done: function(callBack) {
                         currentTalksCallBack = callBack;
+                    }
+                };
+            };
+            api.nextTalks = function(){
+                return {
+                    done: function(callBack) {
+                        nextTalksCallBack = callBack;
                     }
                 };
             };
@@ -57,6 +67,25 @@ define(['viewModels/home', 'libs/api'], function(home, api) {
             talk.title.should.equal('Talk A');
 
             talk = vm.talks()[1];
+            talk.id.should.equal(3);
+            talk.title.should.equal('Talk B');
+        });
+
+        it('When receive next talks Then populate nextTalks property', function () {
+            var vm = home.create();
+
+            nextTalksCallBack([
+                {id: 2, title:'Talk A', room:'Room A'},
+                {id: 3, title:'Talk B', room:'Room B'}
+            ]);
+
+            vm.nextTalks().length.should.equal(2);
+
+            var talk = vm.nextTalks()[0];
+            talk.id.should.equal(2);
+            talk.title.should.equal('Talk A');
+
+            talk = vm.nextTalks()[1];
             talk.id.should.equal(3);
             talk.title.should.equal('Talk B');
         });
