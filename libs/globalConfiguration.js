@@ -87,5 +87,8 @@ exports.mongo = {
     },
     isEnabled: function(){
         return !!mongoConfiguration.uri && mongoConfiguration.uri.length > 1;
+    },
+    getTalkVotesCollectionName: function(){
+        return configuration.mongoConfiguration.talkVotesCollectionName;
     }
 };

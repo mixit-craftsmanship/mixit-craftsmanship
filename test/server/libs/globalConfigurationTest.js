@@ -124,4 +124,12 @@ describe('Given a global configuration', function () {
 
         result.should.be.false;
     });
+
+    it('When getTalkVotesCollectionName Then return talk vote collection of configuration', function () {
+        configuration.mongoConfiguration.talkVotesCollectionName = 'talkVote';
+
+        var result = globalConfiguration.mongo.getTalkVotesCollectionName();
+
+        result.should.equal('talkVote');
+    });
 });

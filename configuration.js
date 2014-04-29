@@ -56,5 +56,6 @@ exports.libsConfiguration = libsConfiguration;
 exports.directoriesConfiguration = directoriesConfiguration;
 exports.version = "0.0.3";
 exports.mongoConfiguration = {
+    talkVotesCollectionName: 'talkVole'
 //    uri: 'mongodb://localhost/mixit'
 };
