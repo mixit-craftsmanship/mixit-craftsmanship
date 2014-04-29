@@ -27,7 +27,9 @@ describe('Talks repository', function() {
                  {"id":440,"title":"Back to the future!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
             "start":"2014-04-29T10:00:00.000+02:00","end":"2014-04-29T10:10:00.000+02:00","room":"Grand Amphi"},
                  {"id":441,"title":"I've seen the future, it's in my browser!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
-            "start":"2014-04-29T09:30:00.000+02:00","end":"2014-04-29T09:40:00.000+02:00","room":"Petit Amphi"}];
+            "start":"2014-04-29T09:30:00.000+02:00","end":"2014-04-29T09:40:00.000+02:00","room":"Petit Amphi"},
+                {"id":442,"title":"9 min past session !","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
+            "start":"2014-04-29T09:10:00.000+02:00","end":"2014-04-29T09:16:00.000+02:00","room":"Petit Amphi"}];
         mixitApi.talks = function() {
             return promise.resolve(result);
         };
@@ -36,28 +38,38 @@ describe('Talks repository', function() {
     });
 
     describe('When get current talks', function() {
-        it('Then return current talks list', function (done) {
+        it('Then return current talks list and talk 10 min before', function (done) {
             talksRepository.currentTalks().then(function (talks) {
-                talks.should.have.length(1);
+                talks.should.have.length(2);
                 done();
             }).catch(done);
         });
 
-        it('Given talks without start and talk is not ended Then return this talk', function (done) {
+        it('Given talks without start and talk is not ended pass 10 minutes Then return this talk', function (done) {
             delete result[0].start;
 
             talksRepository.currentTalks().then(function (talks) {
-                talks.should.have.length(1);
+                talks.should.have.length(2);
                 done();
             }).catch(done);
         });
+
+        it('Given talks without end and talk is started Then return this talk', function (done) {
+            delete result[0].end;
+
+            talksRepository.currentTalks().then(function (talks) {
+                talks.should.have.length(2);
+                done();
+            }).catch(done);
+        });
+
 
         it('Given talks without start and talk is ended Then do not return this talk', function (done) {
             delete result[0].start;
             result[0].end = "2014-04-29T08:40:00.000+02:00";
 
             talksRepository.currentTalks().then(function (talks) {
-                talks.should.have.length(0);
+                talks.should.have.length(1);
                 done();
             }).catch(done);
         });
@@ -67,7 +79,7 @@ describe('Talks repository', function() {
             result[0].start = "2014-04-29T10:40:00.000+02:00";
 
             talksRepository.currentTalks().then(function (talks) {
-                talks.should.have.length(0);
+                talks.should.have.length(1);
                 done();
             }).catch(done);
         });
@@ -76,7 +88,7 @@ describe('Talks repository', function() {
             delete result[0].end;
 
             talksRepository.currentTalks().then(function (talks) {
-                talks.should.have.length(1);
+                talks.should.have.length(2);
                 done();
             }).catch(done);
         });
@@ -86,7 +98,7 @@ describe('Talks repository', function() {
             delete result[0].start;
 
             talksRepository.currentTalks().then(function (talks) {
-                talks.should.have.length(1);
+                talks.should.have.length(2);
                 done();
             }).catch(done);
         });
@@ -96,7 +108,7 @@ describe('Talks repository', function() {
             delete result[0].start;
 
             talksRepository.currentTalks().then(function (talks) {
-                talks.should.have.length(1);
+                talks.should.have.length(2);
                 var talk = talks[0];
 
                 talk.id.should.equal(540);
