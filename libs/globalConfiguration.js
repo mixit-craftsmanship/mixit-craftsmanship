@@ -3,10 +3,12 @@ var _ = require('underscore');
 var configuration = require('../configuration');
 var libsConfiguration = configuration.libsConfiguration;
 var directoriesConfiguration = configuration.directoriesConfiguration;
+var mongoConfiguration = configuration.mongoConfiguration;
 
-exports.initialize = function(libs, directories) {
+exports.initialize = function(libs, directories, mongo) {
     libsConfiguration = libs;
     directoriesConfiguration = directories;
+    mongoConfiguration = mongo;
 };
 
 var getExternalJavascriptNames = function(){
@@ -76,5 +78,14 @@ exports.client = {
     },
     getApplicationVersion: function(){
         return configuration.version;
+    }
+};
+
+exports.mongo = {
+    getUri: function(){
+        return mongoConfiguration.uri;
+    },
+    isEnabled: function(){
+        return !!mongoConfiguration.uri && mongoConfiguration.uri.length > 1;
     }
 };

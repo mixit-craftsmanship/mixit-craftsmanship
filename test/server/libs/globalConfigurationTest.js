@@ -31,7 +31,7 @@ describe('Given a global configuration', function () {
             dev: './public/',
             dist: './publicBuild/'
         }
-    });
+    }, configuration.mongoConfiguration);
 
     it('When getExternalJavascriptsWithLocalPath Then return all external javascripts with name as key and path as value', function () {
         var result = globalConfiguration.client.getExternalJavascriptsWithLocalPath();
@@ -91,5 +91,37 @@ describe('Given a global configuration', function () {
 
         result.should.equal(configuration.version);
         (result.length >= 5).should.be.true;
+    });
+
+    it('When getUri of mongo Then return mongo uri', function () {
+        configuration.mongoConfiguration.uri = 'mongo://localhost';
+
+        var result = globalConfiguration.mongo.getUri();
+
+        result.should.equal(configuration.mongoConfiguration.uri);
+    });
+
+    it('Given mongo uri When call mongo is enabled Then return true', function () {
+        configuration.mongoConfiguration.uri = 'mongo://localhost';
+
+        var result = globalConfiguration.mongo.isEnabled();
+
+        result.should.be.true;
+    });
+
+    it('Given empty mongo uri When call mongo is enabled Then return false', function () {
+        configuration.mongoConfiguration.uri = '';
+
+        var result = globalConfiguration.mongo.isEnabled();
+
+        result.should.be.false;
+    });
+
+    it('Given empty mongo uri When call mongo is enabled Then return false', function () {
+        delete configuration.mongoConfiguration.uri;
+
+        var result = globalConfiguration.mongo.isEnabled();
+
+        result.should.be.false;
     });
 });
