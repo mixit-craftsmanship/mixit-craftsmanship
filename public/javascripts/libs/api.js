@@ -3,6 +3,9 @@ define(['jquery'], function ($) {
         currentTalks: function(){
             return $.get("/api/talks/current");
         },
+        nextTalks: function(){
+            return $.get("/api/talks/next");
+        },
         getTalk: function(id){
             return $.get("/api/talks/" + id);
         },
