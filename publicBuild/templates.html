@@ -11,7 +11,7 @@
     <p class="text-right">Application version <span data-bind="text: applicationVersion"></span></p>
 </div></script>
 <script type="text/template" id="homeTemplate"><div class="row">
-    <h1 class="col-lg-12 text-center">Votez en continu les sessions !</h1>
+    <h1 class="col-lg-12 text-center">Votez en continu pour les sessions !</h1>
     <p class="col-lg-12 text-center" data-bind="ifnot: waiting">Pour cela, indiquez où vous vous trouvez :</p>
     <div class="col-lg-12 text-center" data-bind="if: waiting">
         <p>Chargement en cours des conférences...</p>
@@ -23,10 +23,10 @@
     </div>
     <p class="col-lg-12 text-center"><a href="/#/about"><strong>En savoir plus sur le Crafting Workshop</strong></a></p>
 
-    <h1 class="col-lg-12 text-center">Les sessions à venir</h1>
+    <h1 class="col-lg-12 text-center">Les sessions à venir dans l'heure...</h1>
     <div data-bind="foreach: nextTalks" class="nextTalks">
         <div class="col-lg-6 col-md-12 col-sm-12">
-            <button type="button" class="btn btn-primary" data-bind="text: title, click: select"></button>
+            <button type="button" class="btn btn-primary" data-bind="text: title"></button>
         </div>
     </div>
 </div>
