@@ -38,6 +38,6 @@ server.listen(app.get('port'), function(){
 
 talkVotesRoute.register(socketIO.sockets);
 
-if(process.env.MONGO){
-    votesStore.configuration(process.env.MONGO);
+if(process.env.MONGO_MIXIT){
+    votesStore.configuration(process.env.MONGO_MIXIT);
 }
