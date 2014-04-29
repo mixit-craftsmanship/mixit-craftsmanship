@@ -78,7 +78,7 @@ describe('Talks repository', function() {
             }).catch(done);
         });
 
-        it('Given good talks Then return talks with id, title and room', function (done) {
+        it('Given good talks Then return talks with id, title, description and room', function (done) {
             delete result[0].end;
             delete result[0].start;
 
@@ -88,6 +88,7 @@ describe('Talks repository', function() {
 
                 talk.id.should.equal(540);
                 talk.title.should.equal("Biotech breaks free!");
+                talk.description.should.equal("[...]");
                 talk.room.should.equal("Grand Amphi");
 
                 done();

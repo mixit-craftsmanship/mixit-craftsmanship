@@ -1,12 +1,14 @@
 define(['knockout', 'libs/api'], function (ko, api) {
-    var talkViewModel = function(id, title, navigation){
+    var talkViewModel = function(id, title, description, navigation){
         var self = this;
 
         self.id = id;
         self.title = title;
+        self.description = description;
 
         self.select = function(){
-            navigation.displayTalkVotePage(id, title);
+            console.log(description);
+            navigation.displayTalkVotePage(id, title, description);
         };
     };
 
@@ -20,7 +22,7 @@ define(['knockout', 'libs/api'], function (ko, api) {
 
         api.currentTalks().done(function(result){
             var talkViewModels = ko.utils.arrayMap(result, function(item){
-                return new talkViewModel(item.id, item.title, navigation);
+                return new talkViewModel(item.id, item.title, item.description, navigation);
             });
             self.talks(talkViewModels);
 
