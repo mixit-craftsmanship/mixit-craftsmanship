@@ -16,3 +16,9 @@ exports.talk = function (talkId) {
         return get("/api/talks/" + talkId + "?details=true")
     })
 };
+
+exports.member = function (memberId) {
+    return cache.getOrExecute("members" + memberId, function() {
+        return get("/api/members/" + memberId)
+    })
+};
