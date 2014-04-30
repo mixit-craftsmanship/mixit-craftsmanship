@@ -81,3 +81,11 @@ exports.getTalkIds = function () {
         });
     });
 };
+
+exports.getTalksWithIdAndName = function () {
+    return mixitApi.talks().then(function (talks) {
+        return _.map(talks, function(item){
+            return { id: item.id, name: item.title };
+        });
+    });
+};
