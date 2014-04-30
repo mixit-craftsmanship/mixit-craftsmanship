@@ -1,5 +1,5 @@
-define(['knockout', 'libs/timer', 'libs/voteSender'], function (ko, timerFactory, voteSender) {
-    var viewmodel = function(talkId, talkTitle){
+define(['knockout', 'libs/timer', 'libs/voteSender', 'libs/api'], function (ko, timerFactory, voteSender, api) {
+    var viewmodel = function(talkId, talkTitle) {
         var self = this;
 
         self.templateName = "talkVoteTemplate";
@@ -11,9 +11,15 @@ define(['knockout', 'libs/timer', 'libs/voteSender'], function (ko, timerFactory
         self.talkEnded = ko.observable(false);
         self.happyLevel = ko.observable(0);
 
+				self.talkRoom = ko.observable();
+
+				api.getTalk(talkId).done(function(talk) {
+					self.talkRoom(talk.room);
+				});
+
         var voteNb = 0;
 
-        var updateHappyLevel = function(){
+        var updateHappyLevel = function() {
             if(voteNb > 8) self.happyLevel(5);
             else if(voteNb > 6) self.happyLevel(4);
             else if(voteNb > 4) self.happyLevel(3);
@@ -26,8 +32,8 @@ define(['knockout', 'libs/timer', 'libs/voteSender'], function (ko, timerFactory
 
         var timer = timerFactory.create(500, updateHappyLevel);
 
-        self.vote = function(){
-            if(!voteSender.isEnabled()){
+        self.vote = function() {
+            if(!voteSender.isEnabled()) {
                 self.hasError(true);
                 return;
             }
@@ -41,17 +47,17 @@ define(['knockout', 'libs/timer', 'libs/voteSender'], function (ko, timerFactory
             voteSender.send(talkId);
         };
 
-        voteSender.enable().done(function(){
+        voteSender.enable().done(function() {
             self.connected(true);
-        }).fail(function(){
+        }).fail(function() {
             self.hasError(true);
         });
 
-        voteSender.onTalkEnded(function(){
+        voteSender.onTalkEnded(function() {
             self.talkEnded(true);
         });
 
-        self.dispose = function(){
+        self.dispose = function() {
             timer.stop();
             voteSender.disable();
         };

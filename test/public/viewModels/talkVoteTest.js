@@ -1,4 +1,4 @@
-define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery'], function(talkVote, timer, voteSender, $) {
+define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery', 'libs/api'], function(talkVote, timer, voteSender, $, api) {
     describe('TalkVote ViewModels', function () {
         var oldTimerCreate = timer.create;
         var oldVoteSenderSend = voteSender.send;
@@ -6,6 +6,9 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery'], funct
         var oldVoteSenderDisable = voteSender.disable;
         var oldVoteSenderIsEnabled = voteSender.isEnabled;
         var oldVoteSenderOnTalkEnded = voteSender.onTalkEnded;
+
+				var oldApiGetTalk = api.getTalk;
+
         after(function(){
             timer.create = oldTimerCreate;
             voteSender.send = oldVoteSenderSend;
@@ -13,6 +16,7 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery'], funct
             voteSender.disable = oldVoteSenderDisable;
             voteSender.isEnabled = oldVoteSenderIsEnabled;
             voteSender.onTalkEnded = oldVoteSenderOnTalkEnded;
+						api.getTalk = oldApiGetTalk;
         });
 
         var calledNb = 0;
@@ -21,6 +25,9 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery'], funct
         };
         var timerCallback;
         var timerDelay;
+
+				var getTalkCallBack;
+
         beforeEach(function(){
             calledNb = 0;
             timer.create = function(delay, callback){
@@ -37,6 +44,14 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery'], funct
             voteSender.enable = function() { return (new $.Deferred()).promise(); };
             voteSender.disable = function() {};
             voteSender.onTalkEnded = function() {};
+
+						api.getTalk = function() {
+							return {
+								done: function(callback) {
+									getTalkCallBack = callback;
+								}
+							};
+						};
         });
 
         it('When create Then template name should be talkVoteTemplate', function () {
@@ -352,5 +367,14 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery'], funct
 
             vm.talkEnded().should.be.true;
         });
+
+				it('When talk details loaded then room should be updated', function() {
+					var vm = talkVote.create(3, "super");
+					getTalkCallBack({
+						room: "gosling"
+					});
+
+					vm.talkRoom().should.equal("gosling");
+				});
     });
 });
