@@ -43,16 +43,16 @@ var libsConfiguration = {
             path: 'bower_components/bootstrap/dist/fonts'
         }
     },
-    chart: {
-        javascript: {
-            local: 'javascriptLibs/dx.chartjs.debug.js',
-            dist: 'http://cdn3.devexpress.com/jslib/13.2.9/js/dx.chartjs.js'
-        }
-    },
     globalize: {
         javascript: {
             local: 'javascriptLibs/globalize.js',
             dist: 'http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js'
+        }
+    },
+    chart: {
+        javascript: {
+            local: 'javascriptLibs/dx.chartjs.debug.js',
+            dist: 'http://cdn3.devexpress.com/jslib/13.2.9/js/dx.chartjs.js'
         }
     }
 };

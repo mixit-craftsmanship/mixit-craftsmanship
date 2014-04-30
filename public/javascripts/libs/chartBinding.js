@@ -1,4 +1,4 @@
-define(['knockout', 'jquery', 'chart'], function (ko) {
+define(['knockout', 'jquery', 'globalize', 'chart'], function (ko) {
     ko.bindingHandlers.chartMixIt = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             var value = valueAccessor();
