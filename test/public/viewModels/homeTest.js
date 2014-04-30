@@ -71,23 +71,41 @@ define(['viewModels/home', 'libs/api'], function(home, api) {
             talk.title.should.equal('Talk B');
         });
 
-        it('When receive next talks Then populate nextTalks property', function () {
-            var vm = home.create();
+        describe('When receive some talks in the next hour', function () {
+            var vm;
+            before(function(){
+                vm = home.create();
+                nextTalksCallBack([
+                    {id: 2, title:'Talk A', room:'Room A'},
+                    {id: 3, title:'Talk B', room:'Room B'}
+                ]);
+            });
 
-            nextTalksCallBack([
-                {id: 2, title:'Talk A', room:'Room A'},
-                {id: 3, title:'Talk B', room:'Room B'}
-            ]);
+            it('populates nextTalks property', function(){
+                vm.nextTalks().length.should.equal(2);
+                vm.isThereNextTalks().should.be.true;
 
-            vm.nextTalks().length.should.equal(2);
+                var talk = vm.nextTalks()[0];
+                talk.id.should.equal(2);
+                talk.title.should.equal('Talk A');
 
-            var talk = vm.nextTalks()[0];
-            talk.id.should.equal(2);
-            talk.title.should.equal('Talk A');
+                talk = vm.nextTalks()[1];
+                talk.id.should.equal(3);
+                talk.title.should.equal('Talk B');
+            });
+        });
 
-            talk = vm.nextTalks()[1];
-            talk.id.should.equal(3);
-            talk.title.should.equal('Talk B');
+        describe('When receive no talks in the next hour', function () {
+            var vm;
+            before(function () {
+                vm = home.create();
+                nextTalksCallBack();
+            });
+
+            it('populates nextTalks property', function () {
+                vm.nextTalks().length.should.equal(0);
+                vm.isThereNextTalks().should.be.false;
+            });
         });
 
         it('When call select on a talk Then display talkVote page', function () {

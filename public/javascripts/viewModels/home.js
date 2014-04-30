@@ -22,6 +22,9 @@ define(['knockout', 'libs/api'], function (ko, api) {
         self.talks = ko.observableArray();
         self.nextTalks = ko.observableArray();
         self.waiting = ko.observable(true);
+        self.isThereNextTalks = ko.computed(function(){
+            return self.nextTalks().length > 0;
+        });
 
         api.currentTalks().done(function(result){
             var talkViewModels = ko.utils.arrayMap(result, function(item){
