@@ -60,44 +60,51 @@ exports.insertItems = function (collectionName, items) {
 };
 
 exports.getVoteStatistiques = function (collectionName) {
-    connect(function (db) {
-        var collection = db.collection(collectionName);
+    return new promise(function(resolve, reject){
+        connect(function (db) {
+            var collection = db.collection(collectionName);
 
-        return collection.aggregate([
-            {
-                $project: {
-                    talkId: 1,
-                    nb: 1,
-                    day: 1,
-                    hour: 1,
-                    "minutesRange": {
-                        "$subtract": [
-                            "$minute",
-                            {"$mod": [
+            collection.aggregate([
+                {
+                    $project: {
+                        talkId: 1,
+                        nb: 1,
+                        day: 1,
+                        hour: 1,
+                        "minutesRange": {
+                            "$subtract": [
                                 "$minute",
-                                20
-                            ]}
-                        ]
+                                {"$mod": [
+                                    "$minute",
+                                    20
+                                ]}
+                            ]
+                        }
+                    }
+                },
+                {
+                    $group: {
+                        _id: { day: "$day", hour: "$hour", minutesRange: "$minutesRange", talkId: "$talkId" },
+                        total: {$sum: "$nb"}
+                    }
+                },
+                {
+                    $group: {
+                        _id: { day: "$_id.day", hour: "$_id.hour", minutes: "$_id.minutesRange"},
+                        talks: { $push: { talkId: "$_id.talkId", total: "$total"}}
+                    }
+                },
+                {
+                    $sort: {
+                        "_id.day": 1, "_id.hour": 1, "_id.minutesRange": 1
                     }
                 }
-            },
-            {
-                $group: {
-                    _id: { day: "$day", hour: "$hour", minutesRange: "$minutesRange", talkId: "$talkId" },
-                    total: {$sum: "$nb"}
-                }
-            },
-            {
-                $group: {
-                    _id: { day: "$_id.day", hour: "$_id.hour", minutes: "$_id.minutesRange"},
-                    talks: { $push: { talkId: "$_id.talkId", total: "$total"}}
-                }
-            },
-            {
-                $sort: {
-                    "_id.day": 1, "_id.hour": 1, "_id.minutesRange": 1
-                }
-            }
-        ]);
+            ], function(err, result) {
+                if(err) reject(err);
+                else resolve(result);
+
+                db.close();
+            });
+        });
     });
 };

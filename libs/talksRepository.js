@@ -73,3 +73,11 @@ exports.nextTalks = function () {
         }).value();
     });
 };
+
+exports.getTalkIds = function () {
+    return mixitApi.talks().then(function (talks) {
+        return _.map(talks, function(item){
+            return item.id;
+        });
+    });
+};
