@@ -19,6 +19,9 @@ define(['knockout', 'libs/api', 'libs/chartBinding'], function (ko, api) {
             },
             legend: {
                 visible : false
+            },
+            valueAxis: {
+                max: 500
             }
         };
 
