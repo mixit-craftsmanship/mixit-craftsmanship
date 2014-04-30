@@ -18,14 +18,20 @@ var hasItems = function (items) {
     return false;
 };
 
-var connectAndInsert = function (collectionName, items) {
-    if (!hasItems(items)) {
+var connect = function(callback){
+    mongoClient.connect(configuration.getUri(), function(err, db){
+        if(err) throw err;
+
+        callback(db);
+    });
+};
+
+var connectAndInsert = function(collectionName, items){
+    if(!hasItems(items)) {
         return;
     }
 
-    mongoClient.connect(configuration.getUri(), function (err, db) {
-        if (err) throw err;
-
+    connect(function(db) {
         var collection = db.collection(collectionName);
 
         var promises = [];
@@ -53,49 +59,52 @@ exports.insertItems = function (collectionName, items) {
     connectAndInsert(collectionName, items);
 };
 
-exports.queryStats = function (collectionName) {
-    mongoClient.connect(configuration.getUri(), function (err, db) {
-        if (err) throw err;
+exports.getVoteStatistiques = function (collectionName) {
+    return new promise(function(resolve, reject){
+        connect(function (db) {
+            var collection = db.collection(collectionName);
 
-        var collection = db.collection(collectionName);
-
-        return collection.aggregate([
-            {
-                $project: {
-                    talkId: 1,
-                    nb: 1,
-                    day: 1,
-                    hour: 1,
-                    "minutesRange": {
-                        "$subtract": [
-                            "$minute",
-                            {"$mod": [
-
-                                "$minute"
-                                ,
-                                20
-                            ]}
-                        ]
+            collection.aggregate([
+                {
+                    $project: {
+                        talkId: 1,
+                        nb: 1,
+                        day: 1,
+                        hour: 1,
+                        "minutesRange": {
+                            "$subtract": [
+                                "$minute",
+                                {"$mod": [
+                                    "$minute",
+                                    20
+                                ]}
+                            ]
+                        }
+                    }
+                },
+                {
+                    $group: {
+                        _id: { day: "$day", hour: "$hour", minutesRange: "$minutesRange", talkId: "$talkId" },
+                        total: {$sum: "$nb"}
+                    }
+                },
+                {
+                    $group: {
+                        _id: { day: "$_id.day", hour: "$_id.hour", minutes: "$_id.minutesRange"},
+                        talks: { $push: { talkId: "$_id.talkId", total: "$total"}}
+                    }
+                },
+                {
+                    $sort: {
+                        "_id.day": 1, "_id.hour": 1, "_id.minutesRange": 1
                     }
                 }
-            },
-            {
-                $group: {
-                    _id: { day: "$day", hour: "$hour", minutesRange: "$minutesRange", talkId: "$talkId" },
-                    total: {$sum: "$nb"}
-                }
-            },
-            {
-                $group: {
-                    _id: { day: "$_id.day", hour: "$_id.hour", minutes: "$_id.minutesRange"},
-                    talks: { $push: { talkId: "$_id.talkId", total: "$total"}}
-                }
-            },
-            {
-                $sort: {
-                    "_id.day": 1, "_id.hour": 1, "_id.minutesRange": 1
-                }
-            }
-        ]);
+            ], function(err, result) {
+                if(err) reject(err);
+                else resolve(result);
+
+                db.close();
+            });
+        });
     });
 };

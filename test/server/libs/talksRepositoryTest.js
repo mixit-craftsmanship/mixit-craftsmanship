@@ -47,7 +47,7 @@ describe('Talks repository', function () {
                     "start": "2014-04-29T16:30:00.000+02:00", "end": "2014-04-29T16:40:00.000+02:00", "room": "Grand Amphi"
                 },
                  {
-                     "id": 440, "title": "Back to the future!", "summary": "[...]", "description": "[...]", "language": "en", "interests": [831, 828, 826, 829], speakers: [
+                     "id": 499, "title": "Back to the future!", "summary": "[...]", "description": "[...]", "language": "en", "interests": [831, 828, 826, 829], speakers: [
                         {
                             id: 1216,
                             firstname: "Rieul",
@@ -277,7 +277,7 @@ describe('Talks repository', function () {
         it('returns coming talks within 1 hour', function (done) {
             talksRepository.nextTalks().then(function (talks) {
                 talks.should.have.length(2);
-                talksContainsTalkWithId(talks, 440);
+                talksContainsTalkWithId(talks, 499);
                 talksContainsTalkWithId(talks, 441);
                 done();
             }).catch(done);
@@ -286,7 +286,22 @@ describe('Talks repository', function () {
         it('order coming talks properly', function (done) {
             talksRepository.nextTalks().then(function (talks) {
                 talks[0].id.should.be.exactly(441);
-                talks[1].id.should.be.exactly(440);
+                talks[1].id.should.be.exactly(499);
+                done();
+            }).catch(done);
+        });
+    });
+
+    describe('When get talks ids', function () {
+        it('returns all talk ids', function (done) {
+            talksRepository.getTalkIds().then(function (talkIds) {
+                talkIds.should.have.length(6);
+                talkIds.should.containEql(540);
+                talkIds.should.containEql(440);
+                talkIds.should.containEql(441);
+                talkIds.should.containEql(445);
+                talkIds.should.containEql(442);
+                talkIds.should.containEql(499);
                 done();
             }).catch(done);
         });

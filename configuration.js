@@ -42,6 +42,18 @@ var libsConfiguration = {
             url: '/fonts',
             path: 'bower_components/bootstrap/dist/fonts'
         }
+    },
+    globalize: {
+        javascript: {
+            local: 'javascriptLibs/globalize.js',
+            dist: 'http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js'
+        }
+    },
+    chart: {
+        javascript: {
+            local: 'javascriptLibs/dx.chartjs.debug.js',
+            dist: 'http://cdn3.devexpress.com/jslib/13.2.9/js/dx.chartjs.js'
+        }
     }
 };
 
@@ -56,5 +68,6 @@ exports.libsConfiguration = libsConfiguration;
 exports.directoriesConfiguration = directoriesConfiguration;
 exports.version = "0.0.3";
 exports.mongoConfiguration = {
+    talkVotesCollectionName: 'talkVole'
 //    uri: 'mongodb://localhost/mixit'
 };
