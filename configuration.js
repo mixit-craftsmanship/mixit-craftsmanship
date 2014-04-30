@@ -54,6 +54,12 @@ var libsConfiguration = {
             local: 'javascriptLibs/dx.chartjs.debug.js',
             dist: 'http://cdn3.devexpress.com/jslib/13.2.9/js/dx.chartjs.js'
         }
+    },
+    twitter: {
+        javascript: {
+            local: 'javascriptLibs/widgets.js',
+            dist: 'http://platform.twitter.com/widgets.js'
+        }
     }
 };
 
