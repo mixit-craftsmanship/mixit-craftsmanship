@@ -31,6 +31,9 @@ exports.currentTalks = function () {
     return mixitApi.talks().then(function (talks) {
         var now = new Date();
         return _.filter(talks, function (item) {
+            if (item.id == 442) {
+                return false;
+            }
             if (item.end !== undefined) {
                 var itemEndPlusTenMin = new Date(item.end);
                 itemEndPlusTenMin.setMinutes(itemEndPlusTenMin.getMinutes() + 10);
