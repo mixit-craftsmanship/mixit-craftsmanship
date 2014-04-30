@@ -10,6 +10,7 @@ var compression = require('compression');
 var staticFilesRoute = require('./routes/staticFiles');
 var talksRoute = require('./routes/talks');
 var talkVotesRoute = require('./routes/talkVotes');
+var statistiquesRoute = require('./routes/statistiques');
 var applicationVersionRoute = require('./routes/applicationVersion');
 var votesStore = require('./libs/votesStore');
 var configuration = require('./configuration');
@@ -29,6 +30,7 @@ var env = process.env.NODE_ENV || 'development';
 
 talksRoute.register(app);
 applicationVersionRoute.register(app);
+statistiquesRoute.register(app);
 staticFilesRoute.register(app, 'development' == env);
 
 var server = http.createServer(app);

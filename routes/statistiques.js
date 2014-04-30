@@ -1,3 +1,13 @@
-/**
- * Created by Florent on 29/04/2014.
- */
+var statistiqueRepository = require('../libs/statistiqueRepository');
+
+var stats = function(req, res){
+    statistiqueRepository.getVoteStatistiques(new Date(2014, 3, 29, 8), new Date()).then(function(result){
+        res.send(result);
+    }).catch(function(error){
+        res.send(500, error);
+    });
+};
+
+exports.register = function(app){
+    app.get('/api/stats', stats);
+};
