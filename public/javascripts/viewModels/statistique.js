@@ -15,10 +15,13 @@ define(['knockout', 'libs/api', 'libs/chartBinding'], function (ko, api) {
                 grid:{ visible: true }
             },
             tooltip:{
-                enabled: true
+                enabled: false
             },
             legend: {
                 visible : false
+            },
+            valueAxis: {
+                max: 500
             }
         };
 
