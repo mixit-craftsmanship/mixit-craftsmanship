@@ -1,4 +1,4 @@
-define(['sammy', 'viewModels/home', 'viewModels/about', 'viewModels/talkVote'], function (sammy, homeViewModel, aboutViewModel, talkVoteViewModel) {
+define(['sammy', 'viewModels/home', 'viewModels/about', 'viewModels/talkVote', 'viewModels/statistique'], function (sammy, homeViewModel, aboutViewModel, talkVoteViewModel, statistiqueViewModel) {
     var homeUrl = '#/';
     var aboutUrl = '#/about';
     var talkVoteUrl = '#/talkVote/';
