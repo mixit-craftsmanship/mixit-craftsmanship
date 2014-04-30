@@ -55,6 +55,13 @@ define(['knockout', 'libs/timer', 'libs/voteSender'], function (ko, timerFactory
             timer.stop();
             voteSender.disable();
         };
+
+        if (window.twttr)
+        {
+            window.setTimeout(function() {
+                window.twttr.widgets.load();
+            }, 0);
+        }
     };
 
     return {
