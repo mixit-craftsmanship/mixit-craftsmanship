@@ -11,15 +11,20 @@
     <p class="text-right">Application version <span data-bind="text: applicationVersion"></span></p>
 </div></script>
 <script type="text/template" id="homeTemplate"><div class="row">
+    <div class="col-lg-12">
+        <img class="img-responsive" src="/imgs/logo-mixit.png">
+    </div>
     <h1 class="col-lg-12 text-center">Votez en continu pour les sessions !</h1>
     <p class="col-lg-12 text-center" data-bind="ifnot: waiting">Pour cela, indiquez où vous vous trouvez :</p>
     <div class="col-lg-12 text-center" data-bind="if: waiting">
         <p>Chargement en cours des conférences...</p>
     </div>
 
-    <div data-bind="foreach: talks" class="currentTalks">
-        <div class="col-lg-6 col-md-12 col-sm-12">
-            <button type="button" class="btn btn-primary" data-bind="text: title, click: select"></button>
+    <div class="currentTalks col-lg-12">
+        <div class="row" data-bind="foreach: talks">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <button type="button" class="btn btn-primary" data-bind="text: title, click: select"></button>
+            </div>
         </div>
     </div>
     <p class="col-lg-12 text-center"><a href="/#/about"><strong>En savoir plus sur le Crafting Workshop</strong></a></p>
