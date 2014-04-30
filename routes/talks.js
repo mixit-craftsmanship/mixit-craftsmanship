@@ -22,7 +22,7 @@ var listNext = function (req, res) {
 };
 
 var get = function (req, res) {
-    talksRepository.getTalk(req.params('id')).then(function (talk) {
+    talksRepository.getTalk(req.params.id).then(function (talk) {
         res.send(talk);
     }).catch(function(error){
         res.send(500, error);

@@ -6,8 +6,10 @@ var _ = require('underscore');
 
 describe('Talks repository', function() {
     var oldMixitApiTalks = mixitApi.talks;
+    var oldMixitApiTalk = mixitApi.talk;
     after(function(){
         mixitApi.talks = oldMixitApiTalks;
+        mixitApi.talk = oldMixitApiTalk;
     });
 
     var now = new Date("2014-04-29T09:25:00.000+02:00");
@@ -20,18 +22,67 @@ describe('Talks repository', function() {
 
     var result;
     beforeEach(function(){
-        result = [{"id":540,"title":"Biotech breaks free!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829,830,808,827],"speakers":[1066],"format":"Keynote","level":"Beginner",
+        result = [{"id":540,"title":"Biotech breaks free!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829,830,808,827],speakers: [
+            {
+                id: 1216,
+                firstname: "Rieul",
+                lastname: "Techer",
+                urlimage: "http://www.gravatar.com/avatar/bb258c6598a2b601b91cee99843a799f",
+                url: "http://www.mix-it.fr/api/members/1216"
+            }
+        ],"format":"Keynote","level":"Beginner",
             "start":"2014-04-29T09:15:00.000+02:00","end":"2014-04-29T09:40:00.000+02:00","room":"Grand Amphi"},
-                {"id":440,"title":"Back to the future!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
+                {"id":440,"title":"Back to the future!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],speakers: [
+                    {
+                        id: 1216,
+                        firstname: "Rieul",
+                        lastname: "Techer",
+                        urlimage: "http://www.gravatar.com/avatar/bb258c6598a2b601b91cee99843a799f",
+                        url: "http://www.mix-it.fr/api/members/1216"
+                    }
+                ],"format":"Keynote","level":"Beginner",
             "start":"2014-04-29T16:30:00.000+02:00","end":"2014-04-29T16:40:00.000+02:00","room":"Grand Amphi"},
-                 {"id":440,"title":"Back to the future!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
+                 {"id":440,"title":"Back to the future!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],speakers: [
+                     {
+                         id: 1216,
+                         firstname: "Rieul",
+                         lastname: "Techer",
+                         urlimage: "http://www.gravatar.com/avatar/bb258c6598a2b601b91cee99843a799f",
+                         url: "http://www.mix-it.fr/api/members/1216"
+                     }
+                 ],"format":"Keynote","level":"Beginner",
             "start":"2014-04-29T10:00:00.000+02:00","end":"2014-04-29T10:10:00.000+02:00","room":"Grand Amphi"},
-                 {"id":441,"title":"I've seen the future, it's in my browser!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
+                 {"id":441,"title":"I've seen the future, it's in my browser!","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],
+                     speakers: [
+                     {
+                         id: 1216,
+                         firstname: "Rieul",
+                         lastname: "Techer",
+                         urlimage: "http://www.gravatar.com/avatar/bb258c6598a2b601b91cee99843a799f",
+                         url: "http://www.mix-it.fr/api/members/1216"
+                     }
+                 ],"format":"Keynote","level":"Beginner",
             "start":"2014-04-29T09:30:00.000+02:00","end":"2014-04-29T09:40:00.000+02:00","room":"Petit Amphi"},
-                {"id":442,"title":"9 min past session !","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],"speakers":[1066],"format":"Keynote","level":"Beginner",
+                {"id":442,"title":"9 min past session !","summary":"[...]","description":"[...]","language":"en","interests":[831,828,826,829],
+                    speakers: [
+                        {
+                            id: 1216,
+                            firstname: "Rieul",
+                            lastname: "Techer",
+                            urlimage: "http://www.gravatar.com/avatar/bb258c6598a2b601b91cee99843a799f",
+                            url: "http://www.mix-it.fr/api/members/1216"
+                        }
+                    ],"format":"Keynote","level":"Beginner",
             "start":"2014-04-29T09:10:00.000+02:00","end":"2014-04-29T09:16:00.000+02:00","room":"Petit Amphi"}];
         mixitApi.talks = function() {
             return promise.resolve(result);
+        };
+
+        mixitApi.talk = function(id) {
+            if(id == 1) {
+                return promise.resolve(undefined);
+            }
+            return promise.resolve(result[0]);
         };
 
         timekeeper.freeze(now);
@@ -121,30 +172,33 @@ describe('Talks repository', function() {
         });
     });
 
-    describe('When getTalk', function() {
+    describe('When get one talk', function() {
         it('Given bad talkId Then throw exception', function (done) {
             talksRepository.getTalk(1).then(function (talk) {
-                done('should not fund talk');
+                done('should not find talk');
             }).catch(function(){
                 done();
             });
         });
 
-        it('Given good talkId Then throw exception', function (done) {
+        it('Given good talkId Then return talk with properties set', function (done) {
             talksRepository.getTalk(540).then(function (talk) {
-                talk.id.should.equal(540);
+                talk.id.should.equal(540)
+                talk.should.have.property('title');
                 talk.title.should.be.ok;
+                talk.should.have.property('summary');
+                talk.summary.should.be.ok;
+                talk.should.have.property('room');
                 talk.room.should.be.ok;
-                done();
-            }).catch(done);
-        });
-
-        it('Given talk with start and end Then item contain date for start and end', function (done) {
-            talksRepository.getTalk(540).then(function (talk) {
+                talk.should.have.property('start');
                 talk.start.should.be.ok;
-                talk.start.should.eql(new Date("2014-04-29T09:15:00.000+02:00"));
+                talk.should.have.property('end');
                 talk.end.should.be.ok;
-                talk.end.should.eql(new Date("2014-04-29T09:40:00.000+02:00"));
+                talk.should.have.property('speakers');
+                talk.speakers.should.be.ok;
+                talk.speakers[0].firstname.should.be.ok;
+                talk.speakers[0].lastname.should.be.ok;
+                talk.speakers[0].image.should.be.ok;
                 done();
             }).catch(done);
         });
