@@ -28,4 +28,17 @@ describe('Mix-IT Api module', function() {
             done();
         }).catch(done);
     });
+
+    it("When get member should return member details", function (done) {
+        var result = {"id":983,"firstname":"Lionel","lastname":"Dricot","login":"lionel","company":"Ploum.net","shortdesc":"Blogueur \u0026 Futurologue","longdesc":"Blogueur \u0026 Futurologue","urlimage":"http://www.gravatar.com/avatar/78e34b27e44134c64576edc9d73cac3f","nbConsults":114,"linkers":[449,21],"sharedLinks":[{"id":526,"name":"Ploum.net","url":"http://ploum.net","ordernum":0}],"interests":[518]};
+        nock("http://www.mix-it.fr").get("/api/members/983").reply(200, result);
+
+        mixitApi.member(983).then(function(result) {
+            result.should.have.property("firstname").equal("Lionel");
+            result.should.have.property("lastname").equal("Dricot");
+            result.should.have.property("shortdesc");
+            result.should.have.property("urlimage").equal("http://www.gravatar.com/avatar/78e34b27e44134c64576edc9d73cac3f");
+            done();
+        }).catch(done);
+    })
 });
