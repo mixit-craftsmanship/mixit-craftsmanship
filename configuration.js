@@ -43,22 +43,16 @@ var libsConfiguration = {
             path: 'bower_components/bootstrap/dist/fonts'
         }
     },
-    globalize: {
-        javascript: {
-            local: 'javascriptLibs/globalize.js',
-            dist: 'http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js'
-        }
-    },
-    chart: {
-        javascript: {
-            local: 'javascriptLibs/dx.chartjs.debug.js',
-            dist: 'http://cdn3.devexpress.com/jslib/13.2.9/js/dx.chartjs.js'
-        }
-    },
     twitter: {
         javascript: {
             local: 'javascriptLibs/widgets.js',
             dist: 'http://platform.twitter.com/widgets.js'
+        }
+    },
+    highcharts: {
+        javascript: {
+            local: 'javascriptLibs/highcharts.src.js',
+            dist: 'http://cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.1/highcharts.js'
         }
     }
 };
