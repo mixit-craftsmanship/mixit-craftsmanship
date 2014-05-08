@@ -6,18 +6,22 @@ define(['viewModels/talkDetail', 'libs/api'], function(talkDetail, api) {
         });
 
         var getTalkCallBack;
-        before(function() {
-                api.getTalk = function () {
-                    return {
-                        done: function (callBack) {
-                            getTalkCallBack = callBack;
-                        }
-                    };
-                }
-            });
+        beforeEach(function() {
+            api.getTalk = function () {
+                return {
+                    done: function (callBack) {
+                        getTalkCallBack = callBack;
+                    }
+                };
+            }
+        });
 
         describe('When created', function(){
-            var vm = talkDetail.create('1', 'Talk');
+            var vm;
+            beforeEach(function() {
+                vm = talkDetail.create('1', 'Talk');
+            });
+
             it('should be loading', function(){
                 vm.should.have.property('loading');
                 vm.loading().should.be.true;

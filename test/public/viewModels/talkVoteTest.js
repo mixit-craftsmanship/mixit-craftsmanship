@@ -6,8 +6,7 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery', 'libs/
         var oldVoteSenderDisable = voteSender.disable;
         var oldVoteSenderIsEnabled = voteSender.isEnabled;
         var oldVoteSenderOnTalkEnded = voteSender.onTalkEnded;
-
-				var oldApiGetTalk = api.getTalk;
+        var oldApiGetTalk = api.getTalk;
 
         after(function(){
             timer.create = oldTimerCreate;
@@ -16,7 +15,7 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery', 'libs/
             voteSender.disable = oldVoteSenderDisable;
             voteSender.isEnabled = oldVoteSenderIsEnabled;
             voteSender.onTalkEnded = oldVoteSenderOnTalkEnded;
-						api.getTalk = oldApiGetTalk;
+			api.getTalk = oldApiGetTalk;
         });
 
         var calledNb = 0;
@@ -26,7 +25,7 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery', 'libs/
         var timerCallback;
         var timerDelay;
 
-				var getTalkCallBack;
+		var getTalkCallBack;
 
         beforeEach(function(){
             calledNb = 0;
@@ -45,13 +44,13 @@ define(['viewModels/talkVote', 'libs/timer', 'libs/voteSender', 'jquery', 'libs/
             voteSender.disable = function() {};
             voteSender.onTalkEnded = function() {};
 
-						api.getTalk = function() {
-							return {
-								done: function(callback) {
-									getTalkCallBack = callback;
-								}
-							};
-						};
+            api.getTalk = function() {
+                return {
+                    done: function(callback) {
+                        getTalkCallBack = callback;
+                    }
+                };
+            };
         });
 
         it('When create Then template name should be talkVoteTemplate', function () {
