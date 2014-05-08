@@ -19,6 +19,6 @@ exports.talk = function (talkId) {
 
 exports.member = function (memberId) {
     return cache.getOrExecute("members" + memberId, function() {
-        return get("/api/members/" + memberId)
-    })
+        return get("/api/members/" + memberId);
+    });
 };
