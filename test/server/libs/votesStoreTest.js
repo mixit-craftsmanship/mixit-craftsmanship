@@ -99,13 +99,13 @@ describe('Votes store module', function() {
         endTimer();
 
         savedItems.should.eql({
-            '5-25-9-0-2': {
+            '5-25-9-0-29': {
                 talkId: 5,
                 minute: 25,
                 hour: 9,
                 second: 0,
-                day: 2,
-                key: '5-25-9-0-2',
+                day: 29,
+                key: '5-25-9-0-29',
                 nb: 2
             }
         });
@@ -139,13 +139,13 @@ describe('Votes store module', function() {
         endTimer();
 
         savedItems.should.eql({
-            '5-25-9-10-2': {
+            '5-25-9-10-29': {
                 talkId: 5,
                 minute: 25,
                 hour: 9,
                 second: 10,
-                day: 2,
-                key: '5-25-9-10-2',
+                day: 29,
+                key: '5-25-9-10-29',
                 nb: 2
             }
         });
@@ -162,8 +162,8 @@ describe('Votes store module', function() {
         votesStore.save(6, 2);
         endTimer();
 
-        savedItems['5-25-9-0-2'].should.be.ok;
-        savedItems['6-25-9-0-2'].should.be.ok;
+        savedItems['5-25-9-0-29'].should.be.ok;
+        savedItems['6-25-9-0-29'].should.be.ok;
 
         endTimer();
         savedItems.should.eql({});
@@ -180,6 +180,6 @@ describe('Votes store module', function() {
         votesStore.save(5, 3);
         endTimer();
 
-        savedItems['5-25-9-0-2'].nb.should.equal(5);
+        savedItems['5-25-9-0-29'].nb.should.equal(5);
     });
 });

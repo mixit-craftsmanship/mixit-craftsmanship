@@ -55,7 +55,7 @@ describe('Statistique repository', function() {
 
     it('Given 3 talks When getVoteStatistiques Then each ranges contains vote for each talks', function(done){
         talkIds.push(42, 44, 45);
-        mongoResults.push({"_id":{"day":3,"hour":1,"minutes":0},"talks":[{"talkId":42,"total":29}, {"talkId":44,"total":31}]});
+        mongoResults.push({"_id":{"day":30,"hour":1,"minutes":0},"talks":[{"talkId":42,"total":29}, {"talkId":44,"total":31}]});
 
         statistiqueRepository.getVoteStatistiques(start, end).then(function(result){
             result.should.containEql({ date: new Date(2014, 3, 30, 1, 0), '42': 29, '44': 31, '45': 0 });
