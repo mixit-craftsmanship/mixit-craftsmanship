@@ -18,8 +18,6 @@ var watch = require('gulp-watch');
 var configuration = require('./gulp/configuration');
 var homeBuilder = require('./gulp/homeBuilder');
 var taskAsync = require('./gulp/taskAsync');
-var templateInjector = require('./gulp/templateInjector');
-var templateWrapper = require('./gulp/templateWrapper');
 var testRunner = require('./gulp/testRunner');
 
 var clientConfiguration = configuration.client;
@@ -31,19 +29,8 @@ gulp.task('dev-html-create-layout', function () {
         .pipe(gulp.dest(clientConfiguration.getDirectory()));
 });
 
-gulp.task('dev-html-layout', ['dev-html-create-layout'], function () {
-    return gulp.src(clientConfiguration.getTemplateFilesPattern())
-        .pipe(templateWrapper.wrap())
-        .pipe(templateInjector.inject(clientConfiguration.getHomePath()));
-});
-
-gulp.task('dev-html-templates-watch', ['dev-html-layout'], function () {
-    gulp.watch(clientConfiguration.getLayoutPath(), ['dev-html-layout']);
-
-    watch({glob: clientConfiguration.getTemplateFilesPattern()})
-        .pipe(plumber())
-        .pipe(templateWrapper.wrap())
-        .pipe(templateInjector.inject(clientConfiguration.getHomePath()));
+gulp.task('dev-html-watch', ['dev-html-create-layout'], function () {
+    gulp.watch(clientConfiguration.getLayoutPath(), ['dev-html-create-layout']);
 });
 
 gulp.task('dev-css-less-watch', function () {
@@ -86,7 +73,7 @@ gulp.task('check-css-watch', function() {
 gulp.task('check-watch', ['check-js-watch', 'check-html-watch', 'check-css-watch']);
 gulp.task('test-watch', ['dev-js-server-test-watch', 'dev-js-client-test-watch']);
 
-gulp.task('dev', ['dev-css-less-watch', 'test-watch', 'check-watch', 'dev-html-templates-watch']);
+gulp.task('dev', ['dev-css-less-watch', 'test-watch', 'check-watch', 'dev-html-watch']);
 
 gulp.task('test-server-cover', function () {
     return gulp.src(serverConfiguration.getTestFilesPattern(), { read: false })
@@ -162,20 +149,10 @@ gulp.task('build-js', function() {
         .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
 });
 
-gulp.task('build-html-templates', function () {
-    return gulp.src(clientConfiguration.getTemplateFilesPattern())
-        .pipe(templateWrapper.wrap())
-        .pipe(concat(clientConfiguration.getBuildTemplateFileName()))
-        .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
-});
-
-gulp.task('build-html', ['build-html-templates'], function() {
+gulp.task('build-html', function() {
     return gulp.src(clientConfiguration.getLayoutPath())
-        .pipe(homeBuilder.injectExternalCss())
-//        .pipe(homeBuilder.injectExternalJs())
         .pipe(homeBuilder.injectBuildedCss())
         .pipe(homeBuilder.injectBuildedJs())
-        .pipe(homeBuilder.injectBuildedTemplates())
         .pipe(homeBuilder.addVersionOnFilesIncluded())
         .pipe(minifyHTML())
         .pipe(rename(clientConfiguration.getHomeFileName()))

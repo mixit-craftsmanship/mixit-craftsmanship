@@ -32,7 +32,7 @@ exports.injectExternalJs = function(){
 
 exports.injectBuildedJs = function(){
     return cheerio(function ($) {
-        $('script:not([src^=http])').remove();
+        $('script:not([type^=text])').remove();
         var requireUrl = configuration.getRequireJsUrl();
         var javascriptUrl = configuration.getBuildJavascriptFileName();
         $('body').append('<script src="' + requireUrl + '"></script><script src="' + javascriptUrl + '"></script>');
