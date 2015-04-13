@@ -3,9 +3,6 @@ require.config({
     shim: {
         sammy: {
             deps: ['jquery']
-        },
-        bootstrap: {
-            deps: ['jquery']
         }
     }
 });
