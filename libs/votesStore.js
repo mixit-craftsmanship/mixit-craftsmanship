@@ -19,7 +19,7 @@ var generateItem = function(talkId){
         minute: now.getMinutes(),
         hour: now.getHours(),
         second: (now.getSeconds()/5|0)*5,
-        day: now.getDay()
+        day: now.getDate()
     };
     item.key = item.talkId + '-' + item.minute + '-' + item.hour + '-' + item.second + '-' + item.day;
 

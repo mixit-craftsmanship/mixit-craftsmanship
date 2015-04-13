@@ -6,15 +6,6 @@ var talksRepository = require('./talksRepository');
 
 var dateStepInMinute = 20;
 
-var cloneAndReformatPeriod = function(item){
-    item = _.clone(item);
-    delete item.second;
-
-    item.day = item.day === 2 ? 29 : 30;
-
-    return item;
-};
-
 exports.getVoteStatistiques = function(start, end){
     return promise.resolve().then(function(){
         if(start > end) throw "La date de début doit être inferieur à la date de fin";
@@ -37,7 +28,7 @@ exports.getVoteStatistiques = function(start, end){
                     date: new Date(currentDate.getTime())
                 };
 
-                var keySearched = currentDate.getDay() + '-' + currentDate.getHours() + '-' + currentDate.getMinutes();
+                var keySearched = currentDate.getDate() + '-' + currentDate.getHours() + '-' + currentDate.getMinutes();
                 var mongoVotes = _.findWhere(mongoResults, { key: keySearched }) || {};
 
                 for(var key in talkIds){
