@@ -39,14 +39,6 @@ exports.injectBuildedJs = function(){
     });
 };
 
-exports.injectBuildedTemplates = function(){
-    return cheerio(function ($) {
-        $('script[type="text/template"]').remove();
-        var templates = fs.readFileSync(configuration.getBuildDirectory() + configuration.getBuildTemplateFileName(), 'utf-8');
-        $('body').append(templates);
-    });
-};
-
 var computeFileVersion = function(file){
     var content = fs.readFileSync(file);
     return crypto.createHash("md5").update(content).digest('hex');

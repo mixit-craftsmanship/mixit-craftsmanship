@@ -23,16 +23,6 @@ var testRunner = require('./gulp/testRunner');
 var clientConfiguration = configuration.client;
 var serverConfiguration = configuration.server;
 
-gulp.task('dev-html-create-layout', function () {
-    return gulp.src(clientConfiguration.getLayoutPath())
-        .pipe(rename(clientConfiguration.getHomeFileName()))
-        .pipe(gulp.dest(clientConfiguration.getDirectory()));
-});
-
-gulp.task('dev-html-watch', ['dev-html-create-layout'], function () {
-    gulp.watch(clientConfiguration.getLayoutPath(), ['dev-html-create-layout']);
-});
-
 gulp.task('dev-css-less-watch', function () {
     watch({glob: clientConfiguration.getLessFilesPattern()})
         .pipe(plumber())
@@ -73,7 +63,7 @@ gulp.task('check-css-watch', function() {
 gulp.task('check-watch', ['check-js-watch', 'check-html-watch', 'check-css-watch']);
 gulp.task('test-watch', ['dev-js-server-test-watch', 'dev-js-client-test-watch']);
 
-gulp.task('dev', ['dev-css-less-watch', 'test-watch', 'check-watch', 'dev-html-watch']);
+gulp.task('dev', ['dev-css-less-watch', 'test-watch', 'check-watch']);
 
 gulp.task('test-server-cover', function () {
     return gulp.src(serverConfiguration.getTestFilesPattern(), { read: false })
@@ -150,12 +140,11 @@ gulp.task('build-js', function() {
 });
 
 gulp.task('build-html', function() {
-    return gulp.src(clientConfiguration.getLayoutPath())
+    return gulp.src(clientConfiguration.getLayoutPattern())
         .pipe(homeBuilder.injectBuildedCss())
         .pipe(homeBuilder.injectBuildedJs())
         .pipe(homeBuilder.addVersionOnFilesIncluded())
         .pipe(minifyHTML())
-        .pipe(rename(clientConfiguration.getHomeFileName()))
         .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
 });
 

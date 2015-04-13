@@ -7,16 +7,12 @@ var clientConfig = {
         directory: globalConfiguration.client.getPublicDirectoryInProduction(),
         javascriptFileName: 'application.build.min.js',
         cssFileName: 'app.min.css',
-        templateFileName: 'templates.html',
         requireJsUrl: 'http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js'
     },
     requireMainModule: 'application.build',
     cssDirectory: 'public/stylesheets/',
     javascriptsDirectory: 'public/javascripts/',
-    templatesDirectory: 'public/templates/',
     testsDirectory: 'test/public/',
-    layout: 'layout.html',
-    homePage: 'index.html',
     staticFileExtensions: ['txt', 'gif', 'png', 'jpg', 'ico']
 };
 
@@ -29,7 +25,6 @@ var serverConfig = {
     }
 };
 
-var htmlPattern = "**/*.html";
 var lessPattern = "**/*.less";
 var jsPattern = "**/*.js";
 var cssPattern = "**/*.css";
@@ -38,26 +33,11 @@ exports.client = {
     getJavascriptFilesPattern: function(){
         return clientConfig.javascriptsDirectory + jsPattern;
     },
-    getTemplateFilesPattern: function(){
-        return clientConfig.templatesDirectory + htmlPattern;
-    },
-    getLayoutPath: function(){
-        return clientConfig.directory + clientConfig.layout;
-    },
-    getHomePath: function(){
-        return clientConfig.directory + clientConfig.homePage;
-    },
-    getHomeFileName: function(){
-        return clientConfig.homePage;
-    },
-    getBuildedHomePath: function(){
-        return clientConfig.build.directory + clientConfig.homePage;
+    getLayoutPattern: function(){
+        return clientConfig.directory + '*.html';
     },
     getHtmlFilesPattern: function(){
-        return [ this.getLayoutPath(), this.getTemplateFilesPattern() ];
-    },
-    getDirectory: function(){
-        return clientConfig.directory;
+        return [ this.getLayoutPattern() ];
     },
     getCssDirectory: function(){
         return clientConfig.cssDirectory;
@@ -73,9 +53,6 @@ exports.client = {
     },
     getBuildJavascriptFileName: function(){
         return clientConfig.build.javascriptFileName;
-    },
-    getBuildTemplateFileName: function(){
-        return clientConfig.build.templateFileName;
     },
     getBuildDirectory: function(){
         return clientConfig.build.directory;
