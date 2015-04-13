@@ -1,8 +1,8 @@
 <div class="row talkVotePage">
     <h1 class="col-lg-12 text-center">
-			<span data-bind="text: talkTitle"></span>
-			<small data-bind="text: talkRoom"></small>
-		</h1>
+        <span data-bind="text: talkTitle"></span>
+        <small data-bind="text: talkRoom"></small>
+    </h1>
 
     <div class="col-lg-12 text-center" data-bind="if: !hasError() && connected() && !talkEnded()">
         <div data-bind="attr: { class: 'happySprite happy' + happyLevel() }, click: vote"></div>
@@ -27,9 +27,4 @@
         <p class="bg-primary">La session est terminée. Vous ne pouvez plus voter</p>
         <a href="/">Changer de session</a>
     </div>
-
-    <div class="col-lg-12 text-center">
-        <a class="twitter-timeline" href="https://twitter.com/search?q=%23mixit14" data-widget-id="461463800923688960">Tweets concernant "#mixit14"</a>
-    </div>
-
 </div>
