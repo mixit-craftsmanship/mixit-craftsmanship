@@ -1,8 +1,7 @@
-define(['sammy', 'viewModels/home', 'viewModels/about', 'viewModels/talkVote', 'viewModels/statistique'], function (sammy, homeViewModel, aboutViewModel, talkVoteViewModel, statistiqueViewModel) {
+define(['sammy', 'viewModels/home', 'viewModels/about', 'viewModels/talkVote'], function (sammy, homeViewModel, aboutViewModel, talkVoteViewModel) {
     var homeUrl = '#/';
     var aboutUrl = '#/about';
     var talkVoteUrl = '#/talkVote/';
-    var statistiqueUrl = '#/statistique/';
     var talkDetailUrl = '#/talkDetail/';
 
     var routerFactory = function(setCurrentPage, navigation){
@@ -23,11 +22,6 @@ define(['sammy', 'viewModels/home', 'viewModels/about', 'viewModels/talkVote', '
             this.get(talkDetailUrl + ":talkId/:talkTitle", function() {
                 var params = this.params;
                 setCurrentPage(talkDetailViewModel.create(params.talkId, params.talkTitle));
-            });
-
-            this.get(statistiqueUrl, function() {
-                var params = this.params;
-                setCurrentPage(statistiqueViewModel.create());
             });
         });
     };
@@ -66,10 +60,6 @@ define(['sammy', 'viewModels/home', 'viewModels/about', 'viewModels/talkVote', '
         self.displayTalkDetail = function(talkId, talkTitle){
             var titleEncoded = encodeURIComponent(talkTitle);
             changeCurrentUrl(talkDetailUrl + talkId + "/" + titleEncoded);
-        };
-
-        self.displayStatistiquePage = function(){
-            changeCurrentUrl(statistiqueUrl);
         };
     };
 

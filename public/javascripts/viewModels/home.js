@@ -41,17 +41,6 @@ define(['knockout', 'libs/api'], function (ko, api) {
             });
             self.nextTalks(nextTalkViewModels);
         });
-
-        self.displayStatistique = function(){
-            navigation.displayStatistiquePage();
-        };
-
-        if (window.twttr)
-        {
-            window.setTimeout(function() {
-                window.twttr.widgets.load();
-            }, 0);
-        }
     };
 
     return {

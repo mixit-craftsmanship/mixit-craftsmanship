@@ -11,9 +11,6 @@ define(['jquery'], function ($) {
         },
         applicationVersion: function(){
             return $.get("/api/applicationVersion");
-        },
-        getStatistiques: function(){
-            return $.get("/api/stats");
         }
     };
 });
