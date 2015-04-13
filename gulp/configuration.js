@@ -36,6 +36,12 @@ exports.client = {
     getLayoutPattern: function(){
         return clientConfig.directory + '*.html';
     },
+    getHomePage: function(){
+        return clientConfig.directory + 'index.html';
+    },
+    getStatsPage: function(){
+        return clientConfig.directory + 'stats.html';
+    },
     getHtmlFilesPattern: function(){
         return [ this.getLayoutPattern() ];
     },

@@ -16,7 +16,7 @@ exports.injectExternalCss = function(){
 
 exports.injectBuildedCss = function(){
     return cheerio(function ($) {
-        $('link[rel=stylesheet]:not([href^=http])').remove();
+        $('link[data-dev]').remove();
         $('head').append('<link rel="stylesheet" href="'+ configuration.getBuildCssFileName() +'">');
     });
 };
@@ -32,7 +32,7 @@ exports.injectExternalJs = function(){
 
 exports.injectBuildedJs = function(){
     return cheerio(function ($) {
-        $('script:not([type^=text])').remove();
+        $('script[data-dev]').remove();
         var requireUrl = configuration.getRequireJsUrl();
         var javascriptUrl = configuration.getBuildJavascriptFileName();
         $('body').append('<script src="' + requireUrl + '"></script><script src="' + javascriptUrl + '"></script>');

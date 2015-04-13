@@ -11,7 +11,6 @@ var minifyCSS = require('gulp-minify-css');
 var minifyHTML = require('gulp-minify-html');
 var mocha = require('gulp-mocha');
 var plumber = require('gulp-plumber');
-var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 
@@ -139,10 +138,18 @@ gulp.task('build-js', function() {
         .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
 });
 
-gulp.task('build-html', function() {
-    return gulp.src(clientConfiguration.getLayoutPattern())
+gulp.task('build-html-home', function() {
+    return gulp.src(clientConfiguration.getHomePage())
         .pipe(homeBuilder.injectBuildedCss())
         .pipe(homeBuilder.injectBuildedJs())
+        .pipe(homeBuilder.addVersionOnFilesIncluded())
+        .pipe(minifyHTML())
+        .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
+});
+
+gulp.task('build-html-stats', function() {
+    return gulp.src(clientConfiguration.getStatsPage())
+        .pipe(homeBuilder.injectBuildedCss())
         .pipe(homeBuilder.addVersionOnFilesIncluded())
         .pipe(minifyHTML())
         .pipe(gulp.dest(clientConfiguration.getBuildDirectory()));
@@ -165,7 +172,9 @@ taskAsync.create('build', function(){
         }).then(function(){
             return taskAsync.start('build-js')
         }).then(function(){
-            return taskAsync.start('build-html')
+            return taskAsync.start('build-html-home')
+        }).then(function(){
+            return taskAsync.start('build-html-stats')
         }).then(function(){
             return taskAsync.start('build-staticFiles')
         });
