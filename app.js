@@ -47,3 +47,7 @@ if(process.env.MONGO_MIXIT){
     configuration.mongoConfiguration.uri = process.env.MONGO_MIXIT;
     votesStore.configuration(1000);
 }
+
+if(process.env.DEBUG_VOTE){
+    configuration.debugVote = true;
+}

@@ -1,5 +1,6 @@
 var mixitApi = require('./mixitApi');
 var _ = require('underscore');
+var configuration = require('../configuration');
 
 exports.getTalk = function (talkId) {
     return mixitApi.talk(talkId).then(function (talk) {
@@ -31,6 +32,10 @@ exports.currentTalks = function () {
     return mixitApi.talks().then(function (talks) {
         var now = new Date();
         return _.filter(talks, function (item) {
+            if(configuration.debugVote){
+                return true;
+            }
+
             if (item.id == 442) {
                 return false;
             }

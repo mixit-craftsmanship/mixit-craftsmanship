@@ -71,3 +71,7 @@ exports.mongoConfiguration = {
     talkVotesCollectionName: 'talkVote2015'
 //    uri: 'mongodb://localhost/mixit'
 };
+
+exports.statsBeginDate = new Date(2015, 4, 13, 8);
+exports.statsEndDate = new Date(2015, 4, 17, 19);
+exports.debugVote = false;
