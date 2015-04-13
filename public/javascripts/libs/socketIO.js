@@ -1,8 +1,7 @@
-define(['socketIO', 'jquery', 'libs/timer'], function (socketIO, $, timerFactory) {
+define(['socketIO', 'libs/timer'], function (socketIO, timerFactory) {
     var connectionCheckedNbMax = 50;
 
     var connection;
-
     var isConnected = function(){
         if(connection === undefined){
             return false;
@@ -12,19 +11,42 @@ define(['socketIO', 'jquery', 'libs/timer'], function (socketIO, $, timerFactory
     };
 
     var createCheckConnectionPromise = function(){
-        var deferred = new $.Deferred();
+        var doneCallbacks = [];
+        var failCallbacks = [];
+
+        var isFailed = false;
+        var isSuccessed = false;
+        var isFinished = false;
+
+        var resolve = function(){
+            isSuccessed = true;
+            isFinished = true;
+
+            doneCallbacks.forEach(function(callback) {
+                callback();
+            });
+        };
+
+        var reject = function(){
+            isFailed = true;
+            isFinished = true;
+
+            failCallbacks.forEach(function(callback) {
+                callback();
+            });
+        };
 
         var checkConnectionNb = 0;
         var checkConnection = function(){
             if(isConnected()){
                 checkConnectionTimer.stop();
-                deferred.resolve(true);
+                resolve(true);
                 return;
             }
 
             if(checkConnectionNb > connectionCheckedNbMax){
                 checkConnectionTimer.stop();
-                deferred.reject('Impossible to connect');
+                reject('Impossible to connect');
                 return;
             }
 
@@ -34,7 +56,28 @@ define(['socketIO', 'jquery', 'libs/timer'], function (socketIO, $, timerFactory
         var checkConnectionTimer = timerFactory.create(100, checkConnection);
         checkConnectionTimer.start();
 
-        return deferred.promise();
+        return new function(){
+            this.done = function(doneCallback){
+                if(!isFinished){
+                    doneCallbacks.push(doneCallback);
+                } else if(isSuccessed) {
+                    doneCallback();
+                }
+
+                return this;
+            };
+
+            this.fail = function(failCallback){
+
+                if(!isFinished){
+                    failCallbacks.push(failCallback);
+                } else if(isFailed) {
+                    failCallback();
+                }
+
+                return this;
+            };
+        };
     };
 
     return {

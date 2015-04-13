@@ -11,11 +11,11 @@ define(['knockout', 'libs/timer', 'libs/voteSender', 'libs/api'], function (ko, 
         self.talkEnded = ko.observable(false);
         self.happyLevel = ko.observable(0);
 
-				self.talkRoom = ko.observable();
+        self.talkRoom = ko.observable();
 
-				api.getTalk(talkId).done(function(talk) {
-					self.talkRoom(talk.room);
-				});
+        api.getTalk(talkId).done(function(talk) {
+            self.talkRoom(talk.room);
+        });
 
         var voteNb = 0;
 
