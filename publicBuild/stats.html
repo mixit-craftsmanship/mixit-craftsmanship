@@ -1,0 +1,71 @@
+<!DOCTYPE html><html><head><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><meta http-equiv=content-type content="text/html; charset=UTF-8"><title>Mix-IT Now</title><meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><link rel="shortcut icon" href=/favicon.ico><link rel=icon type=image/png href=/favicon.png><link href=//ajax.aspnetcdn.com/ajax/bootstrap/3.1.1/css/bootstrap.min.css media=all rel=stylesheet type=text/css><link rel=stylesheet href="app.min.css?v=f45841faf7ec530e64f3f96496c2d09d"></head><body><nav class="navbar navbar-inverse navbar-fixed-top" role=navigation><div class=container><div class=navbar-header><a class=navbar-brand href="#/">now.mix-it.fr</a> <a class="navbar-brand visible-xs" href=/stats.html>Stats</a> <a class="navbar-brand visible-xs" href=#/about>A propos</a></div><div class="collapse navbar-collapse navbar-ex1-collapse"><ul class="nav navbar-nav navbar-right"><li><a href="/">Accueil</a></li><li><a href=/stats.html>Stats</a></li><li><a href=/about>A propos</a></li></ul></div></div></nav><div class=main-container><div class=container-fluid><div class=container><div class=row><div id=stats class="col-lg-12 text-center" style="height: 600px; width: 100%"></div></div></div></div></div><script src=//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.1/highcharts.js></script><script>$(function() {
+        var defaultConfig = {
+            chart: {
+                type: 'area'
+            },
+            title: {
+                text: 'Votes'
+            },
+            xAxis: {
+                tickInterval: 6,
+                categories: [],
+                labels: {
+                    formatter: function() {
+                        return 'Le ' + this.value.getDate() + ' à ' + this.value.getHours() + 'h';
+                    }
+                }
+            },
+            yAxis: {
+                max: 300,
+                title: 'Nb. votes'
+            },
+            tooltip: {
+                formatter: function() {
+                    var date = this.x;
+                    var content = '<span style="font-size: 10px">Le ' + date.getDate() + ' à ' + date.getHours()+'H' + date.getMinutes() + '</span><br/>';
+
+                    this.points.forEach(function(point) {
+                        var votesNb = point.y;
+                        if(votesNb > 0) {
+                            var series = point.series;
+                            content += '<span style="color:' + series.color + '">\u25CF</span> ' + series.name + ': <b>' + votesNb + '</b><br/>';
+                        }
+                    });
+
+                    return content;
+                },
+                shared: true
+            },
+            plotOptions: {
+                area: {
+                    stacking: 'normal',
+                    marker: {
+                        enabled: false
+                    }
+                }
+            },
+            series: []
+        };
+
+        $.ajax('/api/stats').done(function(result){
+            result.series.forEach(function(item){
+                defaultConfig.series.push({ id: item.id, name: item.name, data: [] });
+            });
+
+            result.dataSource.forEach(function(item){
+                var date = new Date(item.date);
+                defaultConfig.xAxis.categories.push(date);
+                defaultConfig.series.forEach(function(serie){
+                    serie.data.push(item[serie.id]);
+                });
+            });
+
+            defaultConfig.series = defaultConfig.series.filter(function(serie){
+                return serie.data.some(function(item){
+                    return item > 0;
+                });
+            });
+
+            $('#stats').highcharts(defaultConfig);
+        });
+    });</script></body></html>
