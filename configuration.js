@@ -66,8 +66,8 @@ var directoriesConfiguration = {
 
 exports.libsConfiguration = libsConfiguration;
 exports.directoriesConfiguration = directoriesConfiguration;
-exports.version = "0.0.3";
+exports.version = "0.0.4";
 exports.mongoConfiguration = {
-    talkVotesCollectionName: 'talkVole'
+    talkVotesCollectionName: 'talkVote2015'
 //    uri: 'mongodb://localhost/mixit'
 };
