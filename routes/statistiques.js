@@ -3,7 +3,12 @@ var talksRepository = require('../libs/talksRepository');
 var configuration = require('../configuration');
 
 var stats = function(req, res){
-    statistiqueRepository.getVoteStatistiques(configuration.statsBeginDate, configuration.statsEndDate).then(function(result){
+    var end = configuration.statsEndDate;
+    if(end > new Date()){
+        end = new Date();
+    }
+
+    statistiqueRepository.getVoteStatistiques(configuration.statsBeginDate, end).then(function(result){
         return talksRepository.getTalksWithIdAndName().then(function(talks) {
             res.send({ dataSource: result, series: talks});
         });
