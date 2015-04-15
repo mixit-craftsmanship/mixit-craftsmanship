@@ -40,7 +40,7 @@ exports.client = {
         return clientConfig.directory + 'index.html';
     },
     getStatsPage: function(){
-        return clientConfig.directory + 'stats.html';
+        return clientConfig.directory + 'statistics.html';
     },
     getHtmlFilesPattern: function(){
         return [ this.getLayoutPattern() ];
