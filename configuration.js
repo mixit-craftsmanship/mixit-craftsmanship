@@ -72,6 +72,6 @@ exports.mongoConfiguration = {
 //    uri: 'mongodb://localhost/mixit'
 };
 
-exports.statsBeginDate = new Date(2015, 3, 15, 8);
+exports.statsBeginDate = new Date(2015, 3, 16, 8);
 exports.statsEndDate = new Date(2015, 3, 17, 19);
 exports.debugVote = false;
