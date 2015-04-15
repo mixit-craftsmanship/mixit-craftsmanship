@@ -52,11 +52,14 @@
                 defaultConfig.series.push({ id: item.id, name: item.name, data: [] });
             });
 
+            var max = 10;
             result.dataSource.forEach(function(item){
                 var date = new Date(item.date);
                 defaultConfig.xAxis.categories.push(date);
                 defaultConfig.series.forEach(function(serie){
-                    serie.data.push(item[serie.id]);
+                    var nb = item[serie.id];
+                    if(nb > max) max = nb;
+                    serie.data.push(nb);
                 });
             });
 
@@ -65,6 +68,8 @@
                     return item > 0;
                 });
             });
+
+            defaultConfig.yAxis.max = max;
 
             $('#stats').highcharts(defaultConfig);
         });
